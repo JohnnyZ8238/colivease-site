@@ -142,7 +142,7 @@ td .sub { display: block; color: var(--muted); font-size: 12px; }
   <form class="card" id="signin-form">
     <div class="brand"><i>E</i>ColivEase</div>
     <div><h1>管理后台</h1><p>用管理员邮箱登录。只有被授权的账号能进入，所有操作都会记录。</p></div>
-    <label class="field">服务器地址<input class="input" id="api" placeholder="https://api.colivease.ca" required><span class="hint">ColivEase 后台服务（server/avatar-proxy）的地址。本机测试用 http://localhost:8787</span></label>
+    <details id="api-box"><summary class="hint" style="cursor:pointer">服务器设置</summary><label class="field" style="margin-top:8px">服务器地址<input class="input" id="api" placeholder="https://api.colivease.ca" required><span class="hint">ColivEase 后台服务的地址。本机测试用 http://localhost:8787</span></label></details>
     <label class="field">邮箱<input class="input" id="email" type="email" autocomplete="email" required></label>
     <label class="field" id="code-field" hidden>验证码<input class="input" id="code" inputmode="numeric" autocomplete="one-time-code"><span class="hint" id="code-hint"></span></label>
     <div class="error" id="signin-error"></div>
@@ -179,11 +179,13 @@ td .sub { display: block; color: var(--muted); font-size: 12px; }
   const ROLE = { owner: "所有者", admin: "管理员", moderator: "审核员", support: "客服（只读）" };
   const ACTION = {
     "account.signout": "强制下线", "account.suspend": "封禁账号", "account.unsuspend": "解除封禁", "account.update": "修改账号", "account.plans": "修改会员/模式", "account.delete": "删除账号",
-    "listing.update": "修改房源状态", "listing.delete": "删除房源", "chat.read": "查看聊天", "chat.message.delete": "删除消息", "report.update": "处理举报",
+    "listing.update": "修改房源状态", "listing.approve": "通过房源", "listing.reject": "退回房源", "listing.delete": "删除房源", "chat.read": "查看聊天", "chat.message.delete": "删除消息", "report.update": "处理举报",
     "broadcast": "群发通知", "settings.update": "修改网站设置", "admin.set": "设置管理员", "admin.remove": "移除管理员",
   };
 
-  let API = store.get("cv-admin-api") || (location.hostname === "localhost" || location.hostname === "127.0.0.1" ? "http://localhost:8787" : "");
+  const LOCAL = ["localhost", "127.0.0.1"].includes(location.hostname);
+  const DEFAULT_API = LOCAL ? "http://localhost:8787" : "https://api.colivease.ca";
+  let API = store.get("cv-admin-api") || DEFAULT_API;
   let TOKEN = store.get("cv-admin-token");
   let ME = null;
   let view = "overview";
@@ -194,7 +196,7 @@ td .sub { display: block; color: var(--muted); font-size: 12px; }
       method,
       headers: { "content-type": "application/json", ...(TOKEN ? { authorization: `Bearer ${TOKEN}` } : {}) },
       body: body ? JSON.stringify(body) : undefined,
-    }).catch(() => { throw new Error("连不上服务器，检查地址或服务器是否在运行"); });
+    }).catch(() => { throw new Error(API === "https://api.colivease.ca" ? "后台服务器（api.colivease.ca）还没有上线，暂时连不上" : "连不上服务器，检查「服务器设置」里的地址，或服务器是否在运行"); });
     const json = await r.json().catch(() => ({}));
     if (401 === r.status && TOKEN) { signOut(); throw new Error("登录已过期，请重新登录"); }
     if (!r.ok) throw new Error(json.error || `出错了（${r.status}）`);
@@ -255,6 +257,7 @@ td .sub { display: block; color: var(--muted); font-size: 12px; }
     $("#shell").hidden = true;
     $("#signin").hidden = false;
     $("#api").value = API;
+    $("#api-box").open = API !== DEFAULT_API;
     $("#email").value = store.get("cv-admin-email") || "";
   }
   let codeSent = false;
@@ -312,7 +315,7 @@ td .sub { display: block; color: var(--muted); font-size: 12px; }
   const SECTIONS = [
     ["overview", "概览", null],
     ["accounts", "用户", "users.read"],
-    ["listings", "房源", "listings.read"],
+    ["listings", "房源审核", "listings.read"],
     ["chats", "聊天记录", "chats.read"],
     ["reports", "举报", "reports.read"],
     ["members", "会员", "users.read"],
@@ -322,9 +325,10 @@ td .sub { display: block; color: var(--muted); font-size: 12px; }
     ["audit", "操作日志", "audit.read"],
   ];
   let openReports = 0;
+  let pendingHomes = 0;
   function renderNav() {
     $("#nav").innerHTML = SECTIONS.filter(([, , p]) => !p || can(p))
-      .map(([key, label]) => `<button data-view="${key}" class="${key === view ? "on" : ""}">${label}${key === "reports" && openReports ? `<span class="count">${openReports}</span>` : ""}</button>`)
+      .map(([key, label]) => `<button data-view="${key}" class="${key === view ? "on" : ""}">${label}${key === "reports" && openReports ? `<span class="count">${openReports}</span>` : ""}${key === "listings" && pendingHomes ? `<span class="count">${pendingHomes}</span>` : ""}</button>`)
       .join("");
     $("#nav").querySelectorAll("button").forEach((b) => (b.onclick = () => go(b.dataset.view)));
   }
@@ -349,6 +353,7 @@ td .sub { display: block; color: var(--muted); font-size: 12px; }
     $("#who-role").textContent = ROLE[ME.role] || ME.role;
     const saved = store.get("cv-admin-view");
     go(SECTIONS.some(([k, , p]) => k === saved && (!p || can(p))) ? saved : "overview");
+    refreshCounts();
   }
   const page = (title, sub, tools = "") => `<div class="head"><div><h2>${esc(title)}</h2>${sub ? `<p>${esc(sub)}</p>` : ""}</div><div class="tools">${tools}</div></div>`;
   const loading = () => ($("#main").innerHTML = `<div class="card empty">加载中…</div>`);
@@ -360,11 +365,12 @@ td .sub { display: block; color: var(--muted); font-size: 12px; }
     loading();
     const o = await api("GET", "/api/admin/overview");
     openReports = o.openReports;
+    pendingHomes = o.pendingListings;
     renderNav();
     const max = Math.max(1, ...o.signups.map((d) => d.count));
     $("#main").innerHTML = `${page("概览", "整个网站现在的情况")}
       <div class="stats">
-        ${[["注册用户", o.accounts, `近 7 天活跃 ${o.activeWeek}`], ["房东模式", o.landlords, `租客 ${o.accounts - o.landlords}`], ["会员", o.members, "Plus / Landlord Pro / Agent Pro"], ["已发布房源", o.listings, `已隐藏 ${o.hiddenListings}`], ["聊天", o.conversations, `消息 ${o.messages} 条`], ["待处理举报", o.openReports, "未解决的"], ["已封禁", o.suspended, "账号"], ["在线会话", o.sessions, "登录中的设备"]]
+        ${[["注册用户", o.accounts, `近 7 天活跃 ${o.activeWeek}`], ["房东模式", o.landlords, `租客 ${o.accounts - o.landlords}`], ["会员", o.members, "Plus / Landlord Pro / Agent Pro"], ["房源", o.listings, `待审核 ${o.pendingListings} · 未通过/下架 ${o.hiddenListings}`], ["聊天", o.conversations, `消息 ${o.messages} 条`], ["待处理举报", o.openReports, "未解决的"], ["已封禁", o.suspended, "账号"], ["在线会话", o.sessions, "登录中的设备"]]
           .map(([k, v, s]) => `<div class="card stat"><small>${k}</small><b>${v}</b><em>${s}</em></div>`).join("")}
       </div>
       <div class="grid2">
@@ -415,7 +421,7 @@ td .sub { display: block; color: var(--muted); font-size: 12px; }
       </div></section>
       ${can("users.write") ? `<section><h4>认证与备注</h4><label class="toggle"><input type="checkbox" id="verified" ${a.verified ? "checked" : ""}>已人工认证（显示认证标记）</label><textarea class="input" id="note" rows="2" placeholder="内部备注，用户看不到">${esc(a.note || "")}</textarea><div><button class="btn small" id="save-note">保存</button></div></section>` : ""}
       ${can("plans.write") ? `<section><h4>会员与模式</h4><div class="row"><label class="toggle"><input type="checkbox" data-plan="plus" ${a.plans.plus ? "checked" : ""}>ColivEase Plus</label><label class="toggle"><input type="checkbox" data-plan="landlordPlan" ${a.plans.landlordPro ? "checked" : ""}>Landlord Pro</label><label class="toggle"><input type="checkbox" data-plan="agentPro" ${a.plans.agentPro ? "checked" : ""}>Agent Pro</label></div><div class="row"><span class="hint">模式</span><select class="input" id="mode" style="width:auto"><option value="seeker" ${a.mode !== "landlord" ? "selected" : ""}>租客</option><option value="landlord" ${a.mode === "landlord" ? "selected" : ""}>房东</option></select></div></section>` : ""}
-      <section><h4>发布的房源（${a.homes.length}）</h4>${a.homes.length ? `<div class="list">${a.homes.map((h) => `<div class="item"><div>${esc(typeof h.title === "string" ? h.title : h.title?.zh || h.title?.en)}<span class="sub" style="display:block;color:var(--muted);font-size:12px">$${esc(h.price)} · ${esc(h.district || "")}</span></div>${h.moderation.status === "hidden" ? `<span class="tag red">已隐藏</span>` : `<span class="tag green">展示中</span>`}</div>`).join("")}</div>` : `<p class="hint">没有</p>`}</section>
+      <section><h4>发布的房源（${a.homes.length}）</h4>${a.homes.length ? `<div class="list">${a.homes.map((h) => `<div class="item"><div>${esc(typeof h.title === "string" ? h.title : h.title?.zh || h.title?.en)}<span class="sub" style="display:block;color:var(--muted);font-size:12px">$${esc(h.price)} · ${esc(h.district || "")}</span></div><span class="tag ${HSTAT[h.moderation.status]?.[1] || ""}">${HSTAT[h.moderation.status]?.[0] || esc(h.moderation.status)}</span></div>`).join("")}</div>` : `<p class="hint">没有</p>`}</section>
       ${can("chats.read") ? `<section><h4>聊天（${a.conversations.length}）</h4>${a.conversations.length ? `<div class="list">${a.conversations.map((c) => `<div class="item"><div>${esc(c.title)}<span class="sub" style="display:block;color:var(--muted);font-size:12px">${KIND[c.type] || c.type} · ${c.messages} 条 · ${ago(c.last)}</span></div><button class="btn small" data-chat="${esc(c.id)}">查看</button></div>`).join("")}</div>` : `<p class="hint">没有</p>`}</section>` : ""}
       <section><h4>这个人提交的举报（${a.reports.length}）</h4>${a.reports.length ? `<div class="list">${a.reports.map((r) => `<div class="item"><div>${esc(r.reason)}<span class="sub" style="display:block;color:var(--muted);font-size:12px">${esc(r.details || "")} · ${ago(r.ts)}</span></div></div>`).join("")}</div>` : `<p class="hint">没有</p>`}</section>
       <section><h4>账号操作</h4><div class="row">
@@ -446,10 +452,11 @@ td .sub { display: block; color: var(--muted); font-size: 12px; }
   }
 
   // Homes
-  let homeStatus = "all", homeQuery = "";
+  let homeStatus = "pending", homeQuery = "";
+  const HSTAT = { pending: ["待审核", "amber"], visible: ["已上线", "green"], rejected: ["未通过", "red"], hidden: ["已下架", ""] };
   VIEWS.listings = async () => {
-    $("#main").innerHTML = `${page("房源", "所有发布到网站上的房源：隐藏、推荐或删除", `<input class="input" id="q" placeholder="搜索标题、发布者或区域" value="${esc(homeQuery)}">`)}
-      <div class="chips">${[["all", "全部"], ["visible", "展示中"], ["hidden", "已隐藏"], ["featured", "推荐（VIP）"]].map(([k, l]) => `<button class="chip ${k === homeStatus ? "on" : ""}" data-f="${k}">${l}</button>`).join("")}</div>
+    $("#main").innerHTML = `${page("房源审核", "房东发布 → 待审核 → 你通过后才对所有人公开；未通过或下架时发布者会收到通知和原因", `<input class="input" id="q" placeholder="搜索标题、发布者或区域" value="${esc(homeQuery)}">`)}
+      <div class="chips">${[["pending", "待审核"], ["visible", "已上线"], ["rejected", "未通过"], ["hidden", "已下架"], ["featured", "推荐（VIP）"], ["all", "全部"]].map(([k, l]) => `<button class="chip ${k === homeStatus ? "on" : ""}" data-f="${k}">${l}</button>`).join("")}</div>
       <div class="card tablewrap" id="tbl"><div class="empty">加载中…</div></div>`;
     $("#main").querySelectorAll("[data-f]").forEach((b) => (b.onclick = () => { homeStatus = b.dataset.f; VIEWS.listings(); }));
     let timer;
@@ -458,17 +465,22 @@ td .sub { display: block; color: var(--muted); font-size: 12px; }
       const { listings } = await api("GET", `/api/admin/listings?q=${encodeURIComponent(homeQuery)}&status=${homeStatus}`);
       $("#tbl").innerHTML = listings.length
         ? `<table><thead><tr><th>房源</th><th>发布者</th><th>价格</th><th>面向社群</th><th>状态</th><th>推荐</th><th></th></tr></thead><tbody>${listings
-            .map((l) => `<tr data-id="${esc(l.id)}"><td><b>${esc(l.title || "（无标题）")}</b><span class="sub">${esc([l.district, l.area].filter(Boolean).join(" · "))} · ${l.photos} 张照片 · ${ago(l.updatedAt)}</span></td><td>${esc(l.email || "")}<span class="sub">${l.poster === "landlord" ? "房东" : "转租"}</span></td><td>$${esc(l.price ?? "—")}</td><td>${esc(l.speaks.map((k) => LANG[k] || k).join("、") || "—")}</td><td>${l.moderation.status === "hidden" ? `<span class="tag red">已隐藏</span>` : `<span class="tag green">展示中</span>`}${l.moderation.note ? `<span class="sub">${esc(l.moderation.note)}</span>` : ""}</td><td>${can("listings.write") ? `<select class="input" data-feat style="width:auto;height:32px;padding:0 8px">${[["", "不推荐"], ["gold", "Gold"], ["aurora", "Aurora"], ["holo", "Holo"]].map(([v, t]) => `<option value="${v}" ${(l.moderation.featured || "") === v ? "selected" : ""}>${t}</option>`).join("")}</select>` : esc(l.moderation.featured || "—")}</td><td><div class="row">${can("listings.write") ? `${l.moderation.status === "hidden" ? `<button class="btn small" data-show>恢复展示</button>` : `<button class="btn small" data-hide>隐藏</button>`}<button class="btn small danger" data-del>删除</button>` : ""}</div></td></tr>`)
+            .map((l) => `<tr data-id="${esc(l.id)}"><td><b>${esc(l.title || "（无标题）")}</b><span class="sub">${esc([l.district, l.area].filter(Boolean).join(" · "))} · ${l.photos} 张照片 · ${ago(l.updatedAt)}</span></td><td>${esc(l.email || "")}<span class="sub">${l.poster === "landlord" ? "房东" : "转租"}</span></td><td>$${esc(l.price ?? "—")}</td><td>${esc(l.speaks.map((k) => LANG[k] || k).join("、") || "—")}</td><td><span class="tag ${HSTAT[l.moderation.status]?.[1] || ""}">${HSTAT[l.moderation.status]?.[0] || esc(l.moderation.status)}</span>${l.moderation.note ? `<span class="sub">${esc(l.moderation.note)}</span>` : ""}</td><td>${can("listings.write") ? `<select class="input" data-feat style="width:auto;height:32px;padding:0 8px">${[["", "不推荐"], ["gold", "Gold"], ["aurora", "Aurora"], ["holo", "Holo"]].map(([v, t]) => `<option value="${v}" ${(l.moderation.featured || "") === v ? "selected" : ""}>${t}</option>`).join("")}</select>` : esc(l.moderation.featured || "—")}</td><td><div class="row">${can("listings.write") ? `${l.moderation.status === "pending" ? `<button class="btn small primary" data-approve>通过</button><button class="btn small" data-reject>不通过</button>` : l.moderation.status === "visible" ? `<button class="btn small" data-hide>下架</button>` : `<button class="btn small" data-show>上线</button>`}<button class="btn small danger" data-del>删除</button>` : ""}</div></td></tr>`)
             .join("")}</tbody></table>`
         : `<div class="empty">没有符合条件的房源</div>`;
       $("#tbl").querySelectorAll("tr[data-id]").forEach((tr) => {
         const id = tr.dataset.id;
-        const post = async (body, msg) => { try { await api("POST", `/api/admin/listings/${encodeURIComponent(id)}`, body); toast(msg); load(); } catch (e) { toast(e.message); } };
-        tr.querySelector("[data-hide]") && (tr.querySelector("[data-hide]").onclick = async () => {
-          const r = await dialog({ title: "隐藏这套房源？", body: `<p class="hint">其他人不会再看到它，发布者自己还能看到。随时可以恢复。</p>`, fields: [{ name: "note", label: "原因（内部记录）", required: true, placeholder: "例如：疑似诈骗、照片不实、已出租" }], confirm: "隐藏" });
-          if (r) post({ status: "hidden", note: r.note, reason: r.note }, "已隐藏");
+        const post = async (body, msg) => { try { await api("POST", `/api/admin/listings/${encodeURIComponent(id)}`, body); toast(msg); load(); refreshCounts(); } catch (e) { toast(e.message); } };
+        tr.querySelector("[data-approve]") && (tr.querySelector("[data-approve]").onclick = () => post({ status: "visible", note: "" }, "已通过，发布者已收到通知"));
+        tr.querySelector("[data-reject]") && (tr.querySelector("[data-reject]").onclick = async () => {
+          const r = await dialog({ title: "不通过这套房源？", body: `<p class="hint">发布者会收到通知和你写的原因，改好后可以再提交。</p>`, fields: [{ name: "note", label: "原因（发布者能看到）", required: true, placeholder: "例如：缺少实拍照片、价格明显不实、没有房东同意转租" }], confirm: "不通过" });
+          if (r) post({ status: "rejected", note: r.note, reason: r.note }, "已退回，发布者已收到通知");
         });
-        tr.querySelector("[data-show]") && (tr.querySelector("[data-show]").onclick = () => post({ status: "visible" }, "已恢复展示"));
+        tr.querySelector("[data-hide]") && (tr.querySelector("[data-hide]").onclick = async () => {
+          const r = await dialog({ title: "下架这套房源？", body: `<p class="hint">其他人不会再看到它；发布者会收到通知和原因。随时可以重新上线。</p>`, fields: [{ name: "note", label: "原因（发布者能看到）", required: true, placeholder: "例如：疑似诈骗、照片不实、已出租" }], confirm: "下架" });
+          if (r) post({ status: "hidden", note: r.note, reason: r.note }, "已下架");
+        });
+        tr.querySelector("[data-show]") && (tr.querySelector("[data-show]").onclick = () => post({ status: "visible", note: "" }, "已上线"));
         tr.querySelector("[data-feat]") && (tr.querySelector("[data-feat]").onchange = (e) => post({ featured: e.target.value || null }, "推荐已更新"));
         tr.querySelector("[data-del]") && (tr.querySelector("[data-del]").onclick = async () => {
           const r = await dialog({ title: "删除这套房源？", body: `<p class="hint">会从发布者的账号里删除，不能恢复。</p>`, fields: [{ name: "reason", label: "原因", required: true }], confirm: "删除", danger: true });
@@ -479,6 +491,15 @@ td .sub { display: block; color: var(--muted); font-size: 12px; }
     }
     await load();
   };
+
+  async function refreshCounts() {
+    try {
+      const o = await api("GET", "/api/admin/overview");
+      openReports = o.openReports;
+      pendingHomes = o.pendingListings;
+      renderNav();
+    } catch {}
+  }
 
   // Chats
   let chatQuery = "";
@@ -555,6 +576,7 @@ td .sub { display: block; color: var(--muted); font-size: 12px; }
           ${edit ? `<div><button class="btn primary">保存公告</button></div>` : ""}
         </form>
         <form class="card panel" id="switches" style="display:grid;gap:14px"><h3>开关</h3>
+          <label class="toggle"><input type="checkbox" name="listingApproval" ${s.listingApproval !== false ? "checked" : ""} ${edit ? "" : "disabled"}>新房源需要审核通过才公开</label>
           <label class="toggle"><input type="checkbox" name="signupsOpen" ${s.signupsOpen !== false ? "checked" : ""} ${edit ? "" : "disabled"}>开放新用户注册</label>
           <label class="toggle"><input type="checkbox" name="maintenance" ${s.maintenance ? "checked" : ""} ${edit ? "" : "disabled"}>维护模式（app 显示维护提示）</label>
           <label class="toggle"><input type="checkbox" name="safetyMembersOnly" ${s.safetyMembersOnly !== false ? "checked" : ""} ${edit ? "" : "disabled"}>治安数据只对会员开放</label>
@@ -570,7 +592,7 @@ td .sub { display: block; color: var(--muted); font-size: 12px; }
     $("#switches").onsubmit = async (e) => {
       e.preventDefault();
       const f = new FormData(e.target);
-      try { await api("PUT", "/api/admin/settings", { signupsOpen: f.get("signupsOpen") === "on", maintenance: f.get("maintenance") === "on", safetyMembersOnly: f.get("safetyMembersOnly") === "on" }); toast("开关已保存"); } catch (er) { toast(er.message); }
+      try { await api("PUT", "/api/admin/settings", { listingApproval: f.get("listingApproval") === "on", signupsOpen: f.get("signupsOpen") === "on", maintenance: f.get("maintenance") === "on", safetyMembersOnly: f.get("safetyMembersOnly") === "on" }); toast("开关已保存"); } catch (er) { toast(er.message); }
     };
   };
 
