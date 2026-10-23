@@ -1,0 +1,43 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ColivEase</title>
+<link rel="preload" as="script" href="expo/static/js/web/index-a96b6dc401a42c86913f13b4bd370771.js">
+<link rel="preload" as="script" href="expo/static/js/web/three-8b55f6b08aa96448788de460ccfec3c2.js">
+<link rel="preload" as="script" href="expo/static/js/web/scene-6902d5f241bf0c0452c4705c40b9daff.js">
+<style>
+  /* The app draws its own light UI edge to edge; this page only hosts it. */
+  :root { --bg: #F5F7FB; color-scheme: light; }
+  html, body { height: 100%; margin: 0; }
+  body { overflow: hidden; background: var(--bg); }
+  #root { display: flex; height: 100%; flex: 1; }
+  /* Background + progress bar of the loading page, drawn before any JavaScript runs (no logo: the 3D logo is the
+     only one shown); the React loader takes over in place. */
+  #cv-boot { position: fixed; inset: 0; z-index: 9998; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    background-color: #F5F7FB;
+    background-image: radial-gradient(40% 40% at 12% 10%, rgba(110,155,255,0.22), rgba(110,155,255,0) 70%), radial-gradient(38% 38% at 90% 92%, rgba(40,101,255,0.16), rgba(40,101,255,0) 70%), radial-gradient(110% 90% at 50% 40%, #FFFFFF 0%, #EEF3FF 55%, #D6E2FF 100%); }
+  #cv-boot .stage { width: min(92vw, 860px); height: min(62vh, 560px); display: flex; align-items: center; justify-content: center; }
+  #cv-boot .foot { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 8px; }
+  #cv-boot .track { width: 240px; height: 3px; border-radius: 3px; overflow: hidden; background: rgba(11,34,85,0.1); }
+  #cv-boot .bar { width: 40%; height: 100%; border-radius: 3px; background-image: linear-gradient(90deg, rgba(110,155,255,0), #6E9BFF, #2865FF);
+    animation: cv-boot-bar 1.6s cubic-bezier(.4,0,.2,1) infinite; will-change: transform; }
+  #cv-boot .text { font: 13px system-ui, -apple-system, 'Segoe UI', sans-serif; letter-spacing: 0.4px; color: #5B6B86; }
+  @keyframes cv-boot-bar { from { transform: translateX(-110%) } to { transform: translateX(260%) } }
+  @media (prefers-reduced-motion: reduce) { #cv-boot .bar { animation: none } }
+</style>
+</head><body>
+<noscript>ColivEase needs JavaScript. 需要开启 JavaScript 才能运行 ColivEase。</noscript>
+<div id="cv-boot" aria-hidden="true"><div class="stage"></div>
+<div class="foot"><div class="track"><div class="bar"></div></div><div class="text" id="cv-boot-text">Finding your people and your place…</div></div></div>
+<script>
+  (function () {
+    var zh = false;
+    try { var s = JSON.parse(localStorage.getItem("yolo-store") || "null"); if (s && s.state && s.state.lang) zh = s.state.lang === "zh"; else throw 0; }
+    catch (e) { try { zh = /zh/i.test(location.hash) || Intl.DateTimeFormat().resolvedOptions().locale.toLowerCase().indexOf("zh") === 0; } catch (e2) {} }
+    if (zh) document.getElementById("cv-boot-text").textContent = "正在为你准备室友和房源…";
+    // Hand over to the React loader as soon as it has painted (it sits on top at z-index 9999).
+    var boot = document.getElementById("cv-boot");
+    var t = setInterval(function () { if (document.querySelector('[data-cv="loader"]') || document.querySelector("#root > *")) { clearInterval(t); setTimeout(function () { boot.remove(); }, 300); } }, 50);
+  })();
+</script>
+<div id="root"></div>
+<script src="expo/static/js/web/index-a96b6dc401a42c86913f13b4bd370771.js" defer></script>
+</body></html>
