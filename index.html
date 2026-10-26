@@ -240,8 +240,9 @@ h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; }
 .stage.showcase { background: radial-gradient(120% 90% at 50% 22%, #2346B8 0%, #0E1F66 45%, #050B26 100%); border-color: rgba(140,170,255,.28); box-shadow: 0 40px 80px -36px rgba(5,11,38,.75), inset 0 1px 0 rgba(255,255,255,.18); }
 .stage.showcase .pager button { background: rgba(255,255,255,.28); }
 .stage.showcase .pager button.on { background: linear-gradient(90deg, #8FB0FF, #FF8FD0); }
-.stage .still { position: absolute; inset: 20%; display: grid; place-items: center; transition: opacity .5s; }
-.stage.on .still { opacity: 0; }
+/* The 2D mascot here is only the source of the card-back picture (deck3d.js); it is never shown, so the old mascot
+   does not flash while the 3D deck loads. */
+.stage .still { display: none; }
 .chip .av { width: 34px; height: 34px; border-radius: 12px; display: grid; place-items: center; flex: none; font: 700 16px var(--display); color: #fff; background: linear-gradient(135deg, #6E9BFF, #2865FF); }
 .pager { position: absolute; left: 50%; bottom: 4.5%; translate: -50% 0; display: flex; gap: 6px; z-index: 20; }
 .pager button { width: 7px; height: 7px; padding: 0; border: 0; border-radius: 99px; background: rgba(11,34,85,.18); cursor: pointer; transition: width .5s var(--ease), background .4s; }
