@@ -1,1 +1,0 @@
-__d(function(a,r,t,e,o,n,s){o.exports={origin:[4387e3,-7926e3],cats:["grocery","convenience","pharmacy","park","cafe","food","gym","laundry","bank","health","library"],modes:["bus","streetcar"],strings:["Main St Markham North at Highway 7","102","Main St Markham North at Thomson Crt"],stops:[[355,45,0,1,0,124],[484,6,2,1,0,124]],places:[]}},969,[]);
