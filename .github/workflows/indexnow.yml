@@ -1,0 +1,18 @@
+name: Tell search engines (IndexNow)
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  indexnow:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Wait for GitHub Pages to publish
+        run: sleep 120
+      - name: Submit the sitemap's URLs
+        run: |
+          KEY=c0f1e7a5e4b94d6a9e2f3b7c8d1a6e40
+          URLS=$(grep -o '<loc>[^<]*</loc>' sitemap.xml | sed -e 's#<loc>##' -e 's#</loc>##' | jq -R . | jq -s .)
+          jq -n --arg key "$KEY" --argjson urls "$URLS" '{host: "www.colivease.ca", key: $key, keyLocation: ("https://www.colivease.ca/" + $key + ".txt"), urlList: $urls}' > body.json
+          curl -sS -w "\nHTTP %{http_code}\n" -H "Content-Type: application/json; charset=utf-8" --data @body.json https://api.indexnow.org/indexnow

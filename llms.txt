@@ -1,0 +1,72 @@
+# ColivEase
+
+> ColivEase is a Toronto rental platform built around roommates: AI roommate matching on habits, budget and schedule, a community language filter, verified landlords and agents, AI rental-scam checks, neighbourhood scores with commute times, and whole homes you can rent room by room.
+
+- Serves renters, roommates and landlords in Toronto and the Greater Toronto Area, Ontario, Canada.
+- AI roommate matching on lifestyle habits, budget, move-in date, sleep schedule and interests; roommates can form teams and apply for a home together.
+- "My Community" language filter: you see roommates, homes and renters who share at least one of your languages (English, Chinese, Korean, Spanish, French, Hindi/Punjabi, Vietnamese, Tagalog, Persian, Portuguese).
+- Privacy first: profiles show comic avatars; real photos are only shown when both people agree.
+- Safety: landlord and agent verification (licensed agents are checked against RECO), AI rental-scam checks on listings, and an AI lease check before signing.
+- Every listing shows neighbourhood scores (transit, amenities, safety, schools) and commute times, and whether the host lives in the home.
+- Landlords can rent a whole home room by room (group renting): each room has its own photos and rent, renters apply for a specific room, and current roommates can be shown on the listing.
+- Landlord mode is reviewed: hosts apply and are approved, usually within 48 hours, before they can post homes.
+- Free to join on the web at https://www.colivease.ca/app.html; the app is available in 10 languages and the guides in English and Chinese.
+
+## Main pages
+
+- [ColivEase home](https://www.colivease.ca/): what ColivEase does, for renters and landlords
+- [Open the ColivEase app](https://www.colivease.ca/app.html): find roommates and homes, post a home
+- [Renter guides (English)](https://www.colivease.ca/blog/): roommates, renting and tenant rights in Toronto and Ontario
+- [租房指南（中文）](https://www.colivease.ca/zh/blog/): 多伦多找室友、租房与安省租客权益
+- [Terms of use](https://www.colivease.ca/legal/terms.html)
+- [Privacy policy](https://www.colivease.ca/legal/privacy.html)
+
+## Guides (English)
+
+- [Best Toronto Neighbourhoods for Students (2026 Guide)](https://www.colivease.ca/blog/best-toronto-neighbourhoods-for-students/): The best neighbourhoods in Toronto for students, campus by campus: U of T, TMU, York, OCAD and the colleges, with TTC commutes, vibe and what to watch for.
+- [Best Neighbourhoods to Rent in Toronto for Professionals](https://www.colivease.ca/blog/best-toronto-neighbourhoods-for-young-professionals/): The best neighbourhoods to rent in Toronto for young professionals: King West, Liberty Village, Yonge & Eglinton, North York and more, compared.
+- [Cost of Renting a Room in Toronto (2026 Budget Guide)](https://www.colivease.ca/blog/cost-of-renting-a-room-in-toronto/): What's the cost of renting a room in Toronto in 2026? Typical ranges for rooms, studios and one-bedrooms, what's included, upfront costs and ways to pay less.
+- [N9 Form Ontario: How to End Your Tenancy the Right Way](https://www.colivease.ca/blog/ending-a-tenancy-n9/): N9 form Ontario guide: 60 days' notice, ending on the last day of a rental period, fixed-term leases, roommates leaving, assignment and using your deposit.
+- [Find a Roommate in Toronto: The 2026 Guide](https://www.colivease.ca/blog/find-a-roommate-in-toronto/): How to find a roommate in Toronto in 2026: where to look, how to vet people, red flags to avoid, what to ask when you meet and how to put it in writing.
+- [International Student Housing in Toronto: 2026 Checklist](https://www.colivease.ca/blog/international-student-renting-toronto/): International student housing in Toronto, step by step: when to start, residence vs off-campus, documents, remote viewings, the lease, deposits and scams.
+- [Legal Basement Apartment Toronto: What to Check First](https://www.colivease.ca/blog/legal-basement-apartments-toronto/): Renting a legal basement apartment in Toronto? Check exit windows, smoke and CO alarms, ceiling height and heat, and know the rights you keep if it isn't legal.
+- [Living With Your Landlord in Ontario: Know the RTA Gap](https://www.colivease.ca/blog/living-with-your-landlord-ontario/): Living with your landlord in Ontario? If you share a kitchen or bathroom with the owner, the RTA may not apply. Learn what changes and how to protect yourself.
+- [Moving to Toronto Checklist: Your Rental Move-In Guide](https://www.colivease.ca/blog/moving-to-toronto-renter-checklist/): Moving to Toronto checklist for renters: tenant insurance, Toronto Hydro and Enbridge, internet, move-in photos, elevator booking, address changes and PRESTO.
+- [Ontario Rent Increase 2026: The 2.1% Guideline Explained](https://www.colivease.ca/blog/ontario-rent-increase-guideline-2026/): Ontario rent increase 2026: the 2.1% guideline, 1.9% for 2027, 90-day notice and 12-month rules, exempt post-2018 units, and how to calculate your new rent.
+- [Ontario Standard Lease Explained, Section by Section](https://www.colivease.ca/blog/ontario-standard-lease/): The Ontario Standard Lease decoded: who must use it, what its 17 sections mean, which extra terms are void, and what to do if your landlord won't provide one.
+- [Ontario Tenant Rights: What Every Renter Should Know (2026)](https://www.colivease.ca/blog/ontario-tenant-rights/): Ontario tenant rights in plain English: what landlords can ask, legal deposits, rent increases, repairs, 24-hour entry notice and how evictions really work.
+- [30 Questions to Ask a Roommate Before Moving In](https://www.colivease.ca/blog/questions-to-ask-a-roommate/): The 30 questions to ask a roommate before you move in: money, cleaning, guests, sleep, noise, pets, food and working from home, plus the answers to watch for.
+- [Last Month's Rent Deposit Ontario: What's Legal in 2026](https://www.colivease.ca/blog/rent-deposit-rules-ontario/): Last month's rent deposit in Ontario: the one-month cap, yearly interest at the guideline rate, refundable key deposits, and why damage deposits are illegal.
+- [Rental Application Toronto: Documents and Tips to Win](https://www.colivease.ca/blog/rental-application-toronto/): Win your rental application in Toronto: documents to prepare, what landlords can and can't ask under the Human Rights Code, group tips and a strong intro.
+- [How to Rent With No Credit History in Canada (2026)](https://www.colivease.ca/blog/renting-with-no-credit-history-canada/): How to rent with no credit history in Canada: what landlords can ask, documents that replace a credit score, guarantors, Ontario deposit rules and more.
+- [Roommate Agreement Ontario: How to Write One + Template](https://www.colivease.ca/blog/roommate-agreement-ontario/): How to write a roommate agreement in Ontario: what to include, how it differs from your lease, co-tenants vs roommates, and a free template outline to adapt.
+- [How to Split Rent With Roommates Fairly (With Example)](https://www.colivease.ca/blog/split-rent-fairly/): How to split rent with roommates fairly: equal, by room size or hybrid, with private bathroom and parking premiums, utilities and a worked example in CAD.
+- [Sublet Ontario Rules: Subletting vs Assigning a Lease](https://www.colivease.ca/blog/sublet-and-assignment-ontario/): Sublet Ontario rules explained: landlord consent, when a refusal is unreasonable, who stays liable, roommate sublets and the LTB A2 form, in plain language.
+- [Rental Scams in Toronto: Red Flags and How to Verify](https://www.colivease.ca/blog/toronto-rental-scams/): Spot rental scams in Toronto before you pay. Learn the red flags, how to check an agent on RECO and an owner on OnLand, safe payment rules and where to report.
+
+## 指南（中文）
+
+- [多伦多留学生住哪里？按学校选社区（2026）](https://www.colivease.ca/zh/blog/best-toronto-neighbourhoods-for-students/): 多伦多留学生住哪里最合适？按多大、TMU、约克、OCAD 和 Humber、Seneca 等学院逐一分析周边社区、TTC 通勤、生活氛围和避坑要点，选房前先看这篇。
+- [多伦多上班族住哪里？热门租房社区对比](https://www.colivease.ca/zh/blog/best-toronto-neighbourhoods-for-young-professionals/): 多伦多上班族住哪里最划算？对比市中心、King West、Liberty Village、Yonge & Eglinton、北约克等社区的通勤、生活方式和租房取舍。
+- [多伦多租房多少钱？2026 房间与公寓价格指南](https://www.colivease.ca/zh/blog/cost-of-renting-a-room-in-toronto/): 多伦多租房多少钱？2026 年单间、studio、一室公寓的大致租金区间，房租包含哪些费用、入住前要准备多少钱，以及合租、组队整租等实用省钱办法。
+- [安省退租 N9 表格指南：提前60天怎么算](https://www.colivease.ca/zh/blog/ending-a-tenancy-n9/): 安省退租 N9 表格怎么填、提前60天怎么算、固定期租约能否提前走、室友搬走怎么办、转让租约和押金抵扣，一篇讲清多伦多租客退租的完整流程和注意事项。
+- [多伦多找室友全攻略（2026版）](https://www.colivease.ca/zh/blog/find-a-roommate-in-toronto/): 多伦多找室友怎么找才靠谱？本文从渠道选择、身份和房源核实、常见危险信号，一路讲到第一次见面要问什么、怎么签室友协议，留学生和新移民一篇就能看懂。
+- [多伦多留学生租房全攻略：时间线与避坑清单](https://www.colivease.ca/zh/blog/international-student-renting-toronto/): 多伦多留学生租房完整清单：什么时候开始找、住宿舍还是校外、要准备哪些材料、人在国内怎么安全看房、标准租约和押金规定，以及专门针对留学生的骗局。
+- [多伦多地下室租房：合法吗？看房必查清单](https://www.colivease.ca/zh/blog/legal-basement-apartments-toronto/): 多伦多地下室租房便宜，但安全最要紧：层高、逃生窗、烟雾和一氧化碳报警器、暖气怎么查？没有许可的地下室，租客权益还在吗？看房前请收好这份实用清单。
+- [和房东同住：安省租房前必须知道的RTA例外](https://www.colivease.ca/zh/blog/living-with-your-landlord-ontario/): 在安省和房东同住、共用厨房或卫生间？住宅租赁法(RTA)可能不保护你。押金、搬走通知期、涨租和纠纷怎么处理，签约前一文看懂，教你写好租房协议。
+- [多伦多搬家入住清单：从保险水电到PRESTO](https://www.colivease.ca/zh/blog/moving-to-toronto-renter-checklist/): 刚到多伦多租房入住？这份多伦多搬家入住清单涵盖租客保险、Toronto Hydro和Enbridge开户、网络、入住拍照、公寓电梯预约、改地址和PRESTO。
+- [2026安省涨租上限2.1%：规则与计算一文讲清](https://www.colivease.ca/zh/blog/ontario-rent-increase-guideline-2026/): 2026安省涨租上限为2.1%，2027年降至1.9%。90天书面通知、12个月一次、2018年后新楼豁免、超额涨租须LTB批准，附具体计算示例。
+- [安省标准租约逐条解读：签约前必看](https://www.colivease.ca/zh/blog/ontario-standard-lease/): 安省标准租约 (Standard Lease) 17个条款逐一拆解：谁必须用、哪些附加条款无效、房东不给标准租约怎么办。签约前看这一篇就够了。
+- [安省租客权益全攻略：2026年租房必知的法律保护](https://www.colivease.ca/zh/blog/ontario-tenant-rights/): 安省租客权益一次讲清：房东能问什么、押金上限、涨租规则、维修责任、进屋需提前24小时书面通知，以及驱逐只能经过LTB。在多伦多租房的留学生和新移民必读。
+- [找室友要问的30个问题（入住前必看）](https://www.colivease.ca/zh/blog/questions-to-ask-a-roommate/): 找室友要问的问题都在这里：房租水电怎么分、卫生标准、访客留宿、作息噪音、宠物、做饭和在家办公，30个问题加实用判断技巧，帮你提前避开不合拍的室友。
+- [安省租房押金规定：哪些押金合法？](https://www.colivease.ca/zh/blog/rent-deposit-rules-ontario/): 安省租房押金规定详解：租金押金最多一个月、每年按涨租上限付利息、钥匙押金可退、损坏押金违法、不能强制远期支票。留学生和新移民预付房租前必读。
+- [多伦多租房申请材料清单：留学生新移民必看](https://www.colivease.ca/zh/blog/rental-application-toronto/): 多伦多租房申请材料要准备什么？身份证件、信用报告、雇佣信、工资单、推荐人一次备齐，再弄清房东能问和不能问的问题，没有本地信用记录也能抢到心仪好房。
+- [没有信用记录怎么租房？新移民加拿大租房攻略](https://www.colivease.ca/zh/blog/renting-with-no-credit-history-canada/): 刚到加拿大没有信用记录怎么租房？房东能要求哪些材料、用什么代替信用分、担保人怎么找、安省押金和预付房租的规定，以及落地后如何尽快建立自己的信用。
+- [安省室友协议怎么写（附模板大纲）](https://www.colivease.ca/zh/blog/roommate-agreement-ontario/): 安省室友协议怎么写？本文讲清室友协议和租约的区别、共同租客与不在租约上的室友有什么不同，并附上可直接套用的模板大纲和示例条款，合租之前必读。
+- [合租房租怎么分才公平？附加元计算示例](https://www.colivease.ca/zh/blog/split-rent-fairly/): 合租房租怎么分才公平？平分、按房间面积还是混合算法？独立卫浴、车位怎么加价，水电网怎么摊，本文附完整的加元计算示例，帮你和室友算清楚、不再为钱吵架。
+- [安省转租规定：分租(Sublet)与转让租约怎么选](https://www.colivease.ca/zh/blog/sublet-and-assignment-ontario/): 暑假回国、实习换城市想转租？安省转租规定一次讲清：分租和转让租约的区别、房东同意、不能无理拒绝、谁继续担责、室友转租和LTB A2表格怎么用。
+- [多伦多租房诈骗：识别信号与核实房东方法](https://www.colivease.ca/zh/blog/toronto-rental-scams/): 多伦多租房诈骗越来越多，付钱前一定要核实。本文教你识别假房源和假中介，在 RECO 查中介、在 OnLand 查业主，安全付款，被骗后马上报案。
+
+## Optional
+
+- [Full text of every guide](https://www.colivease.ca/llms-full.txt)
