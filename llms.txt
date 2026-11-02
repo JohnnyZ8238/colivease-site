@@ -1,12 +1,12 @@
 # ColivEase
 
-> ColivEase is a Toronto rental platform built around roommates: AI roommate matching on habits, budget and schedule, a community language filter, verified landlords and agents, AI rental-scam checks, neighbourhood scores with commute times, and whole homes you can rent room by room.
+> ColivEase is a Toronto rental platform built around roommates: a match score built from area and commute, budget, move-in date, student or worker, gender preference and shared language; teams that apply together; optional ID verification badges and licensed-agent badges; every listing reviewed by a person; scam-line warnings in chat; neighbourhood scores with commute times, and whole homes you can rent room by room.
 
 - Serves renters, roommates and landlords in Toronto and the Greater Toronto Area, Ontario, Canada.
-- AI roommate matching on lifestyle habits, budget, move-in date, sleep schedule and interests; roommates can form teams and apply for a home together.
+- Roommate match score from area and commute, budget, move-in date, student or worker, gender preference and shared language (rule-based, not AI); roommates can form teams and apply for a home together.
 - "My Community" language filter: you see roommates, homes and renters who share at least one of your languages (English, Chinese, Korean, Spanish, French, Hindi/Punjabi, Vietnamese, Tagalog, Persian, Portuguese).
-- Privacy first: profiles show comic avatars; real photos are only shown when both people agree.
-- Safety: landlord and agent verification (licensed agents are checked against RECO), AI rental-scam checks on listings, and an AI lease check before signing.
+- Privacy first: profiles show comic avatars; each person decides who sees each real photo and can take it back. A home's exact address stays hidden (maps show a ~350 m area) until the host accepts an application.
+- Safety: every new listing is reviewed by a person; optional ID verification (Stripe ID, phone and email) gives a badge; licensed agents are checked against RECO; scam lines in chat ("send the deposit first") trigger a warning; an AI lease check is available for $4.99.
 - Every listing shows neighbourhood scores (transit, amenities, safety, schools) and commute times, and whether the host lives in the home.
 - Landlords can rent a whole home room by room (group renting): each room has its own photos and rent, renters apply for a specific room, and current roommates can be shown on the listing.
 - Landlord mode is reviewed: hosts apply and are approved, usually within 48 hours, before they can post homes.

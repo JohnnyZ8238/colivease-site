@@ -1,6 +1,6 @@
 # ColivEase: full guides
 
-> ColivEase is a Toronto rental platform built around roommates: AI roommate matching on habits, budget and schedule, a community language filter, verified landlords and agents, AI rental-scam checks, neighbourhood scores with commute times, and whole homes you can rent room by room.
+> ColivEase is a Toronto rental platform built around roommates: a match score built from area and commute, budget, move-in date, student or worker, gender preference and shared language; teams that apply together; optional ID verification badges and licensed-agent badges; every listing reviewed by a person; scam-line warnings in chat; neighbourhood scores with commute times, and whole homes you can rent room by room.
 
 ---
 

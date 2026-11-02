@@ -1,0 +1,16 @@
+{
+  "name": "ColivEase",
+  "short_name": "ColivEase",
+  "description": "Find a roommate in Toronto and the GTA, team up, then rent a room or a whole place together.",
+  "lang": "en-CA",
+  "start_url": "/app.html",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#F5F7FB",
+  "theme_color": "#F5F7FB",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

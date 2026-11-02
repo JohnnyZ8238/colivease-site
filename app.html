@@ -1,12 +1,24 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>ColivEase app: Roommates & Homes in Toronto</title>
-<meta name="description" content="Open ColivEase to find compatible roommates and rooms for rent in Toronto, or post a home as a verified landlord.">
+<title>ColivEase app: roommates and rooms for rent in Toronto</title>
+<meta name="description" content="Open ColivEase in your browser: browse homes across the GTA, see match scores with possible roommates, chat, team up and apply together. Free to use.">
 <link rel="canonical" href="https://www.colivease.ca/app.html">
-<meta property="og:title" content="ColivEase: Find Roommates & Rooms for Rent in Toronto">
-<meta property="og:image" content="https://www.colivease.ca/blog/assets/og/default.jpg">
-<link rel="preload" as="script" href="expo/static/js/web/index-8e34235ee89cae2cd1a0155919659af8.js">
-<link rel="preload" as="script" href="expo/static/js/web/three-689aeba092ea224c7e5af613ce0b6f43.js">
-<link rel="preload" as="script" href="expo/static/js/web/scene-8682a1edac3af5cf08c00784fb225237.js">
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#F5F7FB">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ColivEase">
+<meta property="og:locale" content="en_CA">
+<meta property="og:url" content="https://www.colivease.ca/app.html">
+<meta property="og:title" content="ColivEase app: roommates and rooms for rent in Toronto">
+<meta property="og:description" content="Open ColivEase in your browser: browse homes across the GTA, see match scores with possible roommates, chat, team up and apply together. Free to use.">
+<meta property="og:image" content="https://www.colivease.ca/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preload" as="script" href="expo/static/js/web/index-56a3f19b531310744b8b763e54a6d1f0.js">
 <style>
   /* The app draws its own light UI edge to edge; this page only hosts it. */
   :root { --bg: #F5F7FB; color-scheme: light; }
@@ -27,15 +39,17 @@
   @keyframes cv-boot-bar { from { transform: translateX(-110%) } to { transform: translateX(260%) } }
   @media (prefers-reduced-motion: reduce) { #cv-boot .bar { animation: none } }
 </style>
+<noscript><style>#cv-boot { display: none } body { overflow: auto }</style></noscript>
 </head><body>
-<noscript>ColivEase needs JavaScript. 需要开启 JavaScript 才能运行 ColivEase。</noscript>
+<noscript><p style="font:16px/1.5 system-ui,sans-serif;max-width:36em;margin:48px auto;padding:0 16px;color:#0B2255">ColivEase helps you find a roommate in Toronto and the GTA, then a room or a whole place together. The app needs JavaScript. 需要开启 JavaScript 才能运行 ColivEase。 <a href="/">Go to the ColivEase home page</a></p></noscript>
 <div id="cv-boot" aria-hidden="true"><div class="stage"></div>
 <div class="foot"><div class="track"><div class="bar"></div></div><div class="text" id="cv-boot-text">Finding your people and your place…</div></div></div>
 <script>
   (function () {
     var zh = false;
     try { var s = JSON.parse(localStorage.getItem("yolo-store") || "null"); if (s && s.state && s.state.lang) zh = s.state.lang === "zh"; else throw 0; }
-    catch (e) { try { zh = /zh/i.test(location.hash) || Intl.DateTimeFormat().resolvedOptions().locale.toLowerCase().indexOf("zh") === 0; } catch (e2) {} }
+    // Only an explicit ?lang=zh, #zh or #lang=zh (as the app reads it); a "zh" inside a sign-in token doesn't count.
+    catch (e) { try { var m = /[?&]lang=(zh|en)(?:&|$)/i.exec(location.search) || /(?:^#|&)(?:lang=)?(zh|en)(?:&|$)/i.exec(location.hash); zh = m ? m[1].toLowerCase() === "zh" : Intl.DateTimeFormat().resolvedOptions().locale.toLowerCase().indexOf("zh") === 0; } catch (e2) {} }
     if (zh) document.getElementById("cv-boot-text").textContent = "正在为你准备室友和房源…";
     // Hand over to the React loader as soon as it has painted (it sits on top at z-index 9999).
     var boot = document.getElementById("cv-boot");
@@ -43,5 +57,5 @@
   })();
 </script>
 <div id="root"></div>
-<script src="expo/static/js/web/index-8e34235ee89cae2cd1a0155919659af8.js" defer></script>
+<script src="expo/static/js/web/index-56a3f19b531310744b8b763e54a6d1f0.js" defer></script>
 </body></html>
