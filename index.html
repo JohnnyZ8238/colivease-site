@@ -1331,12 +1331,13 @@ footer .legal { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; 
 
   const setMood = (wave) => { mascot.classList.toggle("wave", wave); mascot.classList.toggle("idle", !wave); };
   let lastP = -1, instantT = 0;
+  // A jump (nav link, deep link) switches the logo without cartoon frames; normal scrolling plays the cartoon.
+  const jumpInstant = () => { hdr.classList.add("instant"); clearTimeout(instantT); instantT = setTimeout(() => hdr.classList.remove("instant"), 700); };
   const update = () => {
     if (!ride) return;
     const p = ride.st ? ride.st.progress : 0;
     if (lastP >= 0 && Math.abs(p - lastP) > 0.06) { // a jump, not a scroll: no logo cartoon frames
-      hdr.classList.add("instant");
-      clearTimeout(instantT);
+      jumpInstant();
     }
     lastP = p;
     const t = ride.tl.time();
@@ -1369,7 +1370,6 @@ footer .legal { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; 
   const mm = gsap.matchMedia();
   mm.add({ mob: "(max-width: 760px)", desk: "(min-width: 761px)", wide: "(min-width: 1180px)" }, (ctx) => {
     const { mob, wide } = ctx.conditions;
-    hdr.classList.add("instant"); // the logo cartoon plays only outside the ride (reduced motion / no GSAP)
     const tl = gsap.timeline({ defaults: { duration: 0.5, ease: "expo.inOut" }, onUpdate: update });
     const copyOf = (n) => $(".copy", sec(n));
     const riderOf = (n) => $(".rider", sec(n));
@@ -1623,7 +1623,7 @@ footer .legal { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; 
     const to = a && document.getElementById(a.getAttribute("href").slice(1));
     if (!to || !ride) return;
     e.preventDefault();
-    hdr.classList.add("instant");
+    jumpInstant();
     setBar("top" !== to.id);
     if ("top" === to.id) window.scrollTo({ top: 0, behavior: "instant" });
     else to.scrollIntoView({ behavior: "instant" });
@@ -1646,7 +1646,7 @@ footer .legal { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; 
   // ScrollTrigger has done its last refresh, so its cached scroll position can't be stale; then put the hash back.
   const deep = (n = window.cvDeepStop) => {
     if (!n || !ride) return;
-    hdr.classList.add("instant");
+    jumpInstant();
     setBar(true);
     goStop(n, false);
     history.replaceState(null, "", "#stop-" + n);
