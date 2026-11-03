@@ -1,0 +1,51 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ColivEase 演示版 · Demo</title>
+<meta name="description" content="Open ColivEase in your browser: browse homes across the GTA, see match scores with possible roommates, chat, team up and apply together. Free to use.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#F5F7FB">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preload" as="script" href="expo/static/js/web/index-63b961fcef2804551f991f9bc047433e.js">
+<style>
+  /* The app draws its own light UI edge to edge; this page only hosts it. */
+  :root { --bg: #F5F7FB; color-scheme: light; }
+  html, body { height: 100%; margin: 0; }
+  body { overflow: hidden; background: var(--bg); }
+  #root { display: flex; height: 100%; flex: 1; }
+  /* Background + progress bar of the loading page, drawn before any JavaScript runs (no logo: the 3D logo is the
+     only one shown); the React loader takes over in place. */
+  #cv-boot { position: fixed; inset: 0; z-index: 9998; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    background-color: #F5F7FB;
+    background-image: radial-gradient(40% 40% at 12% 10%, rgba(110,155,255,0.22), rgba(110,155,255,0) 70%), radial-gradient(38% 38% at 90% 92%, rgba(40,101,255,0.16), rgba(40,101,255,0) 70%), radial-gradient(110% 90% at 50% 40%, #FFFFFF 0%, #EEF3FF 55%, #D6E2FF 100%); }
+  #cv-boot .stage { width: min(92vw, 860px); height: min(62vh, 560px); display: flex; align-items: center; justify-content: center; }
+  #cv-boot .foot { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 8px; }
+  #cv-boot .track { width: 240px; height: 3px; border-radius: 3px; overflow: hidden; background: rgba(11,34,85,0.1); }
+  #cv-boot .bar { width: 40%; height: 100%; border-radius: 3px; background-image: linear-gradient(90deg, rgba(110,155,255,0), #6E9BFF, #2865FF);
+    animation: cv-boot-bar 1.6s cubic-bezier(.4,0,.2,1) infinite; will-change: transform; }
+  #cv-boot .text { font: 13px system-ui, -apple-system, 'Segoe UI', sans-serif; letter-spacing: 0.4px; color: #5B6B86; }
+  @keyframes cv-boot-bar { from { transform: translateX(-110%) } to { transform: translateX(260%) } }
+  @media (prefers-reduced-motion: reduce) { #cv-boot .bar { animation: none } }
+</style>
+<noscript><style>#cv-boot { display: none } body { overflow: auto }</style></noscript>
+<script>window.__COLIVEASE_DEMO__=true</script></head><body>
+<noscript><p style="font:16px/1.5 system-ui,sans-serif;max-width:36em;margin:48px auto;padding:0 16px;color:#0B2255">ColivEase helps you find a roommate in Toronto and the GTA, then a room or a whole place together. The app needs JavaScript. 需要开启 JavaScript 才能运行 ColivEase。 <a href="/">Go to the ColivEase home page</a></p></noscript>
+<div id="cv-boot" aria-hidden="true"><div class="stage"></div>
+<div class="foot"><div class="track"><div class="bar"></div></div><div class="text" id="cv-boot-text">Finding your people and your place…</div></div></div>
+<script>
+  (function () {
+    var zh = false;
+    try { var s = JSON.parse(localStorage.getItem("yolo-store") || "null"); if (s && s.state && s.state.lang) zh = s.state.lang === "zh"; else throw 0; }
+    // Only an explicit ?lang=zh, #zh or #lang=zh (as the app reads it); a "zh" inside a sign-in token doesn't count.
+    catch (e) { try { var m = /[?&]lang=(zh|en)(?:&|$)/i.exec(location.search) || /(?:^#|&)(?:lang=)?(zh|en)(?:&|$)/i.exec(location.hash); zh = m ? m[1].toLowerCase() === "zh" : Intl.DateTimeFormat().resolvedOptions().locale.toLowerCase().indexOf("zh") === 0; } catch (e2) {} }
+    if (zh) document.getElementById("cv-boot-text").textContent = "正在为你准备室友和房源…";
+    // Hand over to the React loader as soon as it has painted (it sits on top at z-index 9999).
+    var boot = document.getElementById("cv-boot");
+    var t = setInterval(function () { if (document.querySelector('[data-cv="loader"]') || document.querySelector("#root > *")) { clearInterval(t); setTimeout(function () { boot.remove(); }, 300); } }, 50);
+  })();
+</script>
+<div id="root"></div>
+<script src="expo/static/js/web/index-63b961fcef2804551f991f9bc047433e.js" defer></script>
+</body></html>
