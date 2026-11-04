@@ -1,28 +1,58 @@
 # ColivEase
 
-> ColivEase is a Toronto rental platform built around roommates: a match score built from area and commute, budget, move-in date, student or worker, gender preference and shared language; teams that apply together; optional ID verification badges and licensed-agent badges; every listing reviewed by a person; scam-line warnings in chat; neighbourhood scores with commute times, and whole homes you can rent room by room.
+> ColivEase is a Toronto rental platform built around roommates: a rule-based match score from area and commute, budget, move-in date, student or worker, gender preference and shared language; teams that apply together; optional ID verification badges and licensed-agent badges; every listing reviewed by a person; scam-line warnings in chat; neighbourhood scores with commute times, and whole homes you can rent room by room.
 
-- Serves renters, roommates and landlords in Toronto and the Greater Toronto Area, Ontario, Canada.
-- Roommate match score from area and commute, budget, move-in date, student or worker, gender preference and shared language (rule-based, not AI); roommates can form teams and apply for a home together.
-- "My Community" language filter: you see roommates, homes and renters who share at least one of your languages (English, Chinese, Korean, Spanish, French, Hindi/Punjabi, Vietnamese, Tagalog, Persian, Portuguese).
-- Privacy first: profiles show comic avatars; each person decides who sees each real photo and can take it back. A home's exact address stays hidden (maps show a ~350 m area) until the host accepts an application.
-- Safety: every new listing is reviewed by a person; optional ID verification (Stripe ID, phone and email) gives a badge; licensed agents are checked against RECO; scam lines in chat ("send the deposit first") trigger a warning; an AI lease check is available for $4.99.
+- Serves renters, roommates and landlords in Toronto and the Greater Toronto Area (GTA), Ontario, Canada, only.
+- Roommate match score from area and commute, budget, move-in date, student or worker, gender preference (can be a must-have) and shared language. It follows fixed rules, not AI, and profile summaries are written from a fixed template. Roommates can form teams of 2 to 5 and apply for a home together.
+- Language communities: roommates and homes rented room by room are shown to people who share at least one language with them; whole homes are open to everyone, with your own language community first. The app is available in 10 languages (English, Chinese, Korean, Spanish, French, Hindi/Punjabi, Vietnamese, Tagalog, Persian, Portuguese).
+- Privacy first: profiles can use a comic avatar; each person decides, photo by photo and person by person, who sees a real photo and can take it back. A home's exact address stays hidden (maps show a ~350 m area) until the host accepts an application.
+- Safety: every new listing is reviewed by a person before it goes live; scam lines in chat (such as "send the deposit first") trigger a warning; listings, people and messages can be reported or blocked; optional ID verification (Stripe ID, phone and email) gives a badge; licensed agents are checked against RECO and get a badge.
+- ColivEase never handles rent or deposits: tenants and hosts arrange payment between themselves.
 - Every listing shows neighbourhood scores (transit, amenities, safety, schools) and commute times, and whether the host lives in the home.
-- Landlords can rent a whole home room by room (group renting): each room has its own photos and rent, renters apply for a specific room, and current roommates can be shown on the listing.
-- Landlord mode is reviewed: hosts apply and are approved, usually within 48 hours, before they can post homes.
-- Free to join on the web at https://www.colivease.ca/app.html; the app is available in 10 languages and the guides in English and Chinese.
+- Landlords can rent a whole home room by room (group renting): each room has its own photos and rent, renters apply for a specific room or as a team, and current roommates can be shown on the listing.
+- Landlord mode is reviewed: hosts apply and are approved, usually within 48 hours, before they can post homes; owner-direct landlords can have 3 live listings for free.
+- Prices in CAD, plus 13% HST: a free account (profile, match scores, homes, chat, scam warnings, 1 team); Gold membership $19.99/month and Diamond $29.99/month (more teams, an animated profile frame, a higher place in people search); optional ID verification $9.99 for 3 years; AI lease check $4.99 per lease (same price for members); pinned listing $49.99 for 30 days; tenant invite pack $29.99 for 10 invites; licensed-agent plans $199.99/month (5 listings) or $299.99/month (10 listings).
+- Sign in with Google, Apple or an email link; you must be 18 or older. Without an account you can browse homes. Free on the web at https://www.colivease.ca/app.html; iOS and Android apps are on the way. Guides are in English and Chinese.
 
 ## Main pages
 
-- [ColivEase home](https://www.colivease.ca/): what ColivEase does, for renters and landlords
+- [ColivEase home](https://www.colivease.ca/): what ColivEase does, for renters and landlords, with prices and FAQ
 - [Open the ColivEase app](https://www.colivease.ca/app.html): find roommates and homes, post a home
 - [Renter guides (English)](https://www.colivease.ca/blog/): roommates, renting and tenant rights in Toronto and Ontario
 - [租房指南（中文）](https://www.colivease.ca/zh/blog/): 多伦多找室友、租房与安省租客权益
 - [Terms of use](https://www.colivease.ca/legal/terms.html)
 - [Privacy policy](https://www.colivease.ca/legal/privacy.html)
 
+## Guides by topic
+
+- [Roommate Guides: Finding and Living With Roommates in Toronto](https://www.colivease.ca/blog/category/roommates/): Guides to finding a roommate in Toronto: where to look, how to vet people, questions to ask, Ontario roommate agreements and splitting rent fairly.
+- [Renting in Toronto 101: Costs, Applications and Scams](https://www.colivease.ca/blog/category/renting-101/): How renting in Toronto works: what a room costs, what to put in a rental application, and how to spot and avoid rental scams before you pay anything.
+- [Ontario Tenant Rights Guides for Toronto Renters](https://www.colivease.ca/blog/category/tenant-rights/): Plain-language guides to Ontario tenant rights: the standard lease, deposits, rent increases, subletting, ending a tenancy with an N9 and living with a landlord.
+- [Best Toronto Neighbourhoods to Rent In: Area Guides](https://www.colivease.ca/blog/category/neighbourhoods/): Where to live in Toronto: neighbourhood guides for students and young professionals, with commute times, typical rents and what each area is really like.
+- [Renting in Toronto for Newcomers and International Students](https://www.colivease.ca/blog/category/newcomers-and-students/): Renting in Toronto as a newcomer or international student: no credit history, guarantors, off-campus housing, scams to avoid and a move-in checklist.
+- [多伦多找室友与合租指南](https://www.colivease.ca/zh/blog/category/roommates/): 多伦多找室友全攻略：去哪里找、如何核实对方、见面该问什么、安省室友协议怎么写，以及合租房租和水电费怎么公平分摊。
+- [多伦多租房入门：费用、申请与防骗](https://www.colivease.ca/zh/blog/category/renting-101/): 多伦多租房入门指南：租一个房间大概要多少钱、租房申请要准备哪些材料，以及如何在付钱之前识别和避开租房骗局。
+- [安省租客权益指南](https://www.colivease.ca/zh/blog/category/tenant-rights/): 用大白话讲清安省租客权益：标准租约、押金规定、涨租上限、转租与转让、用 N9 退租，以及和房东同住时要注意的法律空白。
+- [多伦多租房社区指南](https://www.colivease.ca/zh/blog/category/neighbourhoods/): 多伦多住哪里好？写给留学生和上班族的社区指南：通勤时间、大致租金，以及每个社区真实的生活氛围和需要注意的地方。
+- [新移民与留学生多伦多租房指南](https://www.colivease.ca/zh/blog/category/newcomers-and-students/): 写给新移民和留学生的多伦多租房指南：没有信用记录怎么租、担保人、校外租房、需要避开的骗局，以及搬家入住清单。
+
 ## Guides (English)
 
+- [Co-Living vs Renting Alone in Toronto: Which Is Better?](https://www.colivease.ca/blog/co-living-vs-renting-alone-toronto/): Co-living or a shared rental vs renting alone in Toronto: costs from CMHC data, privacy, flexibility, who is on the lease, who each suits and making it work.
+- [Dealing With a Bad Roommate in Toronto: What to Do](https://www.colivease.ca/blog/dealing-with-a-bad-roommate/): How to deal with a bad roommate in Toronto: raising noise, mess, unpaid rent and guests, mediation, your legal position by lease type, and when to call police.
+- [Landlord Entry Rules Ontario: 24-Hour Notice Explained](https://www.colivease.ca/blog/landlord-entry-rules-ontario/): Landlord entry rules in Ontario: when 24 hours' written notice is needed, the 8 a.m. to 8 p.m. window, emergencies, showings and what to do if rules are broken.
+- [Landlord Repairs Ontario: What They Must Fix and What to Do](https://www.colivease.ca/blog/landlord-repairs-ontario/): Landlord repairs in Ontario: what your landlord must fix, how to ask in writing, Toronto 311 and RentSafeTO timelines, the T6 form and why not to withhold rent.
+- [LTB Tenant Applications: How to File a T2, T6, T1 or T5](https://www.colivease.ca/blog/ltb-tenant-applications/): How to file a tenant application at the Landlord and Tenant Board: T1, T2, T5 and T6 forms, fees and waivers, the Tribunals Ontario Portal, hearings and help.
+- [Moving Out Checklist Ontario: Notice, Cleaning and Deposits](https://www.colivease.ca/blog/moving-out-checklist-ontario/): Moving out in Ontario: N9 notice timing, ending early with an N11, cleaning, a photo walkthrough, utilities, address changes, deposits and roommate handovers.
+- [N12 and N13 Evictions in Ontario: 2026 Rules for Tenants](https://www.colivease.ca/blog/n12-n13-eviction-ontario/): N12 and N13 notices in Ontario: notice periods, compensation, the new 120-day N12 rule, your right to move back after renovations, and T5 bad-faith claims.
+- [Paying Rent in Ontario: Receipts, Cheques and Late Rent](https://www.colivease.ca/blog/paying-rent-ontario/): Paying rent in Ontario: due dates, free rent receipts, post-dated cheques and auto-pay rules, e-transfers, late rent and the 7-day N4, and deposit interest.
+- [Pets in Rentals Ontario: Are No-Pet Clauses Legal?](https://www.colivease.ca/blog/pets-in-rentals-ontario/): Pets in Ontario rentals: why no-pet lease clauses are void under RTA section 14, the condo, allergy, damage and danger exceptions, and tips for roommates.
+- [Rental Viewing Checklist Toronto: What to Check and Ask](https://www.colivease.ca/blog/rental-viewing-checklist-toronto/): Rental viewing checklist for Toronto: test water, heat and alarms, check for pests and noise, ask the right questions, spot scams and compare places afterwards.
+- [Roommate Guest Rules: Partners, Overnights and Rent](https://www.colivease.ca/blog/roommate-guest-rules/): Fair roommate guest rules for Toronto: overnight limits, a partner who's basically living there, rent and bills, occupant vs tenant, and template wording.
+- [Short-Term Rentals Toronto: Rules for Renters in 2026](https://www.colivease.ca/blog/short-term-rentals-toronto/): Short-term and furnished rentals in Toronto: the 28-night rule, principal residence and registration, when the RTA protects you, sublets and how to avoid scams.
+- [Tenant Insurance Ontario: What It Covers and Who Needs It](https://www.colivease.ca/blog/tenant-insurance-ontario/): Tenant insurance in Ontario explained: contents, liability and living expenses, common exclusions, when a lease can require it, roommates and how to choose.
+- [TTC Commute Guide: Choosing Where to Rent in Toronto](https://www.colivease.ca/blog/ttc-commute-guide-renters/): Choose where to rent in Toronto by commute: TTC subway lines, streetcars, Line 5 and Line 6 LRTs, 2026 fares, monthly fare capping and testing a commute first.
+- [Utilities for Renters in Toronto: Who Pays What](https://www.colivease.ca/blog/utilities-for-renters-toronto/): Utilities for Toronto renters: hydro, gas, water and internet, how to read what your lease includes, setting up accounts, splitting bills and ways to save.
 - [Best Toronto Neighbourhoods for Students (2026 Guide)](https://www.colivease.ca/blog/best-toronto-neighbourhoods-for-students/): The best neighbourhoods in Toronto for students, campus by campus: U of T, TMU, York, OCAD and the colleges, with TTC commutes, vibe and what to watch for.
 - [Best Neighbourhoods to Rent in Toronto for Professionals](https://www.colivease.ca/blog/best-toronto-neighbourhoods-for-young-professionals/): The best neighbourhoods to rent in Toronto for young professionals: King West, Liberty Village, Yonge & Eglinton, North York and more, compared.
 - [Cost of Renting a Room in Toronto (2026 Budget Guide)](https://www.colivease.ca/blog/cost-of-renting-a-room-in-toronto/): What's the cost of renting a room in Toronto in 2026? Typical ranges for rooms, studios and one-bedrooms, what's included, upfront costs and ways to pay less.

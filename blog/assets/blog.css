@@ -38,8 +38,10 @@ a:hover { color: var(--blue-deep); }
 .crumbs a { color: var(--muted); text-decoration: none; }
 .crumbs a:hover { color: var(--blue); }
 .chip { display: inline-block; font: 600 12.5px/1 var(--body); letter-spacing: .02em; color: var(--blue); background: var(--blue-soft); padding: 7px 12px; border-radius: 999px; border: 0; }
-button.chip { cursor: pointer; font-size: 14px; padding: 10px 16px; background: var(--white); color: var(--ink-2); border: 1px solid var(--line); }
-button.chip.on { background: var(--ink); color: #fff; border-color: var(--ink); }
+button.chip, .chips a.chip { cursor: pointer; font-size: 14px; padding: 10px 16px; background: var(--white); color: var(--ink-2); border: 1px solid var(--line); text-decoration: none; }
+button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
+.chips a.chip:hover { color: var(--blue); }
+.crumbs + .blog-head { padding-top: 22px; }
 
 /* blog index */
 .blog-head { padding: 48px 0 28px; max-width: 760px; }
@@ -116,6 +118,8 @@ button.chip.on { background: var(--ink); color: #fff; border-color: var(--ink); 
 .foot-in p { margin: 10px 0 0; color: var(--muted); font-size: 14px; }
 .foot nav { display: flex; flex-wrap: wrap; gap: 6px 20px; }
 .foot nav a { color: var(--ink-2); text-decoration: none; font-size: 14px; }
+.foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
+.foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
 
 @media (max-width: 980px) {

@@ -29,11 +29,14 @@ function ageBand(age) {
   return b ? `${b[0]}-${b[1]}` : age < 18 ? "18-24" : "65+";
 }
 
-function createDeckScene(THREE, canvas, { people = DECK_PEOPLE, mascotSvg = "", onActive, reduced = false } = {}) {
+// Async: the scene is built in slices (one card at a time, then the post-processing, then the shader warm-up) with a
+// yield to the main thread between them, so building it never blocks input as one long task.
+const deckYield = () => new Promise((ok) => (window.scheduler && scheduler.yield ? scheduler.yield().then(ok) : setTimeout(ok, 0)));
+async function createDeckScene(THREE, canvas, { people = DECK_PEOPLE, mascotSvg = "", onActive, reduced = false } = {}) {
   const lite = window.innerWidth < 720 || (navigator.hardwareConcurrency || 8) <= 4;
   const post = Boolean(THREE.EffectComposer && THREE.RenderPass && THREE.UnrealBloomPass && THREE.ShaderPass && THREE.GammaCorrectionShader);
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: !post, alpha: false, stencil: true, powerPreference: "high-performance" });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, lite ? 1.5 : 2));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, lite ? 1.25 : 1.5)); // capped: the bloom pass costs per pixel
   renderer.outputEncoding = THREE.sRGBEncoding;
   renderer.toneMapping = THREE.NoToneMapping;
   const aniso = Math.min(8, renderer.capabilities.getMaxAnisotropy());
@@ -575,7 +578,8 @@ function createDeckScene(THREE, canvas, { people = DECK_PEOPLE, mascotSvg = "", 
   const pickables = [];
   const holos = [];
   const spring = (v) => ({ x: v, v: 0, t: v });
-  const cards = people.map((p, i) => {
+  const cards = [];
+  for (let i = 0; i < people.length; i++) cards.push(await deckYield().then(() => ((p, i) => {
     const ref = i + 1;
     const group = new THREE.Group();
     const bodyMesh = new THREE.Mesh(bodyGeo, chrome);
@@ -616,7 +620,8 @@ function createDeckScene(THREE, canvas, { people = DECK_PEOPLE, mascotSvg = "", 
       s: { x: spring(0), y: spring(0), z: spring(-2), ry: spring(Math.PI), rz: spring(0), pop: spring(0) },
       arrivedAt: -10, isActive: false, burstDone: false,
     };
-  });
+  })(people[i], i)));
+  await deckYield();
 
   // Mirror floor, faded into the stage.
   const FLOOR_Y = -0.98;
@@ -741,6 +746,7 @@ function createDeckScene(THREE, canvas, { people = DECK_PEOPLE, mascotSvg = "", 
     sp.x += sp.v * dt;
   }
 
+  await deckYield();
   // ---- post-processing ---------------------------------------------------------------------------------------------------
   let composer = null, bloom = null;
   if (post) {
@@ -861,14 +867,19 @@ function createDeckScene(THREE, canvas, { people = DECK_PEOPLE, mascotSvg = "", 
     }
   }
 
-  let raf = 0, last = null, running = false;
+  // Frame rate: 60 fps while something is happening (pointer, a card moving, a flip), 30 fps while the deck only idles.
+  let raf = 0, last = null, running = false, drawn = 0, pokedAt = 0;
+  const poke = () => (pokedAt = performance.now());
   function render() {
     if (composer) composer.render();
     else renderer.render(scene, camera);
   }
   function frame(now) {
+    const fps = now - pokedAt < 2500 ? 60 : 30;
+    if (drawn && now - drawn < 1000 / fps - 4) { raf = requestAnimationFrame(frame); return; }
+    drawn = now;
     fit();
-    const dt = null == last ? 0 : Math.min(0.034, (now - last) / 1000);
+    const dt = null == last ? 0 : Math.min(0.05, (now - last) / 1000);
     last = now;
     t += dt;
     animate(dt);
@@ -888,9 +899,12 @@ function createDeckScene(THREE, canvas, { people = DECK_PEOPLE, mascotSvg = "", 
     c.ch.root.visible = true;
     c.ch.root.scale.setScalar(1);
   });
+  await deckYield();
   renderer.compile(scene, camera);
+  await deckYield();
   animate(0);
   render();
+  poke();
   if (reduced) cards.forEach((c) => (c.s.ry.x = c.s.ry.t));
 
   return {
@@ -901,6 +915,7 @@ function createDeckScene(THREE, canvas, { people = DECK_PEOPLE, mascotSvg = "", 
       return running;
     },
     go(i) {
+      poke();
       active = ((i % n) + n) % n;
       layout();
     },
@@ -908,6 +923,7 @@ function createDeckScene(THREE, canvas, { people = DECK_PEOPLE, mascotSvg = "", 
       this.go(active + 1);
     },
     flip() {
+      poke();
       const c = cards[active];
       c.isActive = !c.isActive;
       c.s.ry.t += Math.PI;
@@ -918,6 +934,7 @@ function createDeckScene(THREE, canvas, { people = DECK_PEOPLE, mascotSvg = "", 
     },
     pick,
     setPointer(x, y) {
+      if (Math.abs(x - pointer.x) + Math.abs(y - pointer.y) > 0.002) poke();
       pointer.x = Math.max(-1, Math.min(1, x));
       pointer.y = Math.max(-1, Math.min(1, y));
     },
@@ -925,6 +942,8 @@ function createDeckScene(THREE, canvas, { people = DECK_PEOPLE, mascotSvg = "", 
       if (running) return;
       running = true;
       last = null;
+      drawn = 0;
+      poke();
       raf = requestAnimationFrame(frame);
     },
     pause() {
