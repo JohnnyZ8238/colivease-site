@@ -62,6 +62,9 @@ a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--blue-deep); }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -125,6 +128,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 .faq { margin-top: 2.6em; }
 .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin: 0 0 10px; }
 .faq summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -132,7 +137,9 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -157,6 +164,12 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+.grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
 @media (max-width: 980px) {
 .post-grid { grid-template-columns: 1fr; gap: 0; }
 .toc { display: none; }
@@ -171,14 +184,16 @@ body { font-size: 16px; }
 .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
 .btn { padding: 9px 14px; font-size: 14px; }
 .cover { border-radius: 18px; }
-.cta { padding: 24px; }
+.cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+.cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
 .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"BlogPosting","@id":"https://www.colivease.ca/zh/blog/renting-in-mississauga/#article","headline":"密西沙加租房指南：合租、交通与UTM周边（2026）","description":"密西沙加租房怎么选？2026年租金行情、各社区特点、MiWay和GO交通、UTM附近租房，以及地下室登记和翻新驱逐新规，新移民和留学生看这一篇就够。","image":[{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/og/renting-in-mississauga.zh.jpg","width":1200,"height":630},{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/covers/map.webp","width":900,"height":672}],"datePublished":"2026-11-21","dateModified":"2026-11-21","inLanguage":"zh-Hans","articleSection":"社区指南","keywords":"密西沙加租房, 密西沙加合租, UTM附近租房, 密西沙加地下室出租, 密西沙加房租多少钱, Mississauga租房","wordCount":2329,"author":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/"},"publisher":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.colivease.ca/zh/blog/renting-in-mississauga/"},"isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/zh/blog/#blog","name":"ColivEase 博客：多伦多找室友与租房指南"},"translationOfWork":{"@id":"https://www.colivease.ca/blog/renting-in-mississauga/#article"},"citation":["https://www.insauga.com/rents-are-down-compared-to-last-year-in-mississauga/","https://www.mississauga.ca/services-and-programs/building-and-renovating/rental-repairs-and-renovations-licence/what-tenants-can-expect-during-the-rental-repairs-and-renovations-licence-process/","https://www.mississauga.ca/city-of-mississauga-news/news/attention-landlords-and-tenants-new-renovation-and-repair-rules-start-september-1/","https://www.mississauga.ca/publication/second-units-registration-by-law/","https://www.mississauga.ca/publication/second-units-registry-list/","https://www.mississauga.ca/miway-transit/travelling-with-us/students/routes-for-post-secondary-students/","https://www.utm.utoronto.ca/parking/Transportation","https://www.ttc.ca/Fares-and-passes/Regional-travel-and-One-Fare","https://www.insauga.com/construction-on-hazel-mccallion-lrt-to-continue-into-2027-in-mississauga/"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"博客","item":"https://www.colivease.ca/zh/blog/"},{"@type":"ListItem","position":3,"name":"社区指南","item":"https://www.colivease.ca/zh/blog/category/neighbourhoods/"},{"@type":"ListItem","position":4,"name":"密西沙加租房指南：合租、交通与UTM周边（2026）","item":"https://www.colivease.ca/zh/blog/renting-in-mississauga/"}]},{"@type":"FAQPage","@id":"https://www.colivease.ca/zh/blog/renting-in-mississauga/#faq","mainEntity":[{"@type":"Question","name":"住密西沙加比住多伦多便宜吗？","acceptedAnswer":{"@type":"Answer","text":"一般会便宜一些。Rentals.ca 和 Urbanation 近期的报告显示，密西沙加的平均挂牌租金低于多伦多市，但差距因房型和社区而异。如果经常要去多伦多上班上学，记得把交通费和通勤时间一起算进去。"}},{"@type":"Question","name":"从密西沙加能坐 TTC 地铁吗？","acceptedAnswer":{"@type":"Answer","text":"可以。多条 MiWay 公交线连接 TTC 2号线的 Kipling 站和 Islington 站，GO 火车也能直达 Union 站。根据安省 One Fare 政策，用 PRESTO 卡、借记卡或信用卡付费，MiWay 和 TTC 之间换乘免费。"}},{"@type":"Question","name":"Sheridan 学院的学生一般住哪里？","acceptedAnswer":{"@type":"Answer","text":"Sheridan 的 Hazel McCallion 校区在 Square One 附近的市中心 (City Centre)，很多学生就近租 condo 或房间，或者住在进出 City Centre 公交总站的 MiWay 线路沿线。Cooksville 及周边的 house 合租也很常见，价格更低。"}},{"@type":"Question","name":"在密西沙加租房，没有车可以吗？","acceptedAnswer":{"@type":"Answer","text":"可以，但选址很关键。住在 City Centre、Cooksville、Port Credit 或 GO 站附近，日常出行会方便很多；住在偏远的独立屋社区，就要接受较长的公交时间。看房时最好实地走一走到公交站和超市的路。"}},{"@type":"Question","name":"在微信群或小红书上找到密西沙加的房子，靠谱吗？","acceptedAnswer":{"@type":"Answer","text":"可以作为找房渠道，但要格外小心。先核实房东身份，最好当面或视频实时看房，确认书面租约后再付款，不要在没见过房子的情况下转账押金。"}}]}]}</script>
 </head>
 <body>
 <header class="top">
+  <span class="read" aria-hidden="true"></span>
   <div class="wrap top-in">
     <a class="logo" href="/" aria-label="ColivEase"><img src="/blog/assets/logo.png" alt="ColivEase" width="96" height="66"></a>
     <nav aria-label="博客">
@@ -263,9 +278,12 @@ body { font-size: 16px; }
 
       <section class="faq" aria-labelledby="faq"><h2 id="faq">常见问题</h2><details><summary>住密西沙加比住多伦多便宜吗？</summary><p>一般会便宜一些。Rentals.ca 和 Urbanation 近期的报告显示，密西沙加的平均挂牌租金低于多伦多市，但差距因房型和社区而异。如果经常要去多伦多上班上学，记得把交通费和通勤时间一起算进去。</p></details><details><summary>从密西沙加能坐 TTC 地铁吗？</summary><p>可以。多条 MiWay 公交线连接 TTC 2号线的 Kipling 站和 Islington 站，GO 火车也能直达 Union 站。根据安省 One Fare 政策，用 PRESTO 卡、借记卡或信用卡付费，MiWay 和 TTC 之间换乘免费。</p></details><details><summary>Sheridan 学院的学生一般住哪里？</summary><p>Sheridan 的 Hazel McCallion 校区在 Square One 附近的市中心 (City Centre)，很多学生就近租 condo 或房间，或者住在进出 City Centre 公交总站的 MiWay 线路沿线。Cooksville 及周边的 house 合租也很常见，价格更低。</p></details><details><summary>在密西沙加租房，没有车可以吗？</summary><p>可以，但选址很关键。住在 City Centre、Cooksville、Port Credit 或 GO 站附近，日常出行会方便很多；住在偏远的独立屋社区，就要接受较长的公交时间。看房时最好实地走一走到公交站和超市的路。</p></details><details><summary>在微信群或小红书上找到密西沙加的房子，靠谱吗？</summary><p>可以作为找房渠道，但要格外小心。先核实房东身份，最好当面或视频实时看房，确认书面租约后再付款，不要在没见过房子的情况下转账押金。</p></details></section>
       <aside class="cta">
-        <h2>先找对的人，再找对的房。</h2>
-        <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
-        <a class="btn big" href="/app.html">免费开始 →</a>
+        <div class="cta-copy">
+          <h2>先找对的人，再找对的房。</h2>
+          <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
+          <a class="btn big" href="/app.html">免费开始 →</a>
+        </div>
+        <div class="cta-demo" data-cv-demo="match" data-lang="zh" aria-hidden="true"></div>
       </aside>
       <section class="sources"><h2>参考资料</h2><ol><li><a href="https://www.insauga.com/rents-are-down-compared-to-last-year-in-mississauga/" rel="noopener" target="_blank">insauga：密西沙加租金同比下降（Rentals.ca/Urbanation 2026年8月数据）</a></li><li><a href="https://www.mississauga.ca/services-and-programs/building-and-renovating/rental-repairs-and-renovations-licence/what-tenants-can-expect-during-the-rental-repairs-and-renovations-licence-process/" rel="noopener" target="_blank">密西沙加市政府：Rental Repairs and Renovations Licence 租客须知</a></li><li><a href="https://www.mississauga.ca/city-of-mississauga-news/news/attention-landlords-and-tenants-new-renovation-and-repair-rules-start-september-1/" rel="noopener" target="_blank">密西沙加市政府：翻新维修新规9月1日生效</a></li><li><a href="https://www.mississauga.ca/publication/second-units-registration-by-law/" rel="noopener" target="_blank">密西沙加市政府：Second Units Registration By-law（第二单元登记条例）</a></li><li><a href="https://www.mississauga.ca/publication/second-units-registry-list/" rel="noopener" target="_blank">密西沙加市政府：已登记第二单元名单</a></li><li><a href="https://www.mississauga.ca/miway-transit/travelling-with-us/students/routes-for-post-secondary-students/" rel="noopener" target="_blank">MiWay：大专院校学生线路</a></li><li><a href="https://www.utm.utoronto.ca/parking/Transportation" rel="noopener" target="_blank">多伦多大学密西沙加校区：往返 UTM 交通</a></li><li><a href="https://www.ttc.ca/Fares-and-passes/Regional-travel-and-One-Fare" rel="noopener" target="_blank">TTC：Regional travel and One Fare（跨区换乘）</a></li><li><a href="https://www.insauga.com/construction-on-hazel-mccallion-lrt-to-continue-into-2027-in-mississauga/" rel="noopener" target="_blank">insauga：Hazel McCallion 轻轨施工将持续到2027年</a></li></ol></section>
     </article>
@@ -312,5 +330,28 @@ body { font-size: 16px; }
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>
+<script>(function () {
+  var links = document.querySelectorAll(".toc a[href^='#']");
+  if (links.length && "IntersectionObserver" in window) {
+    var byId = {};
+    for (var i = 0; i < links.length; i++) byId[decodeURIComponent(links[i].getAttribute("href").slice(1))] = links[i];
+    var current = null;
+    var mark = function (a) { if (a === current) return; if (current) current.removeAttribute("aria-current"); if (a) a.setAttribute("aria-current", "true"); current = a; };
+    var seen = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) mark(byId[entries[k].target.id]);
+    }, { rootMargin: "-80px 0px -70% 0px" });
+    for (var id in byId) { var h = document.getElementById(id); if (h) seen.observe(h); }
+  }
+  var slots = document.querySelectorAll("[data-cv-demo]");
+  if (!slots.length || !("IntersectionObserver" in window)) return;
+  var load = function () {
+    var css = document.createElement("link"); css.rel = "stylesheet"; css.href = "/demos/demos.css"; document.head.appendChild(css);
+    var js = document.createElement("script"); js.src = "/demos/demos.js"; js.async = true; document.head.appendChild(js);
+  };
+  var near = new IntersectionObserver(function (entries) {
+    for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) { near.disconnect(); load(); return; }
+  }, { rootMargin: "900px 0px" });
+  for (var n = 0; n < slots.length; n++) near.observe(slots[n]);
+})();</script>
 </body>
 </html>

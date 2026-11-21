@@ -62,6 +62,9 @@ a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--blue-deep); }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -125,6 +128,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 .faq { margin-top: 2.6em; }
 .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin: 0 0 10px; }
 .faq summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -132,7 +137,9 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -157,6 +164,12 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+.grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
 @media (max-width: 980px) {
 .post-grid { grid-template-columns: 1fr; gap: 0; }
 .toc { display: none; }
@@ -171,14 +184,16 @@ body { font-size: 16px; }
 .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
 .btn { padding: 9px 14px; font-size: 14px; }
 .cover { border-radius: 18px; }
-.cta { padding: 24px; }
+.cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+.cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
 .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"BlogPosting","@id":"https://www.colivease.ca/blog/best-toronto-neighbourhoods-for-young-professionals/#article","headline":"Best Neighbourhoods to Rent in Toronto for Professionals","description":"The best neighbourhoods to rent in Toronto for young professionals: King West, Liberty Village, Yonge & Eglinton, North York and more, compared.","image":[{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/og/best-toronto-neighbourhoods-for-young-professionals.en.jpg","width":1200,"height":630},{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/covers/map.webp","width":900,"height":672}],"datePublished":"2026-10-31","dateModified":"2026-11-03","inLanguage":"en-CA","articleSection":"Neighbourhoods","keywords":"best neighbourhoods to rent in Toronto, best neighbourhoods in Toronto for young professionals, where to live in Toronto, Toronto neighbourhood guide, renting in Toronto for professionals, commute to Financial District Toronto","wordCount":1403,"author":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/"},"publisher":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.colivease.ca/blog/best-toronto-neighbourhoods-for-young-professionals/"},"isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/blog/#blog","name":"ColivEase Blog: Roommates & Renting in Toronto"},"workTranslation":{"@id":"https://www.colivease.ca/zh/blog/best-toronto-neighbourhoods-for-young-professionals/#article"},"citation":["https://www.ontario.ca/page/residential-rent-increases","https://www.ontario.ca/page/renting-ontario-your-rights","https://www.cmhc-schl.gc.ca/nhs/guidepage-strategy/glossary","https://www.ttc.ca/news/2025/December/Dundas-and-Eglinton-West-Stations-to-be-officially-renamed-as-of-December-7","https://public.trreb.ca/wp-content/files/market-stats/rental-reports/rental_report_Q2-2026.pdf","https://www.studentlife.utoronto.ca/task/rental-costs-in-toronto-gta/"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://www.colivease.ca/blog/"},{"@type":"ListItem","position":3,"name":"Neighbourhoods","item":"https://www.colivease.ca/blog/category/neighbourhoods/"},{"@type":"ListItem","position":4,"name":"Best Neighbourhoods to Rent in Toronto for Professionals","item":"https://www.colivease.ca/blog/best-toronto-neighbourhoods-for-young-professionals/"}]},{"@type":"FAQPage","@id":"https://www.colivease.ca/blog/best-toronto-neighbourhoods-for-young-professionals/#faq","mainEntity":[{"@type":"Question","name":"What is the best area in Toronto for young professionals?","acceptedAnswer":{"@type":"Answer","text":"It depends on your priorities. King West and the downtown core suit people who want to walk to work and go out often, Yonge & Eglinton and North York Centre suit people who want more space and a direct subway ride, and Leslieville or the Annex suit people who want a neighbourhood feel close to downtown."}},{"@type":"Question","name":"Is Liberty Village a good place to live?","acceptedAnswer":{"@type":"Answer","text":"Liberty Village is popular with young professionals for its newer condos, restaurants, gyms and dog-friendly streets. The main drawbacks are crowded King streetcars at rush hour and limited ways in and out. Exhibition GO station on the Lakeshore West line is an alternative to the streetcar for getting downtown."}},{"@type":"Question","name":"Is it worth living in North York and commuting downtown?","acceptedAnswer":{"@type":"Answer","text":"For many renters, yes. Line 1 runs directly from North York Centre and Sheppard-Yonge to the Financial District, typically in about half an hour, and you often get more space or a newer building for the money. It is less ideal if you go out downtown most evenings."}},{"@type":"Question","name":"How much of my income should go to rent in Toronto?","acceptedAnswer":{"@type":"Answer","text":"CMHC considers housing affordable when it costs less than 30% of a household's before-tax income, and that is a useful starting point for a budget. In Toronto many renters spend more, which is why sharing a larger unit with a roommate is common among young professionals."}},{"@type":"Question","name":"Are newer condo rentals in Toronto covered by rent control?","acceptedAnswer":{"@type":"Answer","text":"In Ontario, most units first occupied for residential purposes after November 15, 2018 are exempt from the annual rent increase guideline. Older units are generally covered. Ask when the unit was first occupied before you sign, because it affects how much your rent can rise each year."}}]}]}</script>
 </head>
 <body>
 <header class="top">
+  <span class="read" aria-hidden="true"></span>
   <div class="wrap top-in">
     <a class="logo" href="/" aria-label="ColivEase"><img src="/blog/assets/logo.png" alt="ColivEase" width="96" height="66"></a>
     <nav aria-label="Blog">
@@ -248,9 +263,12 @@ body { font-size: 16px; }
 
       <section class="faq" aria-labelledby="faq"><h2 id="faq">Frequently asked questions</h2><details><summary>What is the best area in Toronto for young professionals?</summary><p>It depends on your priorities. King West and the downtown core suit people who want to walk to work and go out often, Yonge &amp; Eglinton and North York Centre suit people who want more space and a direct subway ride, and Leslieville or the Annex suit people who want a neighbourhood feel close to downtown.</p></details><details><summary>Is Liberty Village a good place to live?</summary><p>Liberty Village is popular with young professionals for its newer condos, restaurants, gyms and dog-friendly streets. The main drawbacks are crowded King streetcars at rush hour and limited ways in and out. Exhibition GO station on the Lakeshore West line is an alternative to the streetcar for getting downtown.</p></details><details><summary>Is it worth living in North York and commuting downtown?</summary><p>For many renters, yes. Line 1 runs directly from North York Centre and Sheppard-Yonge to the Financial District, typically in about half an hour, and you often get more space or a newer building for the money. It is less ideal if you go out downtown most evenings.</p></details><details><summary>How much of my income should go to rent in Toronto?</summary><p>CMHC considers housing affordable when it costs less than 30% of a household's before-tax income, and that is a useful starting point for a budget. In Toronto many renters spend more, which is why sharing a larger unit with a roommate is common among young professionals.</p></details><details><summary>Are newer condo rentals in Toronto covered by rent control?</summary><p>In Ontario, most units first occupied for residential purposes after November 15, 2018 are exempt from the annual rent increase guideline. Older units are generally covered. Ask when the unit was first occupied before you sign, because it affects how much your rent can rise each year.</p></details></section>
       <aside class="cta">
-        <h2>Find your people first. Then your place.</h2>
-        <p>ColivEase gives you a match score with possible roommates based on area and commute, budget, move-in date, student or worker, gender preference and shared language. Every listing is reviewed by a person, chat warns you about common scam lines, and you can rent a whole home room by room.</p>
-        <a class="btn big" href="/app.html">Start for free →</a>
+        <div class="cta-copy">
+          <h2>Find your people first. Then your place.</h2>
+          <p>ColivEase gives you a match score with possible roommates based on area and commute, budget, move-in date, student or worker, gender preference and shared language. Every listing is reviewed by a person, chat warns you about common scam lines, and you can rent a whole home room by room.</p>
+          <a class="btn big" href="/app.html">Start for free →</a>
+        </div>
+        <div class="cta-demo" data-cv-demo="match" data-lang="en" aria-hidden="true"></div>
       </aside>
       <section class="sources"><h2>Sources</h2><ol><li><a href="https://www.ontario.ca/page/residential-rent-increases" rel="noopener" target="_blank">Government of Ontario: Residential rent increases (2026 guideline)</a></li><li><a href="https://www.ontario.ca/page/renting-ontario-your-rights" rel="noopener" target="_blank">Government of Ontario: Renting in Ontario, your rights</a></li><li><a href="https://www.cmhc-schl.gc.ca/nhs/guidepage-strategy/glossary" rel="noopener" target="_blank">CMHC: National Housing Strategy glossary (affordability)</a></li><li><a href="https://www.ttc.ca/news/2025/December/Dundas-and-Eglinton-West-Stations-to-be-officially-renamed-as-of-December-7" rel="noopener" target="_blank">TTC: Dundas and Eglinton West stations renamed</a></li><li><a href="https://public.trreb.ca/wp-content/files/market-stats/rental-reports/rental_report_Q2-2026.pdf" rel="noopener" target="_blank">TRREB: Rental market report, Q2 2026</a></li><li><a href="https://www.studentlife.utoronto.ca/task/rental-costs-in-toronto-gta/" rel="noopener" target="_blank">UofT Student Life: Rental costs in Toronto/GTA</a></li></ol></section>
     </article>
@@ -297,5 +315,28 @@ body { font-size: 16px; }
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>
+<script>(function () {
+  var links = document.querySelectorAll(".toc a[href^='#']");
+  if (links.length && "IntersectionObserver" in window) {
+    var byId = {};
+    for (var i = 0; i < links.length; i++) byId[decodeURIComponent(links[i].getAttribute("href").slice(1))] = links[i];
+    var current = null;
+    var mark = function (a) { if (a === current) return; if (current) current.removeAttribute("aria-current"); if (a) a.setAttribute("aria-current", "true"); current = a; };
+    var seen = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) mark(byId[entries[k].target.id]);
+    }, { rootMargin: "-80px 0px -70% 0px" });
+    for (var id in byId) { var h = document.getElementById(id); if (h) seen.observe(h); }
+  }
+  var slots = document.querySelectorAll("[data-cv-demo]");
+  if (!slots.length || !("IntersectionObserver" in window)) return;
+  var load = function () {
+    var css = document.createElement("link"); css.rel = "stylesheet"; css.href = "/demos/demos.css"; document.head.appendChild(css);
+    var js = document.createElement("script"); js.src = "/demos/demos.js"; js.async = true; document.head.appendChild(js);
+  };
+  var near = new IntersectionObserver(function (entries) {
+    for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) { near.disconnect(); load(); return; }
+  }, { rootMargin: "900px 0px" });
+  for (var n = 0; n < slots.length; n++) near.observe(slots[n]);
+})();</script>
 </body>
 </html>

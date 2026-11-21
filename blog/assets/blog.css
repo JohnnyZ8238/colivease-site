@@ -24,6 +24,9 @@ a:hover { color: var(--blue-deep); }
 
 /* top bar */
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -93,6 +96,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 
 /* faq, cta, sources, related */
 .faq { margin-top: 2.6em; }
@@ -102,7 +107,11 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+/* The product demo (landing/demos): a Discover card working out a match score, hung from the top of its slot and cut
+   by the call to action's bottom edge. The slot keeps the demo's shape until it loads. */
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -130,6 +139,15 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
 
+/* Scroll reveals: cards and further-reading links rise in as they come into view (CSS scroll-driven animation; in
+   browsers without it everything is simply there). */
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+  .grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
+
 @media (max-width: 980px) {
   .post-grid { grid-template-columns: 1fr; gap: 0; }
   .toc { display: none; }
@@ -144,7 +162,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
   .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
   .btn { padding: 9px 14px; font-size: 14px; }
   .cover { border-radius: 18px; }
-  .cta { padding: 24px; }
+  .cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+  .cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
   .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }

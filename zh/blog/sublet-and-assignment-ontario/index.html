@@ -62,6 +62,9 @@ a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--blue-deep); }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -125,6 +128,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 .faq { margin-top: 2.6em; }
 .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin: 0 0 10px; }
 .faq summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -132,7 +137,9 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -157,6 +164,12 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+.grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
 @media (max-width: 980px) {
 .post-grid { grid-template-columns: 1fr; gap: 0; }
 .toc { display: none; }
@@ -171,14 +184,16 @@ body { font-size: 16px; }
 .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
 .btn { padding: 9px 14px; font-size: 14px; }
 .cover { border-radius: 18px; }
-.cta { padding: 24px; }
+.cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+.cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
 .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"BlogPosting","@id":"https://www.colivease.ca/zh/blog/sublet-and-assignment-ontario/#article","headline":"安省转租规定：分租(Sublet)与转让租约怎么选","description":"暑假回国、实习换城市想转租？安省转租规定一次讲清：分租和转让租约的区别、房东同意、不能无理拒绝、谁继续担责、室友转租和LTB A2表格怎么用。","image":[{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/og/sublet-and-assignment-ontario.zh.jpg","width":1200,"height":630},{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/covers/hero.webp","width":1152,"height":928}],"datePublished":"2026-10-31","dateModified":"2026-11-03","inLanguage":"zh-Hans","articleSection":"租客权益","keywords":"安省转租规定, 多伦多转租, sublet 安省, 转让租约 assignment, 房东不同意转租, LTB A2表格","wordCount":2630,"author":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/"},"publisher":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.colivease.ca/zh/blog/sublet-and-assignment-ontario/"},"isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/zh/blog/#blog","name":"ColivEase 博客：多伦多找室友与租房指南"},"translationOfWork":{"@id":"https://www.colivease.ca/blog/sublet-and-assignment-ontario/#article"},"citation":["https://www.ontario.ca/laws/statute/06r17","https://www.ontario.ca/page/renting-ontario-your-rights","https://tribunalsontario.ca/documents/ltb/Landlord%20Applications%20&%20Instructions/A2_Instructions.html","https://tribunalsontario.ca/ltb/forms/","https://www.cleo.on.ca/en/publications/subassign/all"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"博客","item":"https://www.colivease.ca/zh/blog/"},{"@type":"ListItem","position":3,"name":"租客权益","item":"https://www.colivease.ca/zh/blog/category/tenant-rights/"},{"@type":"ListItem","position":4,"name":"安省转租规定：分租(Sublet)与转让租约怎么选","item":"https://www.colivease.ca/zh/blog/sublet-and-assignment-ontario/"}]},{"@type":"FAQPage","@id":"https://www.colivease.ca/zh/blog/sublet-and-assignment-ontario/#faq","mainEntity":[{"@type":"Question","name":"安省房东可以拒绝我转租吗？","acceptedAnswer":{"@type":"Answer","text":"转租需要房东同意，但根据RTA第97条，房东不能任意或无理拒绝(arbitrarily or unreasonably)。针对具体某个人的合理顾虑，比如有欠租记录，可能算合理；一律不许转租通常不合理。认为被无理拒绝，可以向LTB提交A2表格申请。"}},{"@type":"Question","name":"房东拒绝我转让租约(assignment)怎么办？","acceptedAnswer":{"@type":"Answer","text":"如果你提出转让，房东一概拒绝，或者7天内没有答复，RTA允许你在提出请求之日起30天内通知房东终止租约。如果房东原则上同意转让，就不能任意或无理拒绝你推荐的具体人选。"}},{"@type":"Question","name":"转租出去后，接手的人弄坏了房子，我要负责吗？","acceptedAnswer":{"@type":"Answer","text":"要。分租(sublet)期间你仍然是租客，对房东承担租金和房屋的责任。所以一定要认真筛选接手人，并签书面转租协议。"}},{"@type":"Question","name":"转租可以收比我付给房东更高的租金吗？","acceptedAnswer":{"@type":"Answer","text":"不可以。RTA规定租客向分租客收取的租金不能超过该单元的合法租金，多收的部分可能被要求退还。"}},{"@type":"Question","name":"房东同意转租要收手续费，合法吗？","acceptedAnswer":{"@type":"Answer","text":"房东只能收取因同意转租而实际产生的合理费用(reasonable out-of-pocket expenses)，比如信用查询费用，不能随意收一笔固定的转租费。"}}]}]}</script>
 </head>
 <body>
 <header class="top">
+  <span class="read" aria-hidden="true"></span>
   <div class="wrap top-in">
     <a class="logo" href="/" aria-label="ColivEase"><img src="/blog/assets/logo.png" alt="ColivEase" width="96" height="66"></a>
     <nav aria-label="博客">
@@ -300,9 +315,12 @@ body { font-size: 16px; }
 
       <section class="faq" aria-labelledby="faq"><h2 id="faq">常见问题</h2><details><summary>安省房东可以拒绝我转租吗？</summary><p>转租需要房东同意，但根据RTA第97条，房东不能任意或无理拒绝(arbitrarily or unreasonably)。针对具体某个人的合理顾虑，比如有欠租记录，可能算合理；一律不许转租通常不合理。认为被无理拒绝，可以向LTB提交A2表格申请。</p></details><details><summary>房东拒绝我转让租约(assignment)怎么办？</summary><p>如果你提出转让，房东一概拒绝，或者7天内没有答复，RTA允许你在提出请求之日起30天内通知房东终止租约。如果房东原则上同意转让，就不能任意或无理拒绝你推荐的具体人选。</p></details><details><summary>转租出去后，接手的人弄坏了房子，我要负责吗？</summary><p>要。分租(sublet)期间你仍然是租客，对房东承担租金和房屋的责任。所以一定要认真筛选接手人，并签书面转租协议。</p></details><details><summary>转租可以收比我付给房东更高的租金吗？</summary><p>不可以。RTA规定租客向分租客收取的租金不能超过该单元的合法租金，多收的部分可能被要求退还。</p></details><details><summary>房东同意转租要收手续费，合法吗？</summary><p>房东只能收取因同意转租而实际产生的合理费用(reasonable out-of-pocket expenses)，比如信用查询费用，不能随意收一笔固定的转租费。</p></details></section>
       <aside class="cta">
-        <h2>先找对的人，再找对的房。</h2>
-        <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
-        <a class="btn big" href="/app.html">免费开始 →</a>
+        <div class="cta-copy">
+          <h2>先找对的人，再找对的房。</h2>
+          <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
+          <a class="btn big" href="/app.html">免费开始 →</a>
+        </div>
+        <div class="cta-demo" data-cv-demo="match" data-lang="zh" aria-hidden="true"></div>
       </aside>
       <section class="sources"><h2>参考资料</h2><ol><li><a href="https://www.ontario.ca/laws/statute/06r17" rel="noopener" target="_blank">Residential Tenancies Act, 2006（第95–104条、第134条）</a></li><li><a href="https://www.ontario.ca/page/renting-ontario-your-rights" rel="noopener" target="_blank">Renting in Ontario: your rights</a></li><li><a href="https://tribunalsontario.ca/documents/ltb/Landlord%20Applications%20&amp;%20Instructions/A2_Instructions.html" rel="noopener" target="_blank">LTB Form A2 Instructions</a></li><li><a href="https://tribunalsontario.ca/ltb/forms/" rel="noopener" target="_blank">Landlord and Tenant Board forms</a></li><li><a href="https://www.cleo.on.ca/en/publications/subassign/all" rel="noopener" target="_blank">CLEO: Moving out, subletting and assigning</a></li></ol></section>
     </article>
@@ -349,5 +367,28 @@ body { font-size: 16px; }
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>
+<script>(function () {
+  var links = document.querySelectorAll(".toc a[href^='#']");
+  if (links.length && "IntersectionObserver" in window) {
+    var byId = {};
+    for (var i = 0; i < links.length; i++) byId[decodeURIComponent(links[i].getAttribute("href").slice(1))] = links[i];
+    var current = null;
+    var mark = function (a) { if (a === current) return; if (current) current.removeAttribute("aria-current"); if (a) a.setAttribute("aria-current", "true"); current = a; };
+    var seen = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) mark(byId[entries[k].target.id]);
+    }, { rootMargin: "-80px 0px -70% 0px" });
+    for (var id in byId) { var h = document.getElementById(id); if (h) seen.observe(h); }
+  }
+  var slots = document.querySelectorAll("[data-cv-demo]");
+  if (!slots.length || !("IntersectionObserver" in window)) return;
+  var load = function () {
+    var css = document.createElement("link"); css.rel = "stylesheet"; css.href = "/demos/demos.css"; document.head.appendChild(css);
+    var js = document.createElement("script"); js.src = "/demos/demos.js"; js.async = true; document.head.appendChild(js);
+  };
+  var near = new IntersectionObserver(function (entries) {
+    for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) { near.disconnect(); load(); return; }
+  }, { rootMargin: "900px 0px" });
+  for (var n = 0; n < slots.length; n++) near.observe(slots[n]);
+})();</script>
 </body>
 </html>

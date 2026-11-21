@@ -62,6 +62,9 @@ a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--blue-deep); }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -125,6 +128,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 .faq { margin-top: 2.6em; }
 .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin: 0 0 10px; }
 .faq summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -132,7 +137,9 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -157,6 +164,12 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+.grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
 @media (max-width: 980px) {
 .post-grid { grid-template-columns: 1fr; gap: 0; }
 .toc { display: none; }
@@ -171,14 +184,16 @@ body { font-size: 16px; }
 .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
 .btn { padding: 9px 14px; font-size: 14px; }
 .cover { border-radius: 18px; }
-.cta { padding: 24px; }
+.cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+.cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
 .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"BlogPosting","@id":"https://www.colivease.ca/blog/ending-a-tenancy-n9/#article","headline":"N9 Form Ontario: How to End Your Tenancy the Right Way","description":"N9 form Ontario guide: 60 days' notice, ending on the last day of a rental period, fixed-term leases, roommates leaving, assignment and using your deposit.","image":[{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/og/ending-a-tenancy-n9.en.jpg","width":1200,"height":630},{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/covers/keys.webp","width":960,"height":717}],"datePublished":"2026-10-31","dateModified":"2026-11-03","inLanguage":"en-CA","articleSection":"Tenant rights","keywords":"N9 form Ontario, how to end a tenancy Ontario, tenant notice to end tenancy, 60 days notice Ontario, break lease Ontario, roommate moving out Ontario, N9 fixed term lease","wordCount":1495,"author":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/"},"publisher":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.colivease.ca/blog/ending-a-tenancy-n9/"},"isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/blog/#blog","name":"ColivEase Blog: Roommates & Renting in Toronto"},"workTranslation":{"@id":"https://www.colivease.ca/zh/blog/ending-a-tenancy-n9/#article"},"citation":["https://tribunalsontario.ca/documents/ltb/Brochures/How%20a%20Tenant%20Can%20End%20Their%20Tenancy%20(EN).html","https://tribunalsontario.ca/documents/ltb/Notices%20of%20Termination%20&%20Instructions/N9.pdf","https://tribunalsontario.ca/ltb/forms-filing-and-fees/","https://www.ontario.ca/laws/statute/06r17","https://www.ontario.ca/page/renting-ontario-your-rights","https://stepstojustice.ca/steps/housing-law/3-figure-out-when-give-your-landlord-notice/","https://stepstojustice.ca/steps/housing-law/assign-new-tenant/","https://www.cleo.on.ca/wp-content/uploads/notice.pdf"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://www.colivease.ca/blog/"},{"@type":"ListItem","position":3,"name":"Tenant rights","item":"https://www.colivease.ca/blog/category/tenant-rights/"},{"@type":"ListItem","position":4,"name":"N9 Form Ontario: How to End Your Tenancy the Right Way","item":"https://www.colivease.ca/blog/ending-a-tenancy-n9/"}]},{"@type":"FAQPage","@id":"https://www.colivease.ca/blog/ending-a-tenancy-n9/#faq","mainEntity":[{"@type":"Question","name":"How much notice do I need to give my landlord in Ontario?","acceptedAnswer":{"@type":"Answer","text":"For monthly and fixed-term tenancies, at least 60 days' written notice on Form N9, with the move-out date on the last day of a rental period. For daily or weekly tenancies, it's at least 28 days. Add 5 days if you mail the notice."}},{"@type":"Question","name":"Can I end a one-year lease early in Ontario?","acceptedAnswer":{"@type":"Answer","text":"Not with a regular N9. In a fixed-term lease, the termination date can't be earlier than the last day of the term. Your options are to agree with the landlord to end early (Form N11), assign the lease to someone new, or sublet. If the landlord refuses to let you assign, you can give notice within 30 days of your request."}},{"@type":"Question","name":"Do I have to give notice at the end of a fixed-term lease?","acceptedAnswer":{"@type":"Answer","text":"Yes, if you want to leave. A fixed-term lease doesn't end on its own; it usually continues month to month. To move out on the last day of the term, give your N9 at least 60 days before that date."}},{"@type":"Question","name":"Can my landlord make me sign an N9 when I sign the lease?","acceptedAnswer":{"@type":"Answer","text":"No. A notice to end the tenancy signed at the time you enter into the lease, or as a condition of getting the lease, is generally void, with limited exceptions such as certain student residences. Signing an N9 is always your decision."}},{"@type":"Question","name":"Is there a shorter notice rule for February and March?","acceptedAnswer":{"@type":"Answer","text":"Yes. If you want to move out on the last day of February, notice given by January 1 is enough. For March 31, notice given by February 1 is enough. Add extra time if you mail it."}},{"@type":"Question","name":"Does my last month's rent deposit cover my final month?","acceptedAnswer":{"@type":"Answer","text":"Yes. The rent deposit must be applied to your last rent period, so if you give proper notice, you don't pay rent for that final month. Your landlord also owes any interest on the deposit."}}]}]}</script>
 </head>
 <body>
 <header class="top">
+  <span class="read" aria-hidden="true"></span>
   <div class="wrap top-in">
     <a class="logo" href="/" aria-label="ColivEase"><img src="/blog/assets/logo.png" alt="ColivEase" width="96" height="66"></a>
     <nav aria-label="Blog">
@@ -287,9 +302,12 @@ body { font-size: 16px; }
 
       <section class="faq" aria-labelledby="faq"><h2 id="faq">Frequently asked questions</h2><details><summary>How much notice do I need to give my landlord in Ontario?</summary><p>For monthly and fixed-term tenancies, at least 60 days' written notice on Form N9, with the move-out date on the last day of a rental period. For daily or weekly tenancies, it's at least 28 days. Add 5 days if you mail the notice.</p></details><details><summary>Can I end a one-year lease early in Ontario?</summary><p>Not with a regular N9. In a fixed-term lease, the termination date can't be earlier than the last day of the term. Your options are to agree with the landlord to end early (Form N11), assign the lease to someone new, or sublet. If the landlord refuses to let you assign, you can give notice within 30 days of your request.</p></details><details><summary>Do I have to give notice at the end of a fixed-term lease?</summary><p>Yes, if you want to leave. A fixed-term lease doesn't end on its own; it usually continues month to month. To move out on the last day of the term, give your N9 at least 60 days before that date.</p></details><details><summary>Can my landlord make me sign an N9 when I sign the lease?</summary><p>No. A notice to end the tenancy signed at the time you enter into the lease, or as a condition of getting the lease, is generally void, with limited exceptions such as certain student residences. Signing an N9 is always your decision.</p></details><details><summary>Is there a shorter notice rule for February and March?</summary><p>Yes. If you want to move out on the last day of February, notice given by January 1 is enough. For March 31, notice given by February 1 is enough. Add extra time if you mail it.</p></details><details><summary>Does my last month's rent deposit cover my final month?</summary><p>Yes. The rent deposit must be applied to your last rent period, so if you give proper notice, you don't pay rent for that final month. Your landlord also owes any interest on the deposit.</p></details></section>
       <aside class="cta">
-        <h2>Find your people first. Then your place.</h2>
-        <p>ColivEase gives you a match score with possible roommates based on area and commute, budget, move-in date, student or worker, gender preference and shared language. Every listing is reviewed by a person, chat warns you about common scam lines, and you can rent a whole home room by room.</p>
-        <a class="btn big" href="/app.html">Start for free →</a>
+        <div class="cta-copy">
+          <h2>Find your people first. Then your place.</h2>
+          <p>ColivEase gives you a match score with possible roommates based on area and commute, budget, move-in date, student or worker, gender preference and shared language. Every listing is reviewed by a person, chat warns you about common scam lines, and you can rent a whole home room by room.</p>
+          <a class="btn big" href="/app.html">Start for free →</a>
+        </div>
+        <div class="cta-demo" data-cv-demo="match" data-lang="en" aria-hidden="true"></div>
       </aside>
       <section class="sources"><h2>Sources</h2><ol><li><a href="https://tribunalsontario.ca/documents/ltb/Brochures/How%20a%20Tenant%20Can%20End%20Their%20Tenancy%20(EN).html" rel="noopener" target="_blank">LTB Brochure: How a Tenant Can End Their Tenancy</a></li><li><a href="https://tribunalsontario.ca/documents/ltb/Notices%20of%20Termination%20&amp;%20Instructions/N9.pdf" rel="noopener" target="_blank">LTB Form N9: Tenant's Notice to End the Tenancy</a></li><li><a href="https://tribunalsontario.ca/ltb/forms-filing-and-fees/" rel="noopener" target="_blank">LTB Forms, filing and fees</a></li><li><a href="https://www.ontario.ca/laws/statute/06r17" rel="noopener" target="_blank">Residential Tenancies Act, 2006 (Ontario e-Laws)</a></li><li><a href="https://www.ontario.ca/page/renting-ontario-your-rights" rel="noopener" target="_blank">Renting in Ontario: Your rights (Government of Ontario)</a></li><li><a href="https://stepstojustice.ca/steps/housing-law/3-figure-out-when-give-your-landlord-notice/" rel="noopener" target="_blank">Steps to Justice: Figure out when to give your landlord the notice</a></li><li><a href="https://stepstojustice.ca/steps/housing-law/assign-new-tenant/" rel="noopener" target="_blank">Steps to Justice: Assign to a new tenant</a></li><li><a href="https://www.cleo.on.ca/wp-content/uploads/notice.pdf" rel="noopener" target="_blank">CLEO: Moving out: Giving notice</a></li></ol></section>
     </article>
@@ -336,5 +354,28 @@ body { font-size: 16px; }
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>
+<script>(function () {
+  var links = document.querySelectorAll(".toc a[href^='#']");
+  if (links.length && "IntersectionObserver" in window) {
+    var byId = {};
+    for (var i = 0; i < links.length; i++) byId[decodeURIComponent(links[i].getAttribute("href").slice(1))] = links[i];
+    var current = null;
+    var mark = function (a) { if (a === current) return; if (current) current.removeAttribute("aria-current"); if (a) a.setAttribute("aria-current", "true"); current = a; };
+    var seen = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) mark(byId[entries[k].target.id]);
+    }, { rootMargin: "-80px 0px -70% 0px" });
+    for (var id in byId) { var h = document.getElementById(id); if (h) seen.observe(h); }
+  }
+  var slots = document.querySelectorAll("[data-cv-demo]");
+  if (!slots.length || !("IntersectionObserver" in window)) return;
+  var load = function () {
+    var css = document.createElement("link"); css.rel = "stylesheet"; css.href = "/demos/demos.css"; document.head.appendChild(css);
+    var js = document.createElement("script"); js.src = "/demos/demos.js"; js.async = true; document.head.appendChild(js);
+  };
+  var near = new IntersectionObserver(function (entries) {
+    for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) { near.disconnect(); load(); return; }
+  }, { rootMargin: "900px 0px" });
+  for (var n = 0; n < slots.length; n++) near.observe(slots[n]);
+})();</script>
 </body>
 </html>

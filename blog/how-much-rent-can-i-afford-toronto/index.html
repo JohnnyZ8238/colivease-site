@@ -62,6 +62,9 @@ a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--blue-deep); }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -125,6 +128,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 .faq { margin-top: 2.6em; }
 .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin: 0 0 10px; }
 .faq summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -132,7 +137,9 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -157,6 +164,12 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+.grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
 @media (max-width: 980px) {
 .post-grid { grid-template-columns: 1fr; gap: 0; }
 .toc { display: none; }
@@ -171,14 +184,16 @@ body { font-size: 16px; }
 .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
 .btn { padding: 9px 14px; font-size: 14px; }
 .cover { border-radius: 18px; }
-.cta { padding: 24px; }
+.cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+.cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
 .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"BlogPosting","@id":"https://www.colivease.ca/blog/how-much-rent-can-i-afford-toronto/#article","headline":"How Much Rent Can I Afford in Toronto? (2026)","description":"How much rent can I afford in Toronto? Use the 30% rule as a starting point, budget for the extras, see how roommates change the math, and know your rights.","image":[{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/og/how-much-rent-can-i-afford-toronto.en.jpg","width":1200,"height":630},{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/covers/kitchen.webp","width":1000,"height":747}],"datePublished":"2026-11-21","dateModified":"2026-11-21","inLanguage":"en-CA","articleSection":"Renting 101","keywords":"how much rent can I afford in Toronto, rent to income ratio Ontario, 30 percent rule rent, salary needed to rent in Toronto, can a landlord ask for 3x rent income, Toronto rent budget","wordCount":1202,"author":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/"},"publisher":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.colivease.ca/blog/how-much-rent-can-i-afford-toronto/"},"isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/blog/#blog","name":"ColivEase Blog: Roommates & Renting in Toronto"},"workTranslation":{"@id":"https://www.colivease.ca/zh/blog/how-much-rent-can-i-afford-toronto/#article"},"citation":["https://liv.rent/blog/rent-reports/october-2026-ontario-rent-report/","https://www.studentlife.utoronto.ca/task/rental-costs-in-toronto-gta/","https://www.ctvnews.ca/business/real-estate/article/average-asking-rents-fall-32-in-october-but-prices-rising-in-toronto-vancouver/","https://www.ohrc.on.ca/en/policy-human-rights-and-rental-housing","https://www.ohrc.on.ca/en/human-rights-tenants-brochure","https://www.ontario.ca/laws/regulation/980290","https://www.cmhc-schl.gc.ca/nhs/guidepage-strategy/glossary","https://hrlsc.on.ca/","https://www.ttc.ca/Fares-and-passes/Regional-travel-and-One-Fare"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://www.colivease.ca/blog/"},{"@type":"ListItem","position":3,"name":"Renting 101","item":"https://www.colivease.ca/blog/category/renting-101/"},{"@type":"ListItem","position":4,"name":"How Much Rent Can I Afford in Toronto? (2026)","item":"https://www.colivease.ca/blog/how-much-rent-can-i-afford-toronto/"}]},{"@type":"FAQPage","@id":"https://www.colivease.ca/blog/how-much-rent-can-i-afford-toronto/#faq","mainEntity":[{"@type":"Question","name":"What is the 30 percent rule for rent?","acceptedAnswer":{"@type":"Answer","text":"It's a rule of thumb that housing costs should take no more than about 30% of your before-tax income. CMHC uses the same 30% line to define affordable housing. It's a planning guide, not a legal limit, and many Toronto renters spend more, which is one reason sharing is so common."}},{"@type":"Question","name":"What salary do I need to rent in Toronto?","acceptedAnswer":{"@type":"Answer","text":"Using the 30% rule, multiply the monthly rent by 40 to get the yearly before-tax income it suggests. For the City of Toronto average unfurnished one-bedroom asking rent of $1,969 in liv.rent's October 2026 report, that works out to roughly $79,000 a year. A shared room costs far less, so the income it implies is much lower too."}},{"@type":"Question","name":"Can a landlord refuse me because my income comes from savings or social assistance?","acceptedAnswer":{"@type":"Answer","text":"Not simply for that reason. The Ontario Human Rights Commission says a landlord can't turn someone away just because their income comes from a source other than a job, such as savings, a pension or social assistance, and receiving public assistance is a protected ground in housing. Landlords can still check that you can afford the rent."}},{"@type":"Question","name":"How do I budget if my income is irregular?","acceptedAnswer":{"@type":"Answer","text":"Base your rent on your lower-earning months, not your best ones, and keep a buffer of at least a month or two of rent in savings. When you apply, bank statements covering several months, contracts or invoices help show a landlord your average income."}},{"@type":"Question","name":"Should I use gross or take-home pay for my rent budget?","acceptedAnswer":{"@type":"Answer","text":"The 30% rule is usually quoted on before-tax (gross) income, but you pay rent from take-home pay. Check your budget against your net pay as well: if rent takes close to half of what lands in your account, the rest of your budget will feel very tight."}}]}]}</script>
 </head>
 <body>
 <header class="top">
+  <span class="read" aria-hidden="true"></span>
   <div class="wrap top-in">
     <a class="logo" href="/" aria-label="ColivEase"><img src="/blog/assets/logo.png" alt="ColivEase" width="96" height="66"></a>
     <nav aria-label="Blog">
@@ -267,9 +282,12 @@ body { font-size: 16px; }
 
       <section class="faq" aria-labelledby="faq"><h2 id="faq">Frequently asked questions</h2><details><summary>What is the 30 percent rule for rent?</summary><p>It's a rule of thumb that housing costs should take no more than about 30% of your before-tax income. CMHC uses the same 30% line to define affordable housing. It's a planning guide, not a legal limit, and many Toronto renters spend more, which is one reason sharing is so common.</p></details><details><summary>What salary do I need to rent in Toronto?</summary><p>Using the 30% rule, multiply the monthly rent by 40 to get the yearly before-tax income it suggests. For the City of Toronto average unfurnished one-bedroom asking rent of $1,969 in liv.rent's October 2026 report, that works out to roughly $79,000 a year. A shared room costs far less, so the income it implies is much lower too.</p></details><details><summary>Can a landlord refuse me because my income comes from savings or social assistance?</summary><p>Not simply for that reason. The Ontario Human Rights Commission says a landlord can't turn someone away just because their income comes from a source other than a job, such as savings, a pension or social assistance, and receiving public assistance is a protected ground in housing. Landlords can still check that you can afford the rent.</p></details><details><summary>How do I budget if my income is irregular?</summary><p>Base your rent on your lower-earning months, not your best ones, and keep a buffer of at least a month or two of rent in savings. When you apply, bank statements covering several months, contracts or invoices help show a landlord your average income.</p></details><details><summary>Should I use gross or take-home pay for my rent budget?</summary><p>The 30% rule is usually quoted on before-tax (gross) income, but you pay rent from take-home pay. Check your budget against your net pay as well: if rent takes close to half of what lands in your account, the rest of your budget will feel very tight.</p></details></section>
       <aside class="cta">
-        <h2>Find your people first. Then your place.</h2>
-        <p>ColivEase gives you a match score with possible roommates based on area and commute, budget, move-in date, student or worker, gender preference and shared language. Every listing is reviewed by a person, chat warns you about common scam lines, and you can rent a whole home room by room.</p>
-        <a class="btn big" href="/app.html">Start for free →</a>
+        <div class="cta-copy">
+          <h2>Find your people first. Then your place.</h2>
+          <p>ColivEase gives you a match score with possible roommates based on area and commute, budget, move-in date, student or worker, gender preference and shared language. Every listing is reviewed by a person, chat warns you about common scam lines, and you can rent a whole home room by room.</p>
+          <a class="btn big" href="/app.html">Start for free →</a>
+        </div>
+        <div class="cta-demo" data-cv-demo="match" data-lang="en" aria-hidden="true"></div>
       </aside>
       <section class="sources"><h2>Sources</h2><ol><li><a href="https://liv.rent/blog/rent-reports/october-2026-ontario-rent-report/" rel="noopener" target="_blank">October 2026 Ontario rent report (liv.rent)</a></li><li><a href="https://www.studentlife.utoronto.ca/task/rental-costs-in-toronto-gta/" rel="noopener" target="_blank">Rental costs in Toronto/GTA (U of T Student Life, 2026)</a></li><li><a href="https://www.ctvnews.ca/business/real-estate/article/average-asking-rents-fall-32-in-october-but-prices-rising-in-toronto-vancouver/" rel="noopener" target="_blank">Average asking rents fall 3.2% in October (CTV News, Rentals.ca and Urbanation data, Nov. 5, 2026)</a></li><li><a href="https://www.ohrc.on.ca/en/policy-human-rights-and-rental-housing" rel="noopener" target="_blank">Policy on human rights and rental housing (Ontario Human Rights Commission)</a></li><li><a href="https://www.ohrc.on.ca/en/human-rights-tenants-brochure" rel="noopener" target="_blank">Human rights for tenants brochure (Ontario Human Rights Commission)</a></li><li><a href="https://www.ontario.ca/laws/regulation/980290" rel="noopener" target="_blank">O. Reg. 290/98: Business practices permissible to landlords (Ontario e-Laws)</a></li><li><a href="https://www.cmhc-schl.gc.ca/nhs/guidepage-strategy/glossary" rel="noopener" target="_blank">CMHC: National Housing Strategy glossary (affordability)</a></li><li><a href="https://hrlsc.on.ca/" rel="noopener" target="_blank">Human Rights Legal Support Centre</a></li><li><a href="https://www.ttc.ca/Fares-and-passes/Regional-travel-and-One-Fare" rel="noopener" target="_blank">Regional travel and One Fare, including the monthly fare cap (TTC)</a></li></ol></section>
     </article>
@@ -316,5 +334,28 @@ body { font-size: 16px; }
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>
+<script>(function () {
+  var links = document.querySelectorAll(".toc a[href^='#']");
+  if (links.length && "IntersectionObserver" in window) {
+    var byId = {};
+    for (var i = 0; i < links.length; i++) byId[decodeURIComponent(links[i].getAttribute("href").slice(1))] = links[i];
+    var current = null;
+    var mark = function (a) { if (a === current) return; if (current) current.removeAttribute("aria-current"); if (a) a.setAttribute("aria-current", "true"); current = a; };
+    var seen = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) mark(byId[entries[k].target.id]);
+    }, { rootMargin: "-80px 0px -70% 0px" });
+    for (var id in byId) { var h = document.getElementById(id); if (h) seen.observe(h); }
+  }
+  var slots = document.querySelectorAll("[data-cv-demo]");
+  if (!slots.length || !("IntersectionObserver" in window)) return;
+  var load = function () {
+    var css = document.createElement("link"); css.rel = "stylesheet"; css.href = "/demos/demos.css"; document.head.appendChild(css);
+    var js = document.createElement("script"); js.src = "/demos/demos.js"; js.async = true; document.head.appendChild(js);
+  };
+  var near = new IntersectionObserver(function (entries) {
+    for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) { near.disconnect(); load(); return; }
+  }, { rootMargin: "900px 0px" });
+  for (var n = 0; n < slots.length; n++) near.observe(slots[n]);
+})();</script>
 </body>
 </html>

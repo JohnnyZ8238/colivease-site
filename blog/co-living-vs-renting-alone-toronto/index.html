@@ -59,6 +59,9 @@ a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--blue-deep); }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -122,6 +125,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 .faq { margin-top: 2.6em; }
 .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin: 0 0 10px; }
 .faq summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -129,7 +134,9 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -154,6 +161,12 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+.grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
 @media (max-width: 980px) {
 .post-grid { grid-template-columns: 1fr; gap: 0; }
 .toc { display: none; }
@@ -168,14 +181,16 @@ body { font-size: 16px; }
 .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
 .btn { padding: 9px 14px; font-size: 14px; }
 .cover { border-radius: 18px; }
-.cta { padding: 24px; }
+.cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+.cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
 .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"BlogPosting","@id":"https://www.colivease.ca/blog/co-living-vs-renting-alone-toronto/#article","headline":"Co-Living vs Renting Alone in Toronto: Which Is Better?","description":"Co-living or a shared rental vs renting alone in Toronto: costs from CMHC data, privacy, flexibility, who is on the lease, who each suits and making it work.","image":[{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/og/co-living-vs-renting-alone-toronto.en.jpg","width":1200,"height":630},{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/covers/hero.webp","width":1152,"height":928}],"datePublished":"2026-11-03","dateModified":"2026-11-03","inLanguage":"en-CA","articleSection":"Roommates","keywords":"co-living vs renting alone Toronto, shared rental Toronto, renting alone Toronto cost, co-living Toronto, roommate vs living alone, average rent Toronto one bedroom","wordCount":1374,"author":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/"},"publisher":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.colivease.ca/blog/co-living-vs-renting-alone-toronto/"},"isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/blog/#blog","name":"ColivEase Blog: Roommates & Renting in Toronto"},"citation":["https://www.studentlife.utoronto.ca/task/rental-costs-in-toronto-gta/","https://www.cmhc-schl.gc.ca/professionals/housing-markets-data-and-research/market-reports/rental-market-reports-major-centres","https://www.cmhc-schl.gc.ca/nhs/guidepage-strategy/glossary","https://www.toronto.ca/community-people/housing-shelter/rental-housing-rights-information/multi-tenant-rooming-houses/","https://stepstojustice.ca/steps/housing-law/1-find-out-if-the-residential-tenancies-act-applies/","https://www.ontario.ca/page/guide-ontarios-standard-lease","https://www.ontario.ca/laws/statute/06r17","https://tribunalsontario.ca/documents/ltb/Brochures/A%20Guide%20to%20the%20Residential%20Tenancies%20Act.html"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://www.colivease.ca/blog/"},{"@type":"ListItem","position":3,"name":"Roommates","item":"https://www.colivease.ca/blog/category/roommates/"},{"@type":"ListItem","position":4,"name":"Co-Living vs Renting Alone in Toronto: Which Is Better?","item":"https://www.colivease.ca/blog/co-living-vs-renting-alone-toronto/"}]},{"@type":"FAQPage","@id":"https://www.colivease.ca/blog/co-living-vs-renting-alone-toronto/#faq","mainEntity":[{"@type":"Question","name":"Is it cheaper to live with roommates in Toronto?","acceptedAnswer":{"@type":"Answer","text":"Usually, yes. CMHC's October 2025 survey, as summarized by U of T Student Life, put the average Toronto rent at $1,761 for a one-bedroom and $2,045 for a two-bedroom, so splitting a two-bedroom costs about $1,023 each. Rents for new leases are usually higher than these averages, but the gap between sharing and living alone generally remains."}},{"@type":"Question","name":"What is co-living?","acceptedAnswer":{"@type":"Answer","text":"Co-living usually means renting a private bedroom in a shared home, with the kitchen, living room and sometimes bathrooms shared. Some homes are run by an operator who rents each room separately, often furnished; others are simply roommates sharing a regular rental. The legal setup varies, so always check who you're signing with and what you're signing."}},{"@type":"Question","name":"Does the Residential Tenancies Act apply to shared housing?","acceptedAnswer":{"@type":"Answer","text":"Sometimes. It generally doesn't apply if you share a kitchen or bathroom with the owner or the owner's close family who live there. Steps to Justice also notes it might not apply when you share with roommates, for example if you rent from another tenant. If you sign a lease directly with a landlord who doesn't live there, it usually does."}},{"@type":"Question","name":"Who should rent alone in Toronto?","acceptedAnswer":{"@type":"Answer","text":"Renting alone suits people who need quiet and control, such as those working night shifts, working from home most days, or with strong routines, and whose budget can absorb a full unit's rent. CMHC treats housing as affordable when it costs under 30% of before-tax income, a useful check before committing."}},{"@type":"Question","name":"How do I make living with roommates work?","acceptedAnswer":{"@type":"Answer","text":"Choose roommates with similar habits and budgets, agree on house rules before moving in, and write them down in a roommate agreement. Cover rent shares, bills, chores, guests, quiet hours and moving out. Keep payment records, hold a short house meeting each month, and raise small issues early."}}]}]}</script>
 </head>
 <body>
 <header class="top">
+  <span class="read" aria-hidden="true"></span>
   <div class="wrap top-in">
     <a class="logo" href="/" aria-label="ColivEase"><img src="/blog/assets/logo.png" alt="ColivEase" width="96" height="66"></a>
     <nav aria-label="Blog">
@@ -294,9 +309,12 @@ body { font-size: 16px; }
 
       <section class="faq" aria-labelledby="faq"><h2 id="faq">Frequently asked questions</h2><details><summary>Is it cheaper to live with roommates in Toronto?</summary><p>Usually, yes. CMHC's October 2025 survey, as summarized by U of T Student Life, put the average Toronto rent at $1,761 for a one-bedroom and $2,045 for a two-bedroom, so splitting a two-bedroom costs about $1,023 each. Rents for new leases are usually higher than these averages, but the gap between sharing and living alone generally remains.</p></details><details><summary>What is co-living?</summary><p>Co-living usually means renting a private bedroom in a shared home, with the kitchen, living room and sometimes bathrooms shared. Some homes are run by an operator who rents each room separately, often furnished; others are simply roommates sharing a regular rental. The legal setup varies, so always check who you're signing with and what you're signing.</p></details><details><summary>Does the Residential Tenancies Act apply to shared housing?</summary><p>Sometimes. It generally doesn't apply if you share a kitchen or bathroom with the owner or the owner's close family who live there. Steps to Justice also notes it might not apply when you share with roommates, for example if you rent from another tenant. If you sign a lease directly with a landlord who doesn't live there, it usually does.</p></details><details><summary>Who should rent alone in Toronto?</summary><p>Renting alone suits people who need quiet and control, such as those working night shifts, working from home most days, or with strong routines, and whose budget can absorb a full unit's rent. CMHC treats housing as affordable when it costs under 30% of before-tax income, a useful check before committing.</p></details><details><summary>How do I make living with roommates work?</summary><p>Choose roommates with similar habits and budgets, agree on house rules before moving in, and write them down in a roommate agreement. Cover rent shares, bills, chores, guests, quiet hours and moving out. Keep payment records, hold a short house meeting each month, and raise small issues early.</p></details></section>
       <aside class="cta">
-        <h2>Find your people first. Then your place.</h2>
-        <p>ColivEase gives you a match score with possible roommates based on area and commute, budget, move-in date, student or worker, gender preference and shared language. Every listing is reviewed by a person, chat warns you about common scam lines, and you can rent a whole home room by room.</p>
-        <a class="btn big" href="/app.html">Start for free →</a>
+        <div class="cta-copy">
+          <h2>Find your people first. Then your place.</h2>
+          <p>ColivEase gives you a match score with possible roommates based on area and commute, budget, move-in date, student or worker, gender preference and shared language. Every listing is reviewed by a person, chat warns you about common scam lines, and you can rent a whole home room by room.</p>
+          <a class="btn big" href="/app.html">Start for free →</a>
+        </div>
+        <div class="cta-demo" data-cv-demo="match" data-lang="en" aria-hidden="true"></div>
       </aside>
       <section class="sources"><h2>Sources</h2><ol><li><a href="https://www.studentlife.utoronto.ca/task/rental-costs-in-toronto-gta/" rel="noopener" target="_blank">Rental costs in Toronto/GTA (U of T Student Life, using CMHC October 2025 and City of Toronto 2026 data)</a></li><li><a href="https://www.cmhc-schl.gc.ca/professionals/housing-markets-data-and-research/market-reports/rental-market-reports-major-centres" rel="noopener" target="_blank">2025 Rental Market Report (CMHC)</a></li><li><a href="https://www.cmhc-schl.gc.ca/nhs/guidepage-strategy/glossary" rel="noopener" target="_blank">National Housing Strategy glossary: affordability (CMHC)</a></li><li><a href="https://www.toronto.ca/community-people/housing-shelter/rental-housing-rights-information/multi-tenant-rooming-houses/" rel="noopener" target="_blank">Multi-tenant (rooming) houses (City of Toronto)</a></li><li><a href="https://stepstojustice.ca/steps/housing-law/1-find-out-if-the-residential-tenancies-act-applies/" rel="noopener" target="_blank">Find out if the Residential Tenancies Act applies (Steps to Justice)</a></li><li><a href="https://www.ontario.ca/page/guide-ontarios-standard-lease" rel="noopener" target="_blank">Guide to Ontario's standard lease (Government of Ontario)</a></li><li><a href="https://www.ontario.ca/laws/statute/06r17" rel="noopener" target="_blank">Residential Tenancies Act, 2006 (Ontario e-Laws)</a></li><li><a href="https://tribunalsontario.ca/documents/ltb/Brochures/A%20Guide%20to%20the%20Residential%20Tenancies%20Act.html" rel="noopener" target="_blank">A Guide to the Residential Tenancies Act (Landlord and Tenant Board)</a></li></ol></section>
     </article>
@@ -343,5 +361,28 @@ body { font-size: 16px; }
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>
+<script>(function () {
+  var links = document.querySelectorAll(".toc a[href^='#']");
+  if (links.length && "IntersectionObserver" in window) {
+    var byId = {};
+    for (var i = 0; i < links.length; i++) byId[decodeURIComponent(links[i].getAttribute("href").slice(1))] = links[i];
+    var current = null;
+    var mark = function (a) { if (a === current) return; if (current) current.removeAttribute("aria-current"); if (a) a.setAttribute("aria-current", "true"); current = a; };
+    var seen = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) mark(byId[entries[k].target.id]);
+    }, { rootMargin: "-80px 0px -70% 0px" });
+    for (var id in byId) { var h = document.getElementById(id); if (h) seen.observe(h); }
+  }
+  var slots = document.querySelectorAll("[data-cv-demo]");
+  if (!slots.length || !("IntersectionObserver" in window)) return;
+  var load = function () {
+    var css = document.createElement("link"); css.rel = "stylesheet"; css.href = "/demos/demos.css"; document.head.appendChild(css);
+    var js = document.createElement("script"); js.src = "/demos/demos.js"; js.async = true; document.head.appendChild(js);
+  };
+  var near = new IntersectionObserver(function (entries) {
+    for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) { near.disconnect(); load(); return; }
+  }, { rootMargin: "900px 0px" });
+  for (var n = 0; n < slots.length; n++) near.observe(slots[n]);
+})();</script>
 </body>
 </html>

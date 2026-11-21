@@ -62,6 +62,9 @@ a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--blue-deep); }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -125,6 +128,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 .faq { margin-top: 2.6em; }
 .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin: 0 0 10px; }
 .faq summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -132,7 +137,9 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -157,6 +164,12 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+.grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
 @media (max-width: 980px) {
 .post-grid { grid-template-columns: 1fr; gap: 0; }
 .toc { display: none; }
@@ -171,14 +184,16 @@ body { font-size: 16px; }
 .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
 .btn { padding: 9px 14px; font-size: 14px; }
 .cover { border-radius: 18px; }
-.cta { padding: 24px; }
+.cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+.cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
 .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"BlogPosting","@id":"https://www.colivease.ca/zh/blog/roommate-agreement-ontario/#article","headline":"安省室友协议怎么写（附模板大纲）","description":"安省室友协议怎么写？本文讲清室友协议和租约的区别、共同租客与不在租约上的室友有什么不同，并附上可直接套用的模板大纲和示例条款，合租之前必读。","image":[{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/og/roommate-agreement-ontario.zh.jpg","width":1200,"height":630},{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/covers/hero.webp","width":1152,"height":928}],"datePublished":"2026-10-31","dateModified":"2026-11-03","inLanguage":"zh-Hans","articleSection":"室友","keywords":"安省室友协议, 室友协议模板, 多伦多合租协议, 共同租客, 安省合租, 室友协议怎么写","wordCount":2704,"author":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/"},"publisher":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.colivease.ca/zh/blog/roommate-agreement-ontario/"},"isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/zh/blog/#blog","name":"ColivEase 博客：多伦多找室友与租房指南"},"translationOfWork":{"@id":"https://www.colivease.ca/blog/roommate-agreement-ontario/#article"},"citation":["https://www.ontario.ca/laws/statute/06r17","https://www.ontario.ca/page/guide-ontarios-standard-lease","https://www.ontario.ca/page/renting-ontario-your-rights","https://tribunalsontario.ca/documents/ltb/Notices%20of%20Termination%20&%20Instructions/N9.pdf","https://tribunalsontario.ca/ltb/","https://stepstojustice.ca/steps/housing-law/1-find-out-if-the-residential-tenancies-act-applies/","https://housingrightscanada.com/our-work/our-tenant-services/"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"博客","item":"https://www.colivease.ca/zh/blog/"},{"@type":"ListItem","position":3,"name":"室友","item":"https://www.colivease.ca/zh/blog/category/roommates/"},{"@type":"ListItem","position":4,"name":"安省室友协议怎么写（附模板大纲）","item":"https://www.colivease.ca/zh/blog/roommate-agreement-ontario/"}]},{"@type":"FAQPage","@id":"https://www.colivease.ca/zh/blog/roommate-agreement-ontario/#faq","mainEntity":[{"@type":"Question","name":"安省的室友协议有法律效力吗？","acceptedAnswer":{"@type":"Answer","text":"室友协议可以作为签字各方之间的私人合同，书面、清楚并且签了字的协议更有说服力。但它约束不了房东，也改变不了租约。室友之间的金钱纠纷一般去小额钱债法庭 (Small Claims Court)，而不是房东与租客委员会 (LTB)。"}},{"@type":"Question","name":"共同租客和普通室友有什么区别？","acceptedAnswer":{"@type":"Answer","text":"共同租客 (co-tenants) 都在租约上签字，通常每个人都要对房东负责全部房租和房屋状况。不在租约上的室友一般被视为住客 (occupant)，把钱交给签约的租客，按《住宅租赁法》(RTA) 对房东通常没有或只有很少的权利。"}},{"@type":"Question","name":"室友之间的纠纷可以去 LTB 解决吗？","acceptedAnswer":{"@type":"Answer","text":"一般不可以。LTB 处理的是房东和租客之间的纠纷。室友之间比如欠房租、欠账单的问题，通常要去小额钱债法庭，安省小额钱债法庭受理金额上限为5万加元。"}},{"@type":"Question","name":"室友提前搬走怎么办？","acceptedAnswer":{"@type":"Answer","text":"如果你们是共同租客，房东通常仍然可以要求全额房租，所以室友协议里要写清楚提前通知的时间和找人接手的责任。新室友加入租约或者转租，一般都需要房东同意。"}},{"@type":"Question","name":"写室友协议需要找律师吗？","acceptedAnswer":{"@type":"Answer","text":"不需要，大多数人用模板自己写就够了。如果涉及金额较大，或者其中一方就是房东本人，情况比较复杂，可以先咨询社区法律诊所。"}}]}]}</script>
 </head>
 <body>
 <header class="top">
+  <span class="read" aria-hidden="true"></span>
   <div class="wrap top-in">
     <a class="logo" href="/" aria-label="ColivEase"><img src="/blog/assets/logo.png" alt="ColivEase" width="96" height="66"></a>
     <nav aria-label="博客">
@@ -345,9 +360,12 @@ body { font-size: 16px; }
 
       <section class="faq" aria-labelledby="faq"><h2 id="faq">常见问题</h2><details><summary>安省的室友协议有法律效力吗？</summary><p>室友协议可以作为签字各方之间的私人合同，书面、清楚并且签了字的协议更有说服力。但它约束不了房东，也改变不了租约。室友之间的金钱纠纷一般去小额钱债法庭 (Small Claims Court)，而不是房东与租客委员会 (LTB)。</p></details><details><summary>共同租客和普通室友有什么区别？</summary><p>共同租客 (co-tenants) 都在租约上签字，通常每个人都要对房东负责全部房租和房屋状况。不在租约上的室友一般被视为住客 (occupant)，把钱交给签约的租客，按《住宅租赁法》(RTA) 对房东通常没有或只有很少的权利。</p></details><details><summary>室友之间的纠纷可以去 LTB 解决吗？</summary><p>一般不可以。LTB 处理的是房东和租客之间的纠纷。室友之间比如欠房租、欠账单的问题，通常要去小额钱债法庭，安省小额钱债法庭受理金额上限为5万加元。</p></details><details><summary>室友提前搬走怎么办？</summary><p>如果你们是共同租客，房东通常仍然可以要求全额房租，所以室友协议里要写清楚提前通知的时间和找人接手的责任。新室友加入租约或者转租，一般都需要房东同意。</p></details><details><summary>写室友协议需要找律师吗？</summary><p>不需要，大多数人用模板自己写就够了。如果涉及金额较大，或者其中一方就是房东本人，情况比较复杂，可以先咨询社区法律诊所。</p></details></section>
       <aside class="cta">
-        <h2>先找对的人，再找对的房。</h2>
-        <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
-        <a class="btn big" href="/app.html">免费开始 →</a>
+        <div class="cta-copy">
+          <h2>先找对的人，再找对的房。</h2>
+          <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
+          <a class="btn big" href="/app.html">免费开始 →</a>
+        </div>
+        <div class="cta-demo" data-cv-demo="match" data-lang="zh" aria-hidden="true"></div>
       </aside>
       <section class="sources"><h2>参考资料</h2><ol><li><a href="https://www.ontario.ca/laws/statute/06r17" rel="noopener" target="_blank">Residential Tenancies Act, 2006（安省法律 e-Laws）</a></li><li><a href="https://www.ontario.ca/page/guide-ontarios-standard-lease" rel="noopener" target="_blank">Guide to Ontario's standard lease（安省标准租约指南）</a></li><li><a href="https://www.ontario.ca/page/renting-ontario-your-rights" rel="noopener" target="_blank">Renting in Ontario: Your rights（安省政府）</a></li><li><a href="https://tribunalsontario.ca/documents/ltb/Notices%20of%20Termination%20&amp;%20Instructions/N9.pdf" rel="noopener" target="_blank">N9: Tenant's Notice to End the Tenancy（LTB 表格）</a></li><li><a href="https://tribunalsontario.ca/ltb/" rel="noopener" target="_blank">Landlord and Tenant Board（房东与租客委员会）</a></li><li><a href="https://stepstojustice.ca/steps/housing-law/1-find-out-if-the-residential-tenancies-act-applies/" rel="noopener" target="_blank">Find out if the Residential Tenancies Act applies（Steps to Justice）</a></li><li><a href="https://housingrightscanada.com/our-work/our-tenant-services/" rel="noopener" target="_blank">Tenant services（Canadian Centre for Housing Rights）</a></li></ol></section>
     </article>
@@ -394,5 +412,28 @@ body { font-size: 16px; }
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>
+<script>(function () {
+  var links = document.querySelectorAll(".toc a[href^='#']");
+  if (links.length && "IntersectionObserver" in window) {
+    var byId = {};
+    for (var i = 0; i < links.length; i++) byId[decodeURIComponent(links[i].getAttribute("href").slice(1))] = links[i];
+    var current = null;
+    var mark = function (a) { if (a === current) return; if (current) current.removeAttribute("aria-current"); if (a) a.setAttribute("aria-current", "true"); current = a; };
+    var seen = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) mark(byId[entries[k].target.id]);
+    }, { rootMargin: "-80px 0px -70% 0px" });
+    for (var id in byId) { var h = document.getElementById(id); if (h) seen.observe(h); }
+  }
+  var slots = document.querySelectorAll("[data-cv-demo]");
+  if (!slots.length || !("IntersectionObserver" in window)) return;
+  var load = function () {
+    var css = document.createElement("link"); css.rel = "stylesheet"; css.href = "/demos/demos.css"; document.head.appendChild(css);
+    var js = document.createElement("script"); js.src = "/demos/demos.js"; js.async = true; document.head.appendChild(js);
+  };
+  var near = new IntersectionObserver(function (entries) {
+    for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) { near.disconnect(); load(); return; }
+  }, { rootMargin: "900px 0px" });
+  for (var n = 0; n < slots.length; n++) near.observe(slots[n]);
+})();</script>
 </body>
 </html>

@@ -59,6 +59,9 @@ a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--blue-deep); }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -122,6 +125,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 .faq { margin-top: 2.6em; }
 .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin: 0 0 10px; }
 .faq summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -129,7 +134,9 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -154,6 +161,12 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+.grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
 @media (max-width: 980px) {
 .post-grid { grid-template-columns: 1fr; gap: 0; }
 .toc { display: none; }
@@ -168,14 +181,16 @@ body { font-size: 16px; }
 .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
 .btn { padding: 9px 14px; font-size: 14px; }
 .cover { border-radius: 18px; }
-.cta { padding: 24px; }
+.cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+.cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
 .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"CollectionPage","@id":"https://www.colivease.ca/blog/category/tenant-rights/#page","name":"Ontario Tenant Rights Guides for Toronto Renters","description":"Plain-language guides to Ontario tenant rights: the standard lease, deposits, rent increases, subletting, ending a tenancy with an N9 and living with a landlord.","url":"https://www.colivease.ca/blog/category/tenant-rights/","inLanguage":"en-CA","isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/blog/#blog","name":"ColivEase Blog: Roommates & Renting in Toronto"},"publisher":{"@id":"https://www.colivease.ca/#org"},"mainEntity":{"@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"url":"https://www.colivease.ca/blog/landlord-entry-rules-ontario/","name":"Landlord Entry Rules Ontario: 24-Hour Notice Explained"},{"@type":"ListItem","position":2,"url":"https://www.colivease.ca/blog/landlord-repairs-ontario/","name":"Landlord Repairs Ontario: What They Must Fix and What to Do"},{"@type":"ListItem","position":3,"url":"https://www.colivease.ca/blog/ltb-tenant-applications/","name":"LTB Tenant Applications: How to File a T2, T6, T1 or T5"},{"@type":"ListItem","position":4,"url":"https://www.colivease.ca/blog/n12-n13-eviction-ontario/","name":"N12 and N13 Evictions in Ontario: 2026 Rules for Tenants"},{"@type":"ListItem","position":5,"url":"https://www.colivease.ca/blog/pets-in-rentals-ontario/","name":"Pets in Rentals Ontario: Are No-Pet Clauses Legal?"},{"@type":"ListItem","position":6,"url":"https://www.colivease.ca/blog/ending-a-tenancy-n9/","name":"N9 Form Ontario: How to End Your Tenancy the Right Way"},{"@type":"ListItem","position":7,"url":"https://www.colivease.ca/blog/legal-basement-apartments-toronto/","name":"Legal Basement Apartment Toronto: What to Check First"},{"@type":"ListItem","position":8,"url":"https://www.colivease.ca/blog/living-with-your-landlord-ontario/","name":"Living With Your Landlord in Ontario: Know the RTA Gap"},{"@type":"ListItem","position":9,"url":"https://www.colivease.ca/blog/ontario-rent-increase-guideline-2026/","name":"Ontario Rent Increase 2026: The 2.1% Guideline Explained"},{"@type":"ListItem","position":10,"url":"https://www.colivease.ca/blog/ontario-standard-lease/","name":"Ontario Standard Lease Explained, Section by Section"},{"@type":"ListItem","position":11,"url":"https://www.colivease.ca/blog/ontario-tenant-rights/","name":"Ontario Tenant Rights: What Every Renter Should Know (2026)"},{"@type":"ListItem","position":12,"url":"https://www.colivease.ca/blog/rent-deposit-rules-ontario/","name":"Last Month's Rent Deposit Ontario: What's Legal in 2026"},{"@type":"ListItem","position":13,"url":"https://www.colivease.ca/blog/sublet-and-assignment-ontario/","name":"Sublet Ontario Rules: Subletting vs Assigning a Lease"}]}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://www.colivease.ca/blog/"},{"@type":"ListItem","position":3,"name":"Tenant rights","item":"https://www.colivease.ca/blog/category/tenant-rights/"}]}]}</script>
 </head>
 <body>
 <header class="top">
+  <span class="read" aria-hidden="true"></span>
   <div class="wrap top-in">
     <a class="logo" href="/" aria-label="ColivEase"><img src="/blog/assets/logo.png" alt="ColivEase" width="96" height="66"></a>
     <nav aria-label="Blog">

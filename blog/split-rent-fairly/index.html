@@ -62,6 +62,9 @@ a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--blue-deep); }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -125,6 +128,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 .faq { margin-top: 2.6em; }
 .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin: 0 0 10px; }
 .faq summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -132,7 +137,9 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -157,6 +164,12 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+.grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
 @media (max-width: 980px) {
 .post-grid { grid-template-columns: 1fr; gap: 0; }
 .toc { display: none; }
@@ -171,14 +184,16 @@ body { font-size: 16px; }
 .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
 .btn { padding: 9px 14px; font-size: 14px; }
 .cover { border-radius: 18px; }
-.cta { padding: 24px; }
+.cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+.cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
 .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"BlogPosting","@id":"https://www.colivease.ca/blog/split-rent-fairly/#article","headline":"How to Split Rent With Roommates Fairly (With Example)","description":"How to split rent with roommates fairly: equal, by room size or hybrid, with private bathroom and parking premiums, utilities and a worked example in CAD.","image":[{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/og/split-rent-fairly.en.jpg","width":1200,"height":630},{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/covers/keys.webp","width":960,"height":717}],"datePublished":"2026-10-31","dateModified":"2026-11-03","inLanguage":"en-CA","articleSection":"Roommates","keywords":"how to split rent with roommates, split rent fairly, rent split calculator, split rent by room size, roommate utilities split, Toronto roommates rent","wordCount":1466,"author":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/"},"publisher":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.colivease.ca/blog/split-rent-fairly/"},"isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/blog/#blog","name":"ColivEase Blog: Roommates & Renting in Toronto"},"workTranslation":{"@id":"https://www.colivease.ca/zh/blog/split-rent-fairly/#article"},"citation":["https://www.ontario.ca/page/residential-rent-increases","https://www.ontario.ca/laws/statute/06r17","https://www.ontario.ca/page/renting-ontario-your-rights","https://www.ontario.ca/page/guide-ontarios-standard-lease"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://www.colivease.ca/blog/"},{"@type":"ListItem","position":3,"name":"Roommates","item":"https://www.colivease.ca/blog/category/roommates/"},{"@type":"ListItem","position":4,"name":"How to Split Rent With Roommates Fairly (With Example)","item":"https://www.colivease.ca/blog/split-rent-fairly/"}]},{"@type":"FAQPage","@id":"https://www.colivease.ca/blog/split-rent-fairly/#faq","mainEntity":[{"@type":"Question","name":"What is the fairest way to split rent with roommates?","acceptedAnswer":{"@type":"Answer","text":"When rooms are similar, an equal split is simplest and usually fair. When they differ, a hybrid works well: split part of the rent equally for shared spaces, split the rest by bedroom size, then add agreed premiums for extras like a private bathroom or parking."}},{"@type":"Question","name":"How much more should the person with a private bathroom pay?","acceptedAnswer":{"@type":"Answer","text":"There's no fixed rule. Many households agree on a flat monthly premium or a percentage, based on how much more similar rooms with an ensuite cost locally. Agree on the number together before signing so no one feels surprised later."}},{"@type":"Question","name":"Should a couple sharing one room pay more?","acceptedAnswer":{"@type":"Answer","text":"Usually, yes. They take one bedroom but use twice the shared space, hot water and electricity. A common approach is to split the shared-space portion and utilities per person rather than per room."}},{"@type":"Question","name":"How should roommates split utilities and internet?","acceptedAnswer":{"@type":"Answer","text":"Most households split utilities and internet equally per person, since usage is hard to measure. If one person works from home full time or runs heavy equipment, you can agree on a small adjustment."}},{"@type":"Question","name":"What happens to our rent split if the rent goes up?","acceptedAnswer":{"@type":"Answer","text":"Apply the increase proportionally, so each person's share rises by the same percentage. In Ontario, most rent-controlled units are limited to the annual rent increase guideline, which is 2.1% for 2026, and landlords must give proper written notice."}}]}]}</script>
 </head>
 <body>
 <header class="top">
+  <span class="read" aria-hidden="true"></span>
   <div class="wrap top-in">
     <a class="logo" href="/" aria-label="ColivEase"><img src="/blog/assets/logo.png" alt="ColivEase" width="96" height="66"></a>
     <nav aria-label="Blog">
@@ -299,9 +314,12 @@ body { font-size: 16px; }
 
       <section class="faq" aria-labelledby="faq"><h2 id="faq">Frequently asked questions</h2><details><summary>What is the fairest way to split rent with roommates?</summary><p>When rooms are similar, an equal split is simplest and usually fair. When they differ, a hybrid works well: split part of the rent equally for shared spaces, split the rest by bedroom size, then add agreed premiums for extras like a private bathroom or parking.</p></details><details><summary>How much more should the person with a private bathroom pay?</summary><p>There's no fixed rule. Many households agree on a flat monthly premium or a percentage, based on how much more similar rooms with an ensuite cost locally. Agree on the number together before signing so no one feels surprised later.</p></details><details><summary>Should a couple sharing one room pay more?</summary><p>Usually, yes. They take one bedroom but use twice the shared space, hot water and electricity. A common approach is to split the shared-space portion and utilities per person rather than per room.</p></details><details><summary>How should roommates split utilities and internet?</summary><p>Most households split utilities and internet equally per person, since usage is hard to measure. If one person works from home full time or runs heavy equipment, you can agree on a small adjustment.</p></details><details><summary>What happens to our rent split if the rent goes up?</summary><p>Apply the increase proportionally, so each person's share rises by the same percentage. In Ontario, most rent-controlled units are limited to the annual rent increase guideline, which is 2.1% for 2026, and landlords must give proper written notice.</p></details></section>
       <aside class="cta">
-        <h2>Find your people first. Then your place.</h2>
-        <p>ColivEase gives you a match score with possible roommates based on area and commute, budget, move-in date, student or worker, gender preference and shared language. Every listing is reviewed by a person, chat warns you about common scam lines, and you can rent a whole home room by room.</p>
-        <a class="btn big" href="/app.html">Start for free →</a>
+        <div class="cta-copy">
+          <h2>Find your people first. Then your place.</h2>
+          <p>ColivEase gives you a match score with possible roommates based on area and commute, budget, move-in date, student or worker, gender preference and shared language. Every listing is reviewed by a person, chat warns you about common scam lines, and you can rent a whole home room by room.</p>
+          <a class="btn big" href="/app.html">Start for free →</a>
+        </div>
+        <div class="cta-demo" data-cv-demo="match" data-lang="en" aria-hidden="true"></div>
       </aside>
       <section class="sources"><h2>Sources</h2><ol><li><a href="https://www.ontario.ca/page/residential-rent-increases" rel="noopener" target="_blank">Residential rent increases (Government of Ontario)</a></li><li><a href="https://www.ontario.ca/laws/statute/06r17" rel="noopener" target="_blank">Residential Tenancies Act, 2006 (Ontario e-Laws)</a></li><li><a href="https://www.ontario.ca/page/renting-ontario-your-rights" rel="noopener" target="_blank">Renting in Ontario: Your rights (Government of Ontario)</a></li><li><a href="https://www.ontario.ca/page/guide-ontarios-standard-lease" rel="noopener" target="_blank">Guide to Ontario's standard lease (Government of Ontario)</a></li></ol></section>
     </article>
@@ -348,5 +366,28 @@ body { font-size: 16px; }
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>
+<script>(function () {
+  var links = document.querySelectorAll(".toc a[href^='#']");
+  if (links.length && "IntersectionObserver" in window) {
+    var byId = {};
+    for (var i = 0; i < links.length; i++) byId[decodeURIComponent(links[i].getAttribute("href").slice(1))] = links[i];
+    var current = null;
+    var mark = function (a) { if (a === current) return; if (current) current.removeAttribute("aria-current"); if (a) a.setAttribute("aria-current", "true"); current = a; };
+    var seen = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) mark(byId[entries[k].target.id]);
+    }, { rootMargin: "-80px 0px -70% 0px" });
+    for (var id in byId) { var h = document.getElementById(id); if (h) seen.observe(h); }
+  }
+  var slots = document.querySelectorAll("[data-cv-demo]");
+  if (!slots.length || !("IntersectionObserver" in window)) return;
+  var load = function () {
+    var css = document.createElement("link"); css.rel = "stylesheet"; css.href = "/demos/demos.css"; document.head.appendChild(css);
+    var js = document.createElement("script"); js.src = "/demos/demos.js"; js.async = true; document.head.appendChild(js);
+  };
+  var near = new IntersectionObserver(function (entries) {
+    for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) { near.disconnect(); load(); return; }
+  }, { rootMargin: "900px 0px" });
+  for (var n = 0; n < slots.length; n++) near.observe(slots[n]);
+})();</script>
 </body>
 </html>

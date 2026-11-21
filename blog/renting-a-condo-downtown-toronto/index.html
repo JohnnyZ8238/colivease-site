@@ -62,6 +62,9 @@ a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--blue-deep); }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -125,6 +128,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 .faq { margin-top: 2.6em; }
 .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin: 0 0 10px; }
 .faq summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -132,7 +137,9 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -157,6 +164,12 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+.grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
 @media (max-width: 980px) {
 .post-grid { grid-template-columns: 1fr; gap: 0; }
 .toc { display: none; }
@@ -171,14 +184,16 @@ body { font-size: 16px; }
 .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
 .btn { padding: 9px 14px; font-size: 14px; }
 .cover { border-radius: 18px; }
-.cta { padding: 24px; }
+.cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+.cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
 .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"BlogPosting","@id":"https://www.colivease.ca/blog/renting-a-condo-downtown-toronto/#article","headline":"Renting a Condo in Downtown Toronto: Tenant Guide","description":"Renting a condo in downtown Toronto? Learn how condo rules bind tenants, how to book the elevator to move in, and what to ask about fobs, fees and amenities.","image":[{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/og/renting-a-condo-downtown-toronto.en.jpg","width":1200,"height":630},{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/covers/keys.webp","width":960,"height":717}],"datePublished":"2026-11-21","dateModified":"2026-11-21","inLanguage":"en-CA","articleSection":"Renting 101","keywords":"renting a condo in downtown Toronto, condo rules for tenants, booking the elevator to move in, Toronto condo rental, condo declaration tenant Ontario, condo move-in deposit","wordCount":1239,"author":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/"},"publisher":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.colivease.ca/blog/renting-a-condo-downtown-toronto/"},"isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/blog/#blog","name":"ColivEase Blog: Roommates & Renting in Toronto"},"workTranslation":{"@id":"https://www.colivease.ca/zh/blog/renting-a-condo-downtown-toronto/#article"},"citation":["https://www.ontario.ca/laws/statute/98c19","https://www.condoauthorityontario.ca/before-you-buy-or-rent-a-condo/leasing-a-condo/","https://www.condoauthorityontario.ca/wp-content/uploads/2023/07/CAO-Condo-Tenants-Guide_2024_04_11-1.pdf","https://www.condoauthorityontario.ca/condominium-living/declaration-by-laws-and-rules/rules/","https://www.condoauthorityontario.ca/issues-and-dispute-resolution/dispute-resolution/our-jurisdiction/","https://www.toronto.ca/community-people/housing-shelter/rental-housing-rights-information/short-term-rentals/short-term-rental-operators-hosts/","https://www.ontario.ca/laws/statute/06r17"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://www.colivease.ca/blog/"},{"@type":"ListItem","position":3,"name":"Renting 101","item":"https://www.colivease.ca/blog/category/renting-101/"},{"@type":"ListItem","position":4,"name":"Renting a Condo in Downtown Toronto: Tenant Guide","item":"https://www.colivease.ca/blog/renting-a-condo-downtown-toronto/"}]},{"@type":"FAQPage","@id":"https://www.colivease.ca/blog/renting-a-condo-downtown-toronto/#faq","mainEntity":[{"@type":"Question","name":"Do condo rules apply to tenants in Ontario?","acceptedAnswer":{"@type":"Answer","text":"Yes. Under Ontario's Condominium Act, tenants and other residents must follow the condo's declaration, by-laws and rules, not just the owner. The owner also has to take reasonable steps to make sure their tenants comply, so a rule breach can cause trouble with both the corporation and your landlord."}},{"@type":"Question","name":"How do I book the elevator to move into a Toronto condo?","acceptedAnswer":{"@type":"Answer","text":"Contact the management office or concierge as soon as your lease is signed and ask for the move-in form. Most buildings require a reserved time slot, padded elevator, and often a refundable deposit; some also ask for proof that you are a registered resident or a certificate of insurance from your movers. Weekend slots at the end of the month go fast."}},{"@type":"Question","name":"Who pays condo fees when you rent a condo?","acceptedAnswer":{"@type":"Answer","text":"The owner. Condo fees (common expenses) are the owner's obligation to the condominium corporation, and they are usually built into the rent rather than charged to you separately. Your lease should say clearly which utilities, if any, you pay on top of rent."}},{"@type":"Question","name":"Can I put my rented condo on Airbnb?","acceptedAnswer":{"@type":"Answer","text":"Usually not without several checks. In Toronto, short-term rentals are only allowed in your principal residence and must be registered with the City, the condo's rules must allow them, and your lease may forbid it. Many condo corporations ban short-term rentals outright."}},{"@type":"Question","name":"Can a condo ban my pet even if my lease can't?","acceptedAnswer":{"@type":"Answer","text":"Possibly. In Ontario, a 'no pets' clause in a lease is generally void, but a condo's declaration can still restrict or prohibit pets, and courts have enforced those restrictions. Ask for the declaration's pet rules before you sign if you have or plan to get a pet."}}]}]}</script>
 </head>
 <body>
 <header class="top">
+  <span class="read" aria-hidden="true"></span>
   <div class="wrap top-in">
     <a class="logo" href="/" aria-label="ColivEase"><img src="/blog/assets/logo.png" alt="ColivEase" width="96" height="66"></a>
     <nav aria-label="Blog">
@@ -264,9 +279,12 @@ body { font-size: 16px; }
 
       <section class="faq" aria-labelledby="faq"><h2 id="faq">Frequently asked questions</h2><details><summary>Do condo rules apply to tenants in Ontario?</summary><p>Yes. Under Ontario's Condominium Act, tenants and other residents must follow the condo's declaration, by-laws and rules, not just the owner. The owner also has to take reasonable steps to make sure their tenants comply, so a rule breach can cause trouble with both the corporation and your landlord.</p></details><details><summary>How do I book the elevator to move into a Toronto condo?</summary><p>Contact the management office or concierge as soon as your lease is signed and ask for the move-in form. Most buildings require a reserved time slot, padded elevator, and often a refundable deposit; some also ask for proof that you are a registered resident or a certificate of insurance from your movers. Weekend slots at the end of the month go fast.</p></details><details><summary>Who pays condo fees when you rent a condo?</summary><p>The owner. Condo fees (common expenses) are the owner's obligation to the condominium corporation, and they are usually built into the rent rather than charged to you separately. Your lease should say clearly which utilities, if any, you pay on top of rent.</p></details><details><summary>Can I put my rented condo on Airbnb?</summary><p>Usually not without several checks. In Toronto, short-term rentals are only allowed in your principal residence and must be registered with the City, the condo's rules must allow them, and your lease may forbid it. Many condo corporations ban short-term rentals outright.</p></details><details><summary>Can a condo ban my pet even if my lease can't?</summary><p>Possibly. In Ontario, a 'no pets' clause in a lease is generally void, but a condo's declaration can still restrict or prohibit pets, and courts have enforced those restrictions. Ask for the declaration's pet rules before you sign if you have or plan to get a pet.</p></details></section>
       <aside class="cta">
-        <h2>Find your people first. Then your place.</h2>
-        <p>ColivEase gives you a match score with possible roommates based on area and commute, budget, move-in date, student or worker, gender preference and shared language. Every listing is reviewed by a person, chat warns you about common scam lines, and you can rent a whole home room by room.</p>
-        <a class="btn big" href="/app.html">Start for free →</a>
+        <div class="cta-copy">
+          <h2>Find your people first. Then your place.</h2>
+          <p>ColivEase gives you a match score with possible roommates based on area and commute, budget, move-in date, student or worker, gender preference and shared language. Every listing is reviewed by a person, chat warns you about common scam lines, and you can rent a whole home room by room.</p>
+          <a class="btn big" href="/app.html">Start for free →</a>
+        </div>
+        <div class="cta-demo" data-cv-demo="match" data-lang="en" aria-hidden="true"></div>
       </aside>
       <section class="sources"><h2>Sources</h2><ol><li><a href="https://www.ontario.ca/laws/statute/98c19" rel="noopener" target="_blank">Condominium Act, 1998 (Ontario e-Laws)</a></li><li><a href="https://www.condoauthorityontario.ca/before-you-buy-or-rent-a-condo/leasing-a-condo/" rel="noopener" target="_blank">Leasing a condo (Condominium Authority of Ontario)</a></li><li><a href="https://www.condoauthorityontario.ca/wp-content/uploads/2023/07/CAO-Condo-Tenants-Guide_2024_04_11-1.pdf" rel="noopener" target="_blank">Condo Tenants' Guide (Condominium Authority of Ontario)</a></li><li><a href="https://www.condoauthorityontario.ca/condominium-living/declaration-by-laws-and-rules/rules/" rel="noopener" target="_blank">Declaration, by-laws and rules (Condominium Authority of Ontario)</a></li><li><a href="https://www.condoauthorityontario.ca/issues-and-dispute-resolution/dispute-resolution/our-jurisdiction/" rel="noopener" target="_blank">CAT jurisdiction (Condominium Authority of Ontario)</a></li><li><a href="https://www.toronto.ca/community-people/housing-shelter/rental-housing-rights-information/short-term-rentals/short-term-rental-operators-hosts/" rel="noopener" target="_blank">Short-term rental operators and hosts (City of Toronto)</a></li><li><a href="https://www.ontario.ca/laws/statute/06r17" rel="noopener" target="_blank">Residential Tenancies Act, 2006 (Ontario e-Laws)</a></li></ol></section>
     </article>
@@ -313,5 +331,28 @@ body { font-size: 16px; }
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>
+<script>(function () {
+  var links = document.querySelectorAll(".toc a[href^='#']");
+  if (links.length && "IntersectionObserver" in window) {
+    var byId = {};
+    for (var i = 0; i < links.length; i++) byId[decodeURIComponent(links[i].getAttribute("href").slice(1))] = links[i];
+    var current = null;
+    var mark = function (a) { if (a === current) return; if (current) current.removeAttribute("aria-current"); if (a) a.setAttribute("aria-current", "true"); current = a; };
+    var seen = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) mark(byId[entries[k].target.id]);
+    }, { rootMargin: "-80px 0px -70% 0px" });
+    for (var id in byId) { var h = document.getElementById(id); if (h) seen.observe(h); }
+  }
+  var slots = document.querySelectorAll("[data-cv-demo]");
+  if (!slots.length || !("IntersectionObserver" in window)) return;
+  var load = function () {
+    var css = document.createElement("link"); css.rel = "stylesheet"; css.href = "/demos/demos.css"; document.head.appendChild(css);
+    var js = document.createElement("script"); js.src = "/demos/demos.js"; js.async = true; document.head.appendChild(js);
+  };
+  var near = new IntersectionObserver(function (entries) {
+    for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) { near.disconnect(); load(); return; }
+  }, { rootMargin: "900px 0px" });
+  for (var n = 0; n < slots.length; n++) near.observe(slots[n]);
+})();</script>
 </body>
 </html>

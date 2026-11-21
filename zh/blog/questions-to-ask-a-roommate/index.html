@@ -62,6 +62,9 @@ a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--blue-deep); }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -125,6 +128,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 .faq { margin-top: 2.6em; }
 .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin: 0 0 10px; }
 .faq summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -132,7 +137,9 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -157,6 +164,12 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+.grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
 @media (max-width: 980px) {
 .post-grid { grid-template-columns: 1fr; gap: 0; }
 .toc { display: none; }
@@ -171,14 +184,16 @@ body { font-size: 16px; }
 .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
 .btn { padding: 9px 14px; font-size: 14px; }
 .cover { border-radius: 18px; }
-.cta { padding: 24px; }
+.cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+.cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
 .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"BlogPosting","@id":"https://www.colivease.ca/zh/blog/questions-to-ask-a-roommate/#article","headline":"找室友要问的30个问题（入住前必看）","description":"找室友要问的问题都在这里：房租水电怎么分、卫生标准、访客留宿、作息噪音、宠物、做饭和在家办公，30个问题加实用判断技巧，帮你提前避开不合拍的室友。","image":[{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/og/questions-to-ask-a-roommate.zh.jpg","width":1200,"height":630},{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/covers/kitchen.webp","width":1000,"height":747}],"datePublished":"2026-10-31","dateModified":"2026-11-03","inLanguage":"zh-Hans","articleSection":"室友","keywords":"找室友要问的问题, 找室友注意事项, 合租室友, 多伦多找室友, 室友面试问题, 留学生合租","wordCount":2633,"author":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/"},"publisher":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.colivease.ca/zh/blog/questions-to-ask-a-roommate/"},"isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/zh/blog/#blog","name":"ColivEase 博客：多伦多找室友与租房指南"},"translationOfWork":{"@id":"https://www.colivease.ca/blog/questions-to-ask-a-roommate/#article"},"citation":["https://www.ontario.ca/page/renting-ontario-your-rights","https://www.ontario.ca/laws/statute/06r17","https://www.ontario.ca/page/guide-ontarios-standard-lease"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"博客","item":"https://www.colivease.ca/zh/blog/"},{"@type":"ListItem","position":3,"name":"室友","item":"https://www.colivease.ca/zh/blog/category/roommates/"},{"@type":"ListItem","position":4,"name":"找室友要问的30个问题（入住前必看）","item":"https://www.colivease.ca/zh/blog/questions-to-ask-a-roommate/"}]},{"@type":"FAQPage","@id":"https://www.colivease.ca/zh/blog/questions-to-ask-a-roommate/#faq","mainEntity":[{"@type":"Question","name":"找室友最重要的问题是什么？","acceptedAnswer":{"@type":"Answer","text":"最重要的是钱：房租怎么付、手头紧的时候怎么办。有人拖欠房租，所有人在房东那边都会受影响。其次是卫生和访客，这两项是合租矛盾最多的地方。"}},{"@type":"Question","name":"第一次见潜在室友，怎么问才不尴尬？","acceptedAnswer":{"@type":"Answer","text":"把它当成双向聊天，而不是面试。先主动说说自己的习惯，再请对方举具体例子，而不是只回答是或否。先视频聊二三十分钟，再约看房或喝杯咖啡，气氛会自然很多。"}},{"@type":"Question","name":"见室友时有哪些危险信号？","acceptedAnswer":{"@type":"Answer","text":"对收入和以前的居住情况含糊其辞、不愿意写任何书面约定、催你马上付钱或决定、你提出偏好时一脸不耐烦，这些都要警惕。前后说法不一致也是明显的危险信号。"}},{"@type":"Question","name":"要不要让潜在室友提供推荐人？","acceptedAnswer":{"@type":"Answer","text":"建议要。以前的房东或室友最能说明一个人交房租靠不靠谱、共用空间时好不好相处。记录良好的人一般都很乐意提供。"}},{"@type":"Question","name":"决定合租以后下一步做什么？","acceptedAnswer":{"@type":"Answer","text":"把聊好的内容写成一份简短的室友协议，包括房租、账单、家务、访客、安静时间和搬走规则。入住几周后再约一次复盘，及时调整。"}}]}]}</script>
 </head>
 <body>
 <header class="top">
+  <span class="read" aria-hidden="true"></span>
   <div class="wrap top-in">
     <a class="logo" href="/" aria-label="ColivEase"><img src="/blog/assets/logo.png" alt="ColivEase" width="96" height="66"></a>
     <nav aria-label="博客">
@@ -327,9 +342,12 @@ body { font-size: 16px; }
 
       <section class="faq" aria-labelledby="faq"><h2 id="faq">常见问题</h2><details><summary>找室友最重要的问题是什么？</summary><p>最重要的是钱：房租怎么付、手头紧的时候怎么办。有人拖欠房租，所有人在房东那边都会受影响。其次是卫生和访客，这两项是合租矛盾最多的地方。</p></details><details><summary>第一次见潜在室友，怎么问才不尴尬？</summary><p>把它当成双向聊天，而不是面试。先主动说说自己的习惯，再请对方举具体例子，而不是只回答是或否。先视频聊二三十分钟，再约看房或喝杯咖啡，气氛会自然很多。</p></details><details><summary>见室友时有哪些危险信号？</summary><p>对收入和以前的居住情况含糊其辞、不愿意写任何书面约定、催你马上付钱或决定、你提出偏好时一脸不耐烦，这些都要警惕。前后说法不一致也是明显的危险信号。</p></details><details><summary>要不要让潜在室友提供推荐人？</summary><p>建议要。以前的房东或室友最能说明一个人交房租靠不靠谱、共用空间时好不好相处。记录良好的人一般都很乐意提供。</p></details><details><summary>决定合租以后下一步做什么？</summary><p>把聊好的内容写成一份简短的室友协议，包括房租、账单、家务、访客、安静时间和搬走规则。入住几周后再约一次复盘，及时调整。</p></details></section>
       <aside class="cta">
-        <h2>先找对的人，再找对的房。</h2>
-        <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
-        <a class="btn big" href="/app.html">免费开始 →</a>
+        <div class="cta-copy">
+          <h2>先找对的人，再找对的房。</h2>
+          <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
+          <a class="btn big" href="/app.html">免费开始 →</a>
+        </div>
+        <div class="cta-demo" data-cv-demo="match" data-lang="zh" aria-hidden="true"></div>
       </aside>
       <section class="sources"><h2>参考资料</h2><ol><li><a href="https://www.ontario.ca/page/renting-ontario-your-rights" rel="noopener" target="_blank">Renting in Ontario: Your rights（安省政府）</a></li><li><a href="https://www.ontario.ca/laws/statute/06r17" rel="noopener" target="_blank">Residential Tenancies Act, 2006（安省法律 e-Laws）</a></li><li><a href="https://www.ontario.ca/page/guide-ontarios-standard-lease" rel="noopener" target="_blank">Guide to Ontario's standard lease（安省标准租约指南）</a></li></ol></section>
     </article>
@@ -376,5 +394,28 @@ body { font-size: 16px; }
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>
+<script>(function () {
+  var links = document.querySelectorAll(".toc a[href^='#']");
+  if (links.length && "IntersectionObserver" in window) {
+    var byId = {};
+    for (var i = 0; i < links.length; i++) byId[decodeURIComponent(links[i].getAttribute("href").slice(1))] = links[i];
+    var current = null;
+    var mark = function (a) { if (a === current) return; if (current) current.removeAttribute("aria-current"); if (a) a.setAttribute("aria-current", "true"); current = a; };
+    var seen = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) mark(byId[entries[k].target.id]);
+    }, { rootMargin: "-80px 0px -70% 0px" });
+    for (var id in byId) { var h = document.getElementById(id); if (h) seen.observe(h); }
+  }
+  var slots = document.querySelectorAll("[data-cv-demo]");
+  if (!slots.length || !("IntersectionObserver" in window)) return;
+  var load = function () {
+    var css = document.createElement("link"); css.rel = "stylesheet"; css.href = "/demos/demos.css"; document.head.appendChild(css);
+    var js = document.createElement("script"); js.src = "/demos/demos.js"; js.async = true; document.head.appendChild(js);
+  };
+  var near = new IntersectionObserver(function (entries) {
+    for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) { near.disconnect(); load(); return; }
+  }, { rootMargin: "900px 0px" });
+  for (var n = 0; n < slots.length; n++) near.observe(slots[n]);
+})();</script>
 </body>
 </html>

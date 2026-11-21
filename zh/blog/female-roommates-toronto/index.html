@@ -62,6 +62,9 @@ a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--blue-deep); }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -125,6 +128,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 .faq { margin-top: 2.6em; }
 .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin: 0 0 10px; }
 .faq summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -132,7 +137,9 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -157,6 +164,12 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+.grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
 @media (max-width: 980px) {
 .post-grid { grid-template-columns: 1fr; gap: 0; }
 .toc { display: none; }
@@ -171,14 +184,16 @@ body { font-size: 16px; }
 .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
 .btn { padding: 9px 14px; font-size: 14px; }
 .cover { border-radius: 18px; }
-.cta { padding: 24px; }
+.cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+.cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
 .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"BlogPosting","@id":"https://www.colivease.ca/zh/blog/female-roommates-toronto/#article","headline":"多伦多找女室友：只租女生合法吗？安全指南","description":"多伦多找女室友，\"只租女生\"合法吗？按安省人权法第21条讲清哪些情况可以限女生、怎样写帖子，以及刚来多伦多的女生见室友、看房、付款和入住时的安全清单。","image":[{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/og/female-roommates-toronto.zh.jpg","width":1200,"height":630},{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/covers/kitchen.webp","width":1000,"height":747}],"datePublished":"2026-11-21","dateModified":"2026-11-21","inLanguage":"zh-Hans","articleSection":"室友","keywords":"多伦多找女室友, 只租女生合法吗, 多伦多 女生合租, 限女生 租房 安省, 女生 看房 安全","wordCount":2106,"author":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/"},"publisher":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.colivease.ca/zh/blog/female-roommates-toronto/"},"isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/zh/blog/#blog","name":"ColivEase 博客：多伦多找室友与租房指南"},"translationOfWork":{"@id":"https://www.colivease.ca/blog/female-roommates-toronto/#article"},"citation":["https://www.ontario.ca/laws/statute/90h19","https://www.ohrc.on.ca/en/policy-human-rights-and-rental-housing/iii-ontario-human-rights-code","https://www.ohrc.on.ca/en/book/export/html/3236","https://www.ontario.ca/laws/statute/06r17","https://www.hrlsc.on.ca/"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"博客","item":"https://www.colivease.ca/zh/blog/"},{"@type":"ListItem","position":3,"name":"室友","item":"https://www.colivease.ca/zh/blog/category/roommates/"},{"@type":"ListItem","position":4,"name":"多伦多找女室友：只租女生合法吗？安全指南","item":"https://www.colivease.ca/zh/blog/female-roommates-toronto/"}]},{"@type":"FAQPage","@id":"https://www.colivease.ca/zh/blog/female-roommates-toronto/#faq","mainEntity":[{"@type":"Question","name":"被室友或房东性骚扰怎么办？","acceptedAnswer":{"@type":"Answer","text":"有危险请立即打911。安省人权法对住房中的性骚扰也有规定，包括来自房东、房东的代理人或同一栋楼其他住户的骚扰。保存好聊天记录，写下发生的时间和经过，再联系人权法律支援中心（Human Rights Legal Support Centre）或社区法律诊所了解你的选择。"}},{"@type":"Question","name":"可以要求未来室友出示身份证件吗？","acceptedAnswer":{"@type":"Answer","text":"可以，双方互相确认身份是合理的，比如视频时或看房时出示带照片的证件。只核对名字和照片就够了，不要把SIN号码、护照扫描件或银行信息发给没见过面的人。"}},{"@type":"Question","name":"女生合租就是不能带男生回来吗？","acceptedAnswer":{"@type":"Answer","text":"不一定。谁来租房间和谁可以来做客是两回事。访客和过夜规则要整屋人一起商量，写进室友协议，免得以后有人觉得被冒犯。"}},{"@type":"Question","name":"\"限女生\"的房子就一定更安全吗？","acceptedAnswer":{"@type":"Answer","text":"不是。\"限女生\"只说明租给谁，不能说明这些人怎么样。正因为这类房源抢手，骗子特别爱用，所以房东和室友一样要仔细核实，任何催你看房前先付钱的人都要远离。"}},{"@type":"Question","name":"帖子写\"限女生\"，联系后却是男生在操作，正常吗？","acceptedAnswer":{"@type":"Answer","text":"帖子和实际联系人对不上，就是一个警示信号。要求和真正的室友视频，并请对方证明有权出租这个房间。说法前后不一的话，就停止联系，并向平台举报。"}}]}]}</script>
 </head>
 <body>
 <header class="top">
+  <span class="read" aria-hidden="true"></span>
   <div class="wrap top-in">
     <a class="logo" href="/" aria-label="ColivEase"><img src="/blog/assets/logo.png" alt="ColivEase" width="96" height="66"></a>
     <nav aria-label="博客">
@@ -270,9 +285,12 @@ body { font-size: 16px; }
 
       <section class="faq" aria-labelledby="faq"><h2 id="faq">常见问题</h2><details><summary>被室友或房东性骚扰怎么办？</summary><p>有危险请立即打911。安省人权法对住房中的性骚扰也有规定，包括来自房东、房东的代理人或同一栋楼其他住户的骚扰。保存好聊天记录，写下发生的时间和经过，再联系人权法律支援中心（Human Rights Legal Support Centre）或社区法律诊所了解你的选择。</p></details><details><summary>可以要求未来室友出示身份证件吗？</summary><p>可以，双方互相确认身份是合理的，比如视频时或看房时出示带照片的证件。只核对名字和照片就够了，不要把SIN号码、护照扫描件或银行信息发给没见过面的人。</p></details><details><summary>女生合租就是不能带男生回来吗？</summary><p>不一定。谁来租房间和谁可以来做客是两回事。访客和过夜规则要整屋人一起商量，写进室友协议，免得以后有人觉得被冒犯。</p></details><details><summary>&quot;限女生&quot;的房子就一定更安全吗？</summary><p>不是。&quot;限女生&quot;只说明租给谁，不能说明这些人怎么样。正因为这类房源抢手，骗子特别爱用，所以房东和室友一样要仔细核实，任何催你看房前先付钱的人都要远离。</p></details><details><summary>帖子写&quot;限女生&quot;，联系后却是男生在操作，正常吗？</summary><p>帖子和实际联系人对不上，就是一个警示信号。要求和真正的室友视频，并请对方证明有权出租这个房间。说法前后不一的话，就停止联系，并向平台举报。</p></details></section>
       <aside class="cta">
-        <h2>先找对的人，再找对的房。</h2>
-        <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
-        <a class="btn big" href="/app.html">免费开始 →</a>
+        <div class="cta-copy">
+          <h2>先找对的人，再找对的房。</h2>
+          <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
+          <a class="btn big" href="/app.html">免费开始 →</a>
+        </div>
+        <div class="cta-demo" data-cv-demo="match" data-lang="zh" aria-hidden="true"></div>
       </aside>
       <section class="sources"><h2>参考资料</h2><ol><li><a href="https://www.ontario.ca/laws/statute/90h19" rel="noopener" target="_blank">Human Rights Code（第2、7、21条）</a></li><li><a href="https://www.ohrc.on.ca/en/policy-human-rights-and-rental-housing/iii-ontario-human-rights-code" rel="noopener" target="_blank">OHRC: Policy on human rights and rental housing, III. The Ontario Human Rights Code</a></li><li><a href="https://www.ohrc.on.ca/en/book/export/html/3236" rel="noopener" target="_blank">OHRC: Rental housing and the Ontario Human Rights Code</a></li><li><a href="https://www.ontario.ca/laws/statute/06r17" rel="noopener" target="_blank">Residential Tenancies Act, 2006（第5条）</a></li><li><a href="https://www.hrlsc.on.ca/" rel="noopener" target="_blank">Human Rights Legal Support Centre</a></li></ol></section>
     </article>
@@ -319,5 +337,28 @@ body { font-size: 16px; }
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>
+<script>(function () {
+  var links = document.querySelectorAll(".toc a[href^='#']");
+  if (links.length && "IntersectionObserver" in window) {
+    var byId = {};
+    for (var i = 0; i < links.length; i++) byId[decodeURIComponent(links[i].getAttribute("href").slice(1))] = links[i];
+    var current = null;
+    var mark = function (a) { if (a === current) return; if (current) current.removeAttribute("aria-current"); if (a) a.setAttribute("aria-current", "true"); current = a; };
+    var seen = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) mark(byId[entries[k].target.id]);
+    }, { rootMargin: "-80px 0px -70% 0px" });
+    for (var id in byId) { var h = document.getElementById(id); if (h) seen.observe(h); }
+  }
+  var slots = document.querySelectorAll("[data-cv-demo]");
+  if (!slots.length || !("IntersectionObserver" in window)) return;
+  var load = function () {
+    var css = document.createElement("link"); css.rel = "stylesheet"; css.href = "/demos/demos.css"; document.head.appendChild(css);
+    var js = document.createElement("script"); js.src = "/demos/demos.js"; js.async = true; document.head.appendChild(js);
+  };
+  var near = new IntersectionObserver(function (entries) {
+    for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) { near.disconnect(); load(); return; }
+  }, { rootMargin: "900px 0px" });
+  for (var n = 0; n < slots.length; n++) near.observe(slots[n]);
+})();</script>
 </body>
 </html>

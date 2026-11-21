@@ -59,6 +59,9 @@ a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--blue-deep); }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -122,6 +125,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 .faq { margin-top: 2.6em; }
 .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin: 0 0 10px; }
 .faq summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -129,7 +134,9 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -154,6 +161,12 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+.grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
 @media (max-width: 980px) {
 .post-grid { grid-template-columns: 1fr; gap: 0; }
 .toc { display: none; }
@@ -168,14 +181,16 @@ body { font-size: 16px; }
 .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
 .btn { padding: 9px 14px; font-size: 14px; }
 .cover { border-radius: 18px; }
-.cta { padding: 24px; }
+.cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+.cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
 .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"BlogPosting","@id":"https://www.colivease.ca/blog/ltb-tenant-applications/#article","headline":"LTB Tenant Applications: How to File a T2, T6, T1 or T5","description":"How to file a tenant application at the Landlord and Tenant Board: T1, T2, T5 and T6 forms, fees and waivers, the Tribunals Ontario Portal, hearings and help.","image":[{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/og/ltb-tenant-applications.en.jpg","width":1200,"height":630},{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/covers/keys.webp","width":960,"height":717}],"datePublished":"2026-11-03","dateModified":"2026-11-03","inLanguage":"en-CA","articleSection":"Tenant rights","keywords":"LTB tenant application, how to file T2 Ontario, T6 maintenance application, Landlord and Tenant Board fees, LTB fee waiver, Tribunals Ontario Portal, tenant duty counsel Ontario","wordCount":1686,"author":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/"},"publisher":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.colivease.ca/blog/ltb-tenant-applications/"},"isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/blog/#blog","name":"ColivEase Blog: Roommates & Renting in Toronto"},"citation":["https://tribunalsontario.ca/ltb/forms-filing-and-fees/","https://tribunalsontario.ca/ltb/application-and-hearing-process/","https://tribunalsontario.ca/documents/ltb/Practice%20Directions/Practice%20Direction%20on%20Fee%20Waiver%20(Jan%2016%202017).html","https://www.ontario.ca/laws/statute/06r17","https://tribunalsontario.ca/2026/06/30/ltb-operational-update-legislative-changes-at-the-ltb/","https://tribunalsontario.ca/2026/09/21/ltb-operational-update-legislative-changes-at-the-landlord-and-tenant-board-effective-september-21-2026/","https://www.acto.ca/for-tenants/tenant-duty-counsel/","https://www.ontario.ca/page/renting-ontario-your-rights"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://www.colivease.ca/blog/"},{"@type":"ListItem","position":3,"name":"Tenant rights","item":"https://www.colivease.ca/blog/category/tenant-rights/"},{"@type":"ListItem","position":4,"name":"LTB Tenant Applications: How to File a T2, T6, T1 or T5","item":"https://www.colivease.ca/blog/ltb-tenant-applications/"}]},{"@type":"FAQPage","@id":"https://www.colivease.ca/blog/ltb-tenant-applications/#faq","mainEntity":[{"@type":"Question","name":"How much does it cost to file a tenant application at the LTB?","acceptedAnswer":{"@type":"Answer","text":"Forms T1, T2, T5 and T6 cost $53, or $48 if you file on the Tribunals Ontario Portal. T3, T4, T7, A1, A2 and A4 cost $53. A multi-tenant application costs $53 for the first unit plus $5 for each additional unit, up to $450. LTB fees aren't refundable, but low-income tenants can ask for a fee waiver."}},{"@type":"Question","name":"Who qualifies for an LTB fee waiver?","acceptedAnswer":{"@type":"Answer","text":"Individuals whose main household income comes from Ontario Works, the Ontario Disability Support Program, Old Age Security with the Guaranteed Income Supplement, War Veterans Allowance or the Canada Pension Plan, or whose gross monthly household income is below the LTB's limit for their household size. Asking is free, and you file the Fee Waiver Request form with your application."}},{"@type":"Question","name":"How long do I have to file a T2 or T6?","acceptedAnswer":{"@type":"Answer","text":"Generally one year from the conduct or problem you're complaining about. A T1 for money a landlord collected or kept illegally also has a one-year limit. A T5 about a bad-faith N12 or N13 must be filed within one year of moving out, with a longer deadline if a landlord refused your right to move back after renovations."}},{"@type":"Question","name":"Are LTB hearings in person?","acceptedAnswer":{"@type":"Answer","text":"Usually not. Most LTB mediations and hearings happen by Zoom video or phone, and in-person hearings are scheduled only for approved accommodation requests. Join at least 15 minutes early. If you aren't there when your case is called, the hearing can go ahead without you, and your application could be dismissed."}},{"@type":"Question","name":"Where can I get free legal help for an LTB hearing?","acceptedAnswer":{"@type":"Answer","text":"Low-income tenants can contact a community legal clinic through Legal Aid Ontario at 1-800-668-8258. The Tenant Duty Counsel Program, run by ACTO and funded by Legal Aid Ontario, gives free advice to unrepresented tenants on or before their hearing day. In Toronto, the Federation of Metro Tenants' Associations hotline is 416-921-9494."}}]}]}</script>
 </head>
 <body>
 <header class="top">
+  <span class="read" aria-hidden="true"></span>
   <div class="wrap top-in">
     <a class="logo" href="/" aria-label="ColivEase"><img src="/blog/assets/logo.png" alt="ColivEase" width="96" height="66"></a>
     <nav aria-label="Blog">
@@ -292,9 +307,12 @@ body { font-size: 16px; }
 
       <section class="faq" aria-labelledby="faq"><h2 id="faq">Frequently asked questions</h2><details><summary>How much does it cost to file a tenant application at the LTB?</summary><p>Forms T1, T2, T5 and T6 cost $53, or $48 if you file on the Tribunals Ontario Portal. T3, T4, T7, A1, A2 and A4 cost $53. A multi-tenant application costs $53 for the first unit plus $5 for each additional unit, up to $450. LTB fees aren't refundable, but low-income tenants can ask for a fee waiver.</p></details><details><summary>Who qualifies for an LTB fee waiver?</summary><p>Individuals whose main household income comes from Ontario Works, the Ontario Disability Support Program, Old Age Security with the Guaranteed Income Supplement, War Veterans Allowance or the Canada Pension Plan, or whose gross monthly household income is below the LTB's limit for their household size. Asking is free, and you file the Fee Waiver Request form with your application.</p></details><details><summary>How long do I have to file a T2 or T6?</summary><p>Generally one year from the conduct or problem you're complaining about. A T1 for money a landlord collected or kept illegally also has a one-year limit. A T5 about a bad-faith N12 or N13 must be filed within one year of moving out, with a longer deadline if a landlord refused your right to move back after renovations.</p></details><details><summary>Are LTB hearings in person?</summary><p>Usually not. Most LTB mediations and hearings happen by Zoom video or phone, and in-person hearings are scheduled only for approved accommodation requests. Join at least 15 minutes early. If you aren't there when your case is called, the hearing can go ahead without you, and your application could be dismissed.</p></details><details><summary>Where can I get free legal help for an LTB hearing?</summary><p>Low-income tenants can contact a community legal clinic through Legal Aid Ontario at 1-800-668-8258. The Tenant Duty Counsel Program, run by ACTO and funded by Legal Aid Ontario, gives free advice to unrepresented tenants on or before their hearing day. In Toronto, the Federation of Metro Tenants' Associations hotline is 416-921-9494.</p></details></section>
       <aside class="cta">
-        <h2>Find your people first. Then your place.</h2>
-        <p>ColivEase gives you a match score with possible roommates based on area and commute, budget, move-in date, student or worker, gender preference and shared language. Every listing is reviewed by a person, chat warns you about common scam lines, and you can rent a whole home room by room.</p>
-        <a class="btn big" href="/app.html">Start for free →</a>
+        <div class="cta-copy">
+          <h2>Find your people first. Then your place.</h2>
+          <p>ColivEase gives you a match score with possible roommates based on area and commute, budget, move-in date, student or worker, gender preference and shared language. Every listing is reviewed by a person, chat warns you about common scam lines, and you can rent a whole home room by room.</p>
+          <a class="btn big" href="/app.html">Start for free →</a>
+        </div>
+        <div class="cta-demo" data-cv-demo="match" data-lang="en" aria-hidden="true"></div>
       </aside>
       <section class="sources"><h2>Sources</h2><ol><li><a href="https://tribunalsontario.ca/ltb/forms-filing-and-fees/" rel="noopener" target="_blank">LTB: Forms, filing and fees</a></li><li><a href="https://tribunalsontario.ca/ltb/application-and-hearing-process/" rel="noopener" target="_blank">LTB: Application and hearing process</a></li><li><a href="https://tribunalsontario.ca/documents/ltb/Practice%20Directions/Practice%20Direction%20on%20Fee%20Waiver%20(Jan%2016%202017).html" rel="noopener" target="_blank">LTB Practice Direction on Fee Waiver</a></li><li><a href="https://www.ontario.ca/laws/statute/06r17" rel="noopener" target="_blank">Residential Tenancies Act, 2006, sections 29, 57, 135 and 210 (Ontario e-Laws)</a></li><li><a href="https://tribunalsontario.ca/2026/06/30/ltb-operational-update-legislative-changes-at-the-ltb/" rel="noopener" target="_blank">LTB Operational Update: Legislative changes effective July 1, 2026</a></li><li><a href="https://tribunalsontario.ca/2026/09/21/ltb-operational-update-legislative-changes-at-the-landlord-and-tenant-board-effective-september-21-2026/" rel="noopener" target="_blank">LTB Operational Update: Legislative changes effective September 21, 2026</a></li><li><a href="https://www.acto.ca/for-tenants/tenant-duty-counsel/" rel="noopener" target="_blank">ACTO: Tenant Duty Counsel Program</a></li><li><a href="https://www.ontario.ca/page/renting-ontario-your-rights" rel="noopener" target="_blank">Government of Ontario: Renting in Ontario, your rights</a></li></ol></section>
     </article>
@@ -341,5 +359,28 @@ body { font-size: 16px; }
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>
+<script>(function () {
+  var links = document.querySelectorAll(".toc a[href^='#']");
+  if (links.length && "IntersectionObserver" in window) {
+    var byId = {};
+    for (var i = 0; i < links.length; i++) byId[decodeURIComponent(links[i].getAttribute("href").slice(1))] = links[i];
+    var current = null;
+    var mark = function (a) { if (a === current) return; if (current) current.removeAttribute("aria-current"); if (a) a.setAttribute("aria-current", "true"); current = a; };
+    var seen = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) mark(byId[entries[k].target.id]);
+    }, { rootMargin: "-80px 0px -70% 0px" });
+    for (var id in byId) { var h = document.getElementById(id); if (h) seen.observe(h); }
+  }
+  var slots = document.querySelectorAll("[data-cv-demo]");
+  if (!slots.length || !("IntersectionObserver" in window)) return;
+  var load = function () {
+    var css = document.createElement("link"); css.rel = "stylesheet"; css.href = "/demos/demos.css"; document.head.appendChild(css);
+    var js = document.createElement("script"); js.src = "/demos/demos.js"; js.async = true; document.head.appendChild(js);
+  };
+  var near = new IntersectionObserver(function (entries) {
+    for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) { near.disconnect(); load(); return; }
+  }, { rootMargin: "900px 0px" });
+  for (var n = 0; n < slots.length; n++) near.observe(slots[n]);
+})();</script>
 </body>
 </html>

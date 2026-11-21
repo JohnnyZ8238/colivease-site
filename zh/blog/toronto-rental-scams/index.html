@@ -62,6 +62,9 @@ a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--blue-deep); }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -125,6 +128,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 .faq { margin-top: 2.6em; }
 .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin: 0 0 10px; }
 .faq summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -132,7 +137,9 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -157,6 +164,12 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+.grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
 @media (max-width: 980px) {
 .post-grid { grid-template-columns: 1fr; gap: 0; }
 .toc { display: none; }
@@ -171,14 +184,16 @@ body { font-size: 16px; }
 .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
 .btn { padding: 9px 14px; font-size: 14px; }
 .cover { border-radius: 18px; }
-.cta { padding: 24px; }
+.cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+.cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
 .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"BlogPosting","@id":"https://www.colivease.ca/zh/blog/toronto-rental-scams/#article","headline":"多伦多租房诈骗：识别信号与核实房东方法","description":"多伦多租房诈骗越来越多，付钱前一定要核实。本文教你识别假房源和假中介，在 RECO 查中介、在 OnLand 查业主，安全付款，被骗后马上报案。","image":[{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/og/toronto-rental-scams.zh.jpg","width":1200,"height":630},{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/covers/keys.webp","width":960,"height":717}],"datePublished":"2026-10-31","dateModified":"2026-11-03","inLanguage":"zh-Hans","articleSection":"租房入门","keywords":"多伦多租房诈骗, 多伦多租房骗局, 假房源, 核实房东, RECO 查中介, 租房定金被骗","wordCount":2679,"author":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/"},"publisher":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.colivease.ca/zh/blog/toronto-rental-scams/"},"isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/zh/blog/#blog","name":"ColivEase 博客：多伦多找室友与租房指南"},"translationOfWork":{"@id":"https://www.colivease.ca/blog/toronto-rental-scams/#article"},"citation":["https://reco.on.ca/consumers/make-sure-your-real-estate-agent-is-registered","https://registrantsearch.reco.on.ca/","https://www.onland.ca/ui/","https://www.ontario.ca/page/guide-ontarios-standard-lease","https://www.ontario.ca/page/renting-ontario-your-rights","https://www.ontario.ca/laws/statute/06r17","https://antifraudcentre-centreantifraude.ca/","https://www.tps.ca/contact/416-808-2222-police-non-emergency/","https://priv.gc.ca/en/privacy-topics/landlords-and-tenants/privacy-in-the-landlord-and-tenant-relationship","https://tribunalsontario.ca/ltb/"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"博客","item":"https://www.colivease.ca/zh/blog/"},{"@type":"ListItem","position":3,"name":"租房入门","item":"https://www.colivease.ca/zh/blog/category/renting-101/"},{"@type":"ListItem","position":4,"name":"多伦多租房诈骗：识别信号与核实房东方法","item":"https://www.colivease.ca/zh/blog/toronto-rental-scams/"}]},{"@type":"FAQPage","@id":"https://www.colivease.ca/zh/blog/toronto-rental-scams/#faq","mainEntity":[{"@type":"Question","name":"怎么判断多伦多的房源是不是骗局？","acceptedAnswer":{"@type":"Answer","text":"租金明显低于同区同类房源、对方不肯实地或实时视频看房、还没看房签约就要钱，这几条出现任何一条都要高度警惕。可以用以图搜图查照片，在 RECO 官网查中介注册，并确认对方确实有权出租。"}},{"@type":"Question","name":"怎么查安省的地产中介是不是真的？","acceptedAnswer":{"@type":"Answer","text":"在安省从事地产交易（包括租赁）的人必须在安省地产委员会 (RECO) 注册。到 RECO 官网的注册查询 (Registrant Search) 输入姓名即可，再用你自己查到的经纪公司电话核实，不要用对方给你的号码。"}},{"@type":"Question","name":"怎么查一套房子的业主是谁？","acceptedAnswer":{"@type":"Answer","text":"安省土地登记信息可以在 OnLand 网站上查询，付费即可购买房产的产权登记册 (parcel register)。业主可能是一家公司；如果出租人是租客转租房间，就请他出示自己的租约。"}},{"@type":"Question","name":"没看房之前可以先交定金吗？","acceptedAnswer":{"@type":"Answer","text":"不可以。没看过房、没见过人、没签租约之前，不要付任何钱。在安省大多数租约里，房东只能收不超过一个月房租的租金押金和可退还的钥匙押金。"}},{"@type":"Question","name":"已经被骗转账了怎么办？","acceptedAnswer":{"@type":"Answer","text":"第一时间联系银行，尝试拦截或追回款项。然后向多伦多警察局报案（网上报案或拨打非紧急电话 416-808-2222），并向加拿大反诈骗中心 (CAFC) 1-888-495-8501 举报，同时举报发布房源的平台和群聊。"}}]}]}</script>
 </head>
 <body>
 <header class="top">
+  <span class="read" aria-hidden="true"></span>
   <div class="wrap top-in">
     <a class="logo" href="/" aria-label="ColivEase"><img src="/blog/assets/logo.png" alt="ColivEase" width="96" height="66"></a>
     <nav aria-label="博客">
@@ -296,9 +311,12 @@ body { font-size: 16px; }
 
       <section class="faq" aria-labelledby="faq"><h2 id="faq">常见问题</h2><details><summary>怎么判断多伦多的房源是不是骗局？</summary><p>租金明显低于同区同类房源、对方不肯实地或实时视频看房、还没看房签约就要钱，这几条出现任何一条都要高度警惕。可以用以图搜图查照片，在 RECO 官网查中介注册，并确认对方确实有权出租。</p></details><details><summary>怎么查安省的地产中介是不是真的？</summary><p>在安省从事地产交易（包括租赁）的人必须在安省地产委员会 (RECO) 注册。到 RECO 官网的注册查询 (Registrant Search) 输入姓名即可，再用你自己查到的经纪公司电话核实，不要用对方给你的号码。</p></details><details><summary>怎么查一套房子的业主是谁？</summary><p>安省土地登记信息可以在 OnLand 网站上查询，付费即可购买房产的产权登记册 (parcel register)。业主可能是一家公司；如果出租人是租客转租房间，就请他出示自己的租约。</p></details><details><summary>没看房之前可以先交定金吗？</summary><p>不可以。没看过房、没见过人、没签租约之前，不要付任何钱。在安省大多数租约里，房东只能收不超过一个月房租的租金押金和可退还的钥匙押金。</p></details><details><summary>已经被骗转账了怎么办？</summary><p>第一时间联系银行，尝试拦截或追回款项。然后向多伦多警察局报案（网上报案或拨打非紧急电话 416-808-2222），并向加拿大反诈骗中心 (CAFC) 1-888-495-8501 举报，同时举报发布房源的平台和群聊。</p></details></section>
       <aside class="cta">
-        <h2>先找对的人，再找对的房。</h2>
-        <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
-        <a class="btn big" href="/app.html">免费开始 →</a>
+        <div class="cta-copy">
+          <h2>先找对的人，再找对的房。</h2>
+          <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
+          <a class="btn big" href="/app.html">免费开始 →</a>
+        </div>
+        <div class="cta-demo" data-cv-demo="match" data-lang="zh" aria-hidden="true"></div>
       </aside>
       <section class="sources"><h2>参考资料</h2><ol><li><a href="https://reco.on.ca/consumers/make-sure-your-real-estate-agent-is-registered" rel="noopener" target="_blank">Make sure your real estate agent is registered（RECO）</a></li><li><a href="https://registrantsearch.reco.on.ca/" rel="noopener" target="_blank">RECO Registrant Search（中介注册查询）</a></li><li><a href="https://www.onland.ca/ui/" rel="noopener" target="_blank">OnLand（安省土地登记查询）</a></li><li><a href="https://www.ontario.ca/page/guide-ontarios-standard-lease" rel="noopener" target="_blank">Guide to Ontario's standard lease（安省标准租约指南）</a></li><li><a href="https://www.ontario.ca/page/renting-ontario-your-rights" rel="noopener" target="_blank">Renting in Ontario: Your rights（安省政府）</a></li><li><a href="https://www.ontario.ca/laws/statute/06r17" rel="noopener" target="_blank">Residential Tenancies Act, 2006（安省法律 e-Laws）</a></li><li><a href="https://antifraudcentre-centreantifraude.ca/" rel="noopener" target="_blank">Canadian Anti-Fraud Centre（加拿大反诈骗中心）</a></li><li><a href="https://www.tps.ca/contact/416-808-2222-police-non-emergency/" rel="noopener" target="_blank">Toronto Police Service 非紧急电话</a></li><li><a href="https://priv.gc.ca/en/privacy-topics/landlords-and-tenants/privacy-in-the-landlord-and-tenant-relationship" rel="noopener" target="_blank">Privacy in the landlord and tenant relationship（加拿大隐私专员办公室）</a></li><li><a href="https://tribunalsontario.ca/ltb/" rel="noopener" target="_blank">Landlord and Tenant Board（房东与租客委员会）</a></li></ol></section>
     </article>
@@ -345,5 +363,28 @@ body { font-size: 16px; }
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>
+<script>(function () {
+  var links = document.querySelectorAll(".toc a[href^='#']");
+  if (links.length && "IntersectionObserver" in window) {
+    var byId = {};
+    for (var i = 0; i < links.length; i++) byId[decodeURIComponent(links[i].getAttribute("href").slice(1))] = links[i];
+    var current = null;
+    var mark = function (a) { if (a === current) return; if (current) current.removeAttribute("aria-current"); if (a) a.setAttribute("aria-current", "true"); current = a; };
+    var seen = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) mark(byId[entries[k].target.id]);
+    }, { rootMargin: "-80px 0px -70% 0px" });
+    for (var id in byId) { var h = document.getElementById(id); if (h) seen.observe(h); }
+  }
+  var slots = document.querySelectorAll("[data-cv-demo]");
+  if (!slots.length || !("IntersectionObserver" in window)) return;
+  var load = function () {
+    var css = document.createElement("link"); css.rel = "stylesheet"; css.href = "/demos/demos.css"; document.head.appendChild(css);
+    var js = document.createElement("script"); js.src = "/demos/demos.js"; js.async = true; document.head.appendChild(js);
+  };
+  var near = new IntersectionObserver(function (entries) {
+    for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) { near.disconnect(); load(); return; }
+  }, { rootMargin: "900px 0px" });
+  for (var n = 0; n < slots.length; n++) near.observe(slots[n]);
+})();</script>
 </body>
 </html>

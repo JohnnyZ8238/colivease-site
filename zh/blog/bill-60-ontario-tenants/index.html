@@ -62,6 +62,9 @@ a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--blue-deep); }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -125,6 +128,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 .faq { margin-top: 2.6em; }
 .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin: 0 0 10px; }
 .faq summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -132,7 +137,9 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -157,6 +164,12 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+.grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
 @media (max-width: 980px) {
 .post-grid { grid-template-columns: 1fr; gap: 0; }
 .toc { display: none; }
@@ -171,14 +184,16 @@ body { font-size: 16px; }
 .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
 .btn { padding: 9px 14px; font-size: 14px; }
 .cover { border-radius: 18px; }
-.cta { padding: 24px; }
+.cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+.cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
 .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"NewsArticle","@id":"https://www.colivease.ca/zh/blog/bill-60-ontario-tenants/#article","headline":"安省Bill 60 租客新规：2026年改了什么","description":"安省Bill 60 租客新规详解（截至2026年11月）：欠租N4通知缩短为7天、LTB复审期限改为15天、欠租听证先付一半、N12自住驱逐新规，租客该怎么应对。","image":[{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/og/bill-60-ontario-tenants.zh.jpg","width":1200,"height":630},{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/covers/keys.webp","width":960,"height":717}],"datePublished":"2026-11-21","dateModified":"2026-11-21","inLanguage":"zh-Hans","articleSection":"租房新闻","keywords":"安省Bill 60 租客新规, 欠租7天就被通知, 2026租客新规有哪些, N4通知7天, LTB复审15天, 安省住宅租赁法修改","wordCount":2268,"author":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/"},"publisher":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.colivease.ca/zh/blog/bill-60-ontario-tenants/"},"isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/zh/blog/#blog","name":"ColivEase 博客：多伦多找室友与租房指南"},"translationOfWork":{"@id":"https://www.colivease.ca/blog/bill-60-ontario-tenants/#article"},"citation":["https://tribunalsontario.ca/2026/09/21/ltb-operational-update-legislative-changes-at-the-landlord-and-tenant-board-effective-september-21-2026/","https://tribunalsontario.ca/2026/06/30/ltb-operational-update-legislative-changes-at-the-ltb/","https://tribunalsontario.ca/documents/ltb/Brochures/If%20a%20Tenant%20Does%20Not%20Pay%20Rent.html","https://www.ontario.ca/laws/statute/06r17","https://www.acto.ca/actos-top-5-concerns-for-bill-60/","https://www.ontario.ca/page/residential-rent-increases"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"博客","item":"https://www.colivease.ca/zh/blog/"},{"@type":"ListItem","position":3,"name":"租房新闻","item":"https://www.colivease.ca/zh/blog/category/news/"},{"@type":"ListItem","position":4,"name":"安省Bill 60 租客新规：2026年改了什么","item":"https://www.colivease.ca/zh/blog/bill-60-ontario-tenants/"}]},{"@type":"FAQPage","@id":"https://www.colivease.ca/zh/blog/bill-60-ontario-tenants/#faq","mainEntity":[{"@type":"Question","name":"欠租7天房东就能把我赶走吗？","acceptedAnswer":{"@type":"Answer","text":"不能。7天只是2026年9月21日及之后发出的 N4 通知的最短期限。如果你没有补交，房东还必须向房东与租客委员会 (LTB) 申请、参加听证并拿到驱逐令，最后只有法警 (Sheriff) 才能执行。"}},{"@type":"Question","name":"Bill 60 改变了涨租上限吗？","acceptedAnswer":{"@type":"Answer","text":"目前生效的租赁改动主要集中在通知、听证、复审和自住驱逐上。2018年11月15日之前首次入住的大多数单位，续租涨幅仍受安省指导线限制，2026年为2.1%。续租前可以在安省政府网站确认最新规定。"}},{"@type":"Question","name":"我在9月21日之前收到的通知按新规还是旧规？","acceptedAnswer":{"@type":"Answer","text":"一般按旧规。LTB 说明：7天 N4 期限适用于2026年9月21日及之后发出的通知；欠租听证先付一半适用于当天及之后提交的申请；N12 新规适用于当天及之后送达的通知。之前的通知仍按原来的规则处理。"}},{"@type":"Question","name":"对 LTB 的裁决不服，还来得及申请复审吗？","acceptedAnswer":{"@type":"Answer","text":"2026年7月1日及之后发出的裁决，申请复审的期限是15天，以前是30天。LTB 只有在认为合理时才会延长期限，所以收到裁决当天就要看清日期，尽快联系社区法律诊所。"}},{"@type":"Question","name":"华人租客去哪里找免费的法律帮助？","acceptedAnswer":{"@type":"Answer","text":"可以通过安省法律援助 (Legal Aid Ontario) 找到所在区域的社区法律诊所，LTB 听证当天也有租客值班律师 (Tenant Duty Counsel)。多伦多居民可以拨打311，联系市政府的租客支援项目，部分服务提供中文协助。"}}]}]}</script>
 </head>
 <body>
 <header class="top">
+  <span class="read" aria-hidden="true"></span>
   <div class="wrap top-in">
     <a class="logo" href="/" aria-label="ColivEase"><img src="/blog/assets/logo.png" alt="ColivEase" width="96" height="66"></a>
     <nav aria-label="博客">
@@ -262,9 +277,12 @@ body { font-size: 16px; }
 
       <section class="faq" aria-labelledby="faq"><h2 id="faq">常见问题</h2><details><summary>欠租7天房东就能把我赶走吗？</summary><p>不能。7天只是2026年9月21日及之后发出的 N4 通知的最短期限。如果你没有补交，房东还必须向房东与租客委员会 (LTB) 申请、参加听证并拿到驱逐令，最后只有法警 (Sheriff) 才能执行。</p></details><details><summary>Bill 60 改变了涨租上限吗？</summary><p>目前生效的租赁改动主要集中在通知、听证、复审和自住驱逐上。2018年11月15日之前首次入住的大多数单位，续租涨幅仍受安省指导线限制，2026年为2.1%。续租前可以在安省政府网站确认最新规定。</p></details><details><summary>我在9月21日之前收到的通知按新规还是旧规？</summary><p>一般按旧规。LTB 说明：7天 N4 期限适用于2026年9月21日及之后发出的通知；欠租听证先付一半适用于当天及之后提交的申请；N12 新规适用于当天及之后送达的通知。之前的通知仍按原来的规则处理。</p></details><details><summary>对 LTB 的裁决不服，还来得及申请复审吗？</summary><p>2026年7月1日及之后发出的裁决，申请复审的期限是15天，以前是30天。LTB 只有在认为合理时才会延长期限，所以收到裁决当天就要看清日期，尽快联系社区法律诊所。</p></details><details><summary>华人租客去哪里找免费的法律帮助？</summary><p>可以通过安省法律援助 (Legal Aid Ontario) 找到所在区域的社区法律诊所，LTB 听证当天也有租客值班律师 (Tenant Duty Counsel)。多伦多居民可以拨打311，联系市政府的租客支援项目，部分服务提供中文协助。</p></details></section>
       <aside class="cta">
-        <h2>先找对的人，再找对的房。</h2>
-        <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
-        <a class="btn big" href="/app.html">免费开始 →</a>
+        <div class="cta-copy">
+          <h2>先找对的人，再找对的房。</h2>
+          <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
+          <a class="btn big" href="/app.html">免费开始 →</a>
+        </div>
+        <div class="cta-demo" data-cv-demo="match" data-lang="zh" aria-hidden="true"></div>
       </aside>
       <section class="sources"><h2>参考资料</h2><ol><li><a href="https://tribunalsontario.ca/2026/09/21/ltb-operational-update-legislative-changes-at-the-landlord-and-tenant-board-effective-september-21-2026/" rel="noopener" target="_blank">Tribunals Ontario：LTB 运营更新，2026年9月21日生效的法律修改</a></li><li><a href="https://tribunalsontario.ca/2026/06/30/ltb-operational-update-legislative-changes-at-the-ltb/" rel="noopener" target="_blank">Tribunals Ontario：LTB 运营更新，2026年7月1日生效的法律修改</a></li><li><a href="https://tribunalsontario.ca/documents/ltb/Brochures/If%20a%20Tenant%20Does%20Not%20Pay%20Rent.html" rel="noopener" target="_blank">Tribunals Ontario：租客不交房租时房东可以做什么（宣传册）</a></li><li><a href="https://www.ontario.ca/laws/statute/06r17" rel="noopener" target="_blank">安省政府：Residential Tenancies Act, 2006（住宅租赁法）</a></li><li><a href="https://www.acto.ca/actos-top-5-concerns-for-bill-60/" rel="noopener" target="_blank">Advocacy Centre for Tenants Ontario：对 Bill 60 的五大担忧</a></li><li><a href="https://www.ontario.ca/page/residential-rent-increases" rel="noopener" target="_blank">安省政府：Residential rent increases（涨租规定）</a></li></ol></section>
     </article>
@@ -311,5 +329,28 @@ body { font-size: 16px; }
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>
+<script>(function () {
+  var links = document.querySelectorAll(".toc a[href^='#']");
+  if (links.length && "IntersectionObserver" in window) {
+    var byId = {};
+    for (var i = 0; i < links.length; i++) byId[decodeURIComponent(links[i].getAttribute("href").slice(1))] = links[i];
+    var current = null;
+    var mark = function (a) { if (a === current) return; if (current) current.removeAttribute("aria-current"); if (a) a.setAttribute("aria-current", "true"); current = a; };
+    var seen = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) mark(byId[entries[k].target.id]);
+    }, { rootMargin: "-80px 0px -70% 0px" });
+    for (var id in byId) { var h = document.getElementById(id); if (h) seen.observe(h); }
+  }
+  var slots = document.querySelectorAll("[data-cv-demo]");
+  if (!slots.length || !("IntersectionObserver" in window)) return;
+  var load = function () {
+    var css = document.createElement("link"); css.rel = "stylesheet"; css.href = "/demos/demos.css"; document.head.appendChild(css);
+    var js = document.createElement("script"); js.src = "/demos/demos.js"; js.async = true; document.head.appendChild(js);
+  };
+  var near = new IntersectionObserver(function (entries) {
+    for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) { near.disconnect(); load(); return; }
+  }, { rootMargin: "900px 0px" });
+  for (var n = 0; n < slots.length; n++) near.observe(slots[n]);
+})();</script>
 </body>
 </html>

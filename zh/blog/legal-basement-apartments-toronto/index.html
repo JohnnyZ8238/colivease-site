@@ -62,6 +62,9 @@ a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--blue-deep); }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -125,6 +128,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 .faq { margin-top: 2.6em; }
 .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin: 0 0 10px; }
 .faq summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -132,7 +137,9 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -157,6 +164,12 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+.grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
 @media (max-width: 980px) {
 .post-grid { grid-template-columns: 1fr; gap: 0; }
 .toc { display: none; }
@@ -171,14 +184,16 @@ body { font-size: 16px; }
 .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
 .btn { padding: 9px 14px; font-size: 14px; }
 .cover { border-radius: 18px; }
-.cta { padding: 24px; }
+.cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+.cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
 .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"BlogPosting","@id":"https://www.colivease.ca/zh/blog/legal-basement-apartments-toronto/#article","headline":"多伦多地下室租房：合法吗？看房必查清单","description":"多伦多地下室租房便宜，但安全最要紧：层高、逃生窗、烟雾和一氧化碳报警器、暖气怎么查？没有许可的地下室，租客权益还在吗？看房前请收好这份实用清单。","image":[{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/og/legal-basement-apartments-toronto.zh.jpg","width":1200,"height":630},{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/covers/hero.webp","width":1152,"height":928}],"datePublished":"2026-10-31","dateModified":"2026-11-03","inLanguage":"zh-Hans","articleSection":"租客权益","keywords":"多伦多地下室租房, 多伦多地下室, 合法地下室 Toronto, second suite, 地下室 逃生窗, 租客权益 RTA","wordCount":2684,"author":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/"},"publisher":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.colivease.ca/zh/blog/legal-basement-apartments-toronto/"},"isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/zh/blog/#blog","name":"ColivEase 博客：多伦多找室友与租房指南"},"translationOfWork":{"@id":"https://www.colivease.ca/blog/legal-basement-apartments-toronto/#article"},"citation":["https://www.toronto.ca/city-government/planning-development/planning-studies-initiatives/secondary-suites/overview-secondary-suites/","https://www.toronto.ca/community-people/public-safety-alerts/safety-tips-prevention/safety-equipment-devices/smoke-alarms/","https://www.toronto.ca/community-people/public-safety-alerts/safety-tips-prevention/safety-equipment-devices/carbon-monoxide-alarms/","https://www.ontario.ca/cosafety","https://www.ontario.ca/laws/statute/06r17","https://tribunalsontario.ca/ltb/"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"博客","item":"https://www.colivease.ca/zh/blog/"},{"@type":"ListItem","position":3,"name":"租客权益","item":"https://www.colivease.ca/zh/blog/category/tenant-rights/"},{"@type":"ListItem","position":4,"name":"多伦多地下室租房：合法吗？看房必查清单","item":"https://www.colivease.ca/zh/blog/legal-basement-apartments-toronto/"}]},{"@type":"FAQPage","@id":"https://www.colivease.ca/zh/blog/legal-basement-apartments-toronto/#faq","mainEntity":[{"@type":"Question","name":"多伦多的地下室公寓合法吗？","acceptedAnswer":{"@type":"Answer","text":"多伦多市的分区规定 (zoning) 允许大部分独立屋、半独立屋和镇屋设一个附属单元 (second suite)。但合法还要求符合安省建筑规范 (Building Code) 和消防规范 (Fire Code)，新建通常需要建筑许可。分区允许，不代表这套地下室一定按规范建造。"}},{"@type":"Question","name":"地下室不合法，我还受租客法保护吗？","acceptedAnswer":{"@type":"Answer","text":"大多数情况下仍受保护。住宅租赁法 (RTA) 一般适用于出租单元，不管它有没有建筑许可；例外是你和住在家里的房东共用厨房或卫生间。房东要终止租约，仍须走LTB的程序。"}},{"@type":"Question","name":"怎么判断地下室是不是合法的？","acceptedAnswer":{"@type":"Answer","text":"直接问房东这个单元是否有建筑许可 (building permit)、是否通过检查，并请对方出示文件。同时自己检查：有没有第二个出口、烟雾报警器是否联动、有燃气炉等设备时有没有一氧化碳报警器、暖气和层高是否够。"}},{"@type":"Question","name":"地下室报警器坏了房东不修，找谁？","acceptedAnswer":{"@type":"Answer","text":"先书面通知房东。如果烟雾或一氧化碳报警器的问题没有解决，可以打311，市政府会转介给多伦多消防局 (Toronto Fire Services) 检查。有烟、火或一氧化碳报警响起时，立即离开并拨打911。"}}]}]}</script>
 </head>
 <body>
 <header class="top">
+  <span class="read" aria-hidden="true"></span>
   <div class="wrap top-in">
     <a class="logo" href="/" aria-label="ColivEase"><img src="/blog/assets/logo.png" alt="ColivEase" width="96" height="66"></a>
     <nav aria-label="博客">
@@ -299,9 +314,12 @@ body { font-size: 16px; }
 
       <section class="faq" aria-labelledby="faq"><h2 id="faq">常见问题</h2><details><summary>多伦多的地下室公寓合法吗？</summary><p>多伦多市的分区规定 (zoning) 允许大部分独立屋、半独立屋和镇屋设一个附属单元 (second suite)。但合法还要求符合安省建筑规范 (Building Code) 和消防规范 (Fire Code)，新建通常需要建筑许可。分区允许，不代表这套地下室一定按规范建造。</p></details><details><summary>地下室不合法，我还受租客法保护吗？</summary><p>大多数情况下仍受保护。住宅租赁法 (RTA) 一般适用于出租单元，不管它有没有建筑许可；例外是你和住在家里的房东共用厨房或卫生间。房东要终止租约，仍须走LTB的程序。</p></details><details><summary>怎么判断地下室是不是合法的？</summary><p>直接问房东这个单元是否有建筑许可 (building permit)、是否通过检查，并请对方出示文件。同时自己检查：有没有第二个出口、烟雾报警器是否联动、有燃气炉等设备时有没有一氧化碳报警器、暖气和层高是否够。</p></details><details><summary>地下室报警器坏了房东不修，找谁？</summary><p>先书面通知房东。如果烟雾或一氧化碳报警器的问题没有解决，可以打311，市政府会转介给多伦多消防局 (Toronto Fire Services) 检查。有烟、火或一氧化碳报警响起时，立即离开并拨打911。</p></details></section>
       <aside class="cta">
-        <h2>先找对的人，再找对的房。</h2>
-        <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
-        <a class="btn big" href="/app.html">免费开始 →</a>
+        <div class="cta-copy">
+          <h2>先找对的人，再找对的房。</h2>
+          <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
+          <a class="btn big" href="/app.html">免费开始 →</a>
+        </div>
+        <div class="cta-demo" data-cv-demo="match" data-lang="zh" aria-hidden="true"></div>
       </aside>
       <section class="sources"><h2>参考资料</h2><ol><li><a href="https://www.toronto.ca/city-government/planning-development/planning-studies-initiatives/secondary-suites/overview-secondary-suites/" rel="noopener" target="_blank">City of Toronto: Overview of secondary suites</a></li><li><a href="https://www.toronto.ca/community-people/public-safety-alerts/safety-tips-prevention/safety-equipment-devices/smoke-alarms/" rel="noopener" target="_blank">City of Toronto: Smoke alarms</a></li><li><a href="https://www.toronto.ca/community-people/public-safety-alerts/safety-tips-prevention/safety-equipment-devices/carbon-monoxide-alarms/" rel="noopener" target="_blank">City of Toronto: Carbon monoxide alarms</a></li><li><a href="https://www.ontario.ca/cosafety" rel="noopener" target="_blank">Ontario: Carbon monoxide safety</a></li><li><a href="https://www.ontario.ca/laws/statute/06r17" rel="noopener" target="_blank">Residential Tenancies Act, 2006</a></li><li><a href="https://tribunalsontario.ca/ltb/" rel="noopener" target="_blank">Landlord and Tenant Board</a></li></ol></section>
     </article>
@@ -348,5 +366,28 @@ body { font-size: 16px; }
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>
+<script>(function () {
+  var links = document.querySelectorAll(".toc a[href^='#']");
+  if (links.length && "IntersectionObserver" in window) {
+    var byId = {};
+    for (var i = 0; i < links.length; i++) byId[decodeURIComponent(links[i].getAttribute("href").slice(1))] = links[i];
+    var current = null;
+    var mark = function (a) { if (a === current) return; if (current) current.removeAttribute("aria-current"); if (a) a.setAttribute("aria-current", "true"); current = a; };
+    var seen = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) mark(byId[entries[k].target.id]);
+    }, { rootMargin: "-80px 0px -70% 0px" });
+    for (var id in byId) { var h = document.getElementById(id); if (h) seen.observe(h); }
+  }
+  var slots = document.querySelectorAll("[data-cv-demo]");
+  if (!slots.length || !("IntersectionObserver" in window)) return;
+  var load = function () {
+    var css = document.createElement("link"); css.rel = "stylesheet"; css.href = "/demos/demos.css"; document.head.appendChild(css);
+    var js = document.createElement("script"); js.src = "/demos/demos.js"; js.async = true; document.head.appendChild(js);
+  };
+  var near = new IntersectionObserver(function (entries) {
+    for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) { near.disconnect(); load(); return; }
+  }, { rootMargin: "900px 0px" });
+  for (var n = 0; n < slots.length; n++) near.observe(slots[n]);
+})();</script>
 </body>
 </html>

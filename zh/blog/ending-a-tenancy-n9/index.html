@@ -62,6 +62,9 @@ a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--blue-deep); }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -125,6 +128,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 .faq { margin-top: 2.6em; }
 .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin: 0 0 10px; }
 .faq summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -132,7 +137,9 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -157,6 +164,12 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+.grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
 @media (max-width: 980px) {
 .post-grid { grid-template-columns: 1fr; gap: 0; }
 .toc { display: none; }
@@ -171,14 +184,16 @@ body { font-size: 16px; }
 .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
 .btn { padding: 9px 14px; font-size: 14px; }
 .cover { border-radius: 18px; }
-.cta { padding: 24px; }
+.cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+.cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
 .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"BlogPosting","@id":"https://www.colivease.ca/zh/blog/ending-a-tenancy-n9/#article","headline":"安省退租 N9 表格指南：提前60天怎么算","description":"安省退租 N9 表格怎么填、提前60天怎么算、固定期租约能否提前走、室友搬走怎么办、转让租约和押金抵扣，一篇讲清多伦多租客退租的完整流程和注意事项。","image":[{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/og/ending-a-tenancy-n9.zh.jpg","width":1200,"height":630},{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/covers/keys.webp","width":960,"height":717}],"datePublished":"2026-10-31","dateModified":"2026-11-03","inLanguage":"zh-Hans","articleSection":"租客权益","keywords":"安省退租 N9, N9表格, 多伦多退租, 提前60天通知, 提前解约, 室友搬走, 转让租约","wordCount":2711,"author":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/"},"publisher":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.colivease.ca/zh/blog/ending-a-tenancy-n9/"},"isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/zh/blog/#blog","name":"ColivEase 博客：多伦多找室友与租房指南"},"translationOfWork":{"@id":"https://www.colivease.ca/blog/ending-a-tenancy-n9/#article"},"citation":["https://tribunalsontario.ca/documents/ltb/Brochures/How%20a%20Tenant%20Can%20End%20Their%20Tenancy%20(EN).html","https://tribunalsontario.ca/documents/ltb/Notices%20of%20Termination%20&%20Instructions/N9.pdf","https://tribunalsontario.ca/ltb/forms-filing-and-fees/","https://www.ontario.ca/laws/statute/06r17","https://www.ontario.ca/page/renting-ontario-your-rights","https://stepstojustice.ca/steps/housing-law/3-figure-out-when-give-your-landlord-notice/","https://stepstojustice.ca/steps/housing-law/assign-new-tenant/","https://www.cleo.on.ca/wp-content/uploads/notice.pdf"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"博客","item":"https://www.colivease.ca/zh/blog/"},{"@type":"ListItem","position":3,"name":"租客权益","item":"https://www.colivease.ca/zh/blog/category/tenant-rights/"},{"@type":"ListItem","position":4,"name":"安省退租 N9 表格指南：提前60天怎么算","item":"https://www.colivease.ca/zh/blog/ending-a-tenancy-n9/"}]},{"@type":"FAQPage","@id":"https://www.colivease.ca/zh/blog/ending-a-tenancy-n9/#faq","mainEntity":[{"@type":"Question","name":"在安省退租需要提前多久通知房东？","acceptedAnswer":{"@type":"Answer","text":"按月租和固定期限租约，需要用N9表格至少提前60天书面通知，退租日期必须是某个租期的最后一天。按周或按天租的，至少提前28天。邮寄的话要再加5天。"}},{"@type":"Question","name":"签了一年的租约，可以提前退租吗？","acceptedAnswer":{"@type":"Answer","text":"不能用普通N9提前结束。固定期限租约的退租日期不能早于租期最后一天。你可以和房东协商提前结束（N11表格），也可以转让 (assign) 或转租 (sublet)。如果房东拒绝你转让，你可以在提出请求后30天内发出退租通知。"}},{"@type":"Question","name":"一年租约到期，我需要提前通知吗？","acceptedAnswer":{"@type":"Answer","text":"需要。固定期限租约到期后不会自动结束，通常会转为按月续租。如果想在到期日搬走，要在到期日前至少60天发出N9。"}},{"@type":"Question","name":"房东要求我签租约时顺便签一份N9，合法吗？","acceptedAnswer":{"@type":"Answer","text":"一般不合法。在签租约时、或作为签约条件而签署的退租通知通常无效（部分学生宿舍等情况例外）。签不签N9永远是你自己的决定。"}},{"@type":"Question","name":"2月和3月退租有特殊规定吗？","acceptedAnswer":{"@type":"Answer","text":"有。想在2月最后一天搬走，1月1日前发出通知即可；想在3月31日搬走，2月1日前发出通知即可。邮寄的话要再预留时间。"}},{"@type":"Question","name":"最后一个月的房租押金能直接抵吗？","acceptedAnswer":{"@type":"Answer","text":"可以。租金押金必须用于抵扣最后一期房租，只要按规定发了退租通知，最后一个月就不用再交房租。房东还应付清押金利息。"}}]}]}</script>
 </head>
 <body>
 <header class="top">
+  <span class="read" aria-hidden="true"></span>
   <div class="wrap top-in">
     <a class="logo" href="/" aria-label="ColivEase"><img src="/blog/assets/logo.png" alt="ColivEase" width="96" height="66"></a>
     <nav aria-label="博客">
@@ -305,9 +320,12 @@ body { font-size: 16px; }
 
       <section class="faq" aria-labelledby="faq"><h2 id="faq">常见问题</h2><details><summary>在安省退租需要提前多久通知房东？</summary><p>按月租和固定期限租约，需要用N9表格至少提前60天书面通知，退租日期必须是某个租期的最后一天。按周或按天租的，至少提前28天。邮寄的话要再加5天。</p></details><details><summary>签了一年的租约，可以提前退租吗？</summary><p>不能用普通N9提前结束。固定期限租约的退租日期不能早于租期最后一天。你可以和房东协商提前结束（N11表格），也可以转让 (assign) 或转租 (sublet)。如果房东拒绝你转让，你可以在提出请求后30天内发出退租通知。</p></details><details><summary>一年租约到期，我需要提前通知吗？</summary><p>需要。固定期限租约到期后不会自动结束，通常会转为按月续租。如果想在到期日搬走，要在到期日前至少60天发出N9。</p></details><details><summary>房东要求我签租约时顺便签一份N9，合法吗？</summary><p>一般不合法。在签租约时、或作为签约条件而签署的退租通知通常无效（部分学生宿舍等情况例外）。签不签N9永远是你自己的决定。</p></details><details><summary>2月和3月退租有特殊规定吗？</summary><p>有。想在2月最后一天搬走，1月1日前发出通知即可；想在3月31日搬走，2月1日前发出通知即可。邮寄的话要再预留时间。</p></details><details><summary>最后一个月的房租押金能直接抵吗？</summary><p>可以。租金押金必须用于抵扣最后一期房租，只要按规定发了退租通知，最后一个月就不用再交房租。房东还应付清押金利息。</p></details></section>
       <aside class="cta">
-        <h2>先找对的人，再找对的房。</h2>
-        <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
-        <a class="btn big" href="/app.html">免费开始 →</a>
+        <div class="cta-copy">
+          <h2>先找对的人，再找对的房。</h2>
+          <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
+          <a class="btn big" href="/app.html">免费开始 →</a>
+        </div>
+        <div class="cta-demo" data-cv-demo="match" data-lang="zh" aria-hidden="true"></div>
       </aside>
       <section class="sources"><h2>参考资料</h2><ol><li><a href="https://tribunalsontario.ca/documents/ltb/Brochures/How%20a%20Tenant%20Can%20End%20Their%20Tenancy%20(EN).html" rel="noopener" target="_blank">LTB Brochure: How a Tenant Can End Their Tenancy</a></li><li><a href="https://tribunalsontario.ca/documents/ltb/Notices%20of%20Termination%20&amp;%20Instructions/N9.pdf" rel="noopener" target="_blank">LTB Form N9: Tenant's Notice to End the Tenancy</a></li><li><a href="https://tribunalsontario.ca/ltb/forms-filing-and-fees/" rel="noopener" target="_blank">LTB Forms, filing and fees</a></li><li><a href="https://www.ontario.ca/laws/statute/06r17" rel="noopener" target="_blank">Residential Tenancies Act, 2006（安省法律数据库）</a></li><li><a href="https://www.ontario.ca/page/renting-ontario-your-rights" rel="noopener" target="_blank">Renting in Ontario: Your rights（安省政府）</a></li><li><a href="https://stepstojustice.ca/steps/housing-law/3-figure-out-when-give-your-landlord-notice/" rel="noopener" target="_blank">Steps to Justice: Figure out when to give your landlord the notice</a></li><li><a href="https://stepstojustice.ca/steps/housing-law/assign-new-tenant/" rel="noopener" target="_blank">Steps to Justice: Assign to a new tenant</a></li><li><a href="https://www.cleo.on.ca/wp-content/uploads/notice.pdf" rel="noopener" target="_blank">CLEO: Moving out: Giving notice</a></li></ol></section>
     </article>
@@ -354,5 +372,28 @@ body { font-size: 16px; }
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>
+<script>(function () {
+  var links = document.querySelectorAll(".toc a[href^='#']");
+  if (links.length && "IntersectionObserver" in window) {
+    var byId = {};
+    for (var i = 0; i < links.length; i++) byId[decodeURIComponent(links[i].getAttribute("href").slice(1))] = links[i];
+    var current = null;
+    var mark = function (a) { if (a === current) return; if (current) current.removeAttribute("aria-current"); if (a) a.setAttribute("aria-current", "true"); current = a; };
+    var seen = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) mark(byId[entries[k].target.id]);
+    }, { rootMargin: "-80px 0px -70% 0px" });
+    for (var id in byId) { var h = document.getElementById(id); if (h) seen.observe(h); }
+  }
+  var slots = document.querySelectorAll("[data-cv-demo]");
+  if (!slots.length || !("IntersectionObserver" in window)) return;
+  var load = function () {
+    var css = document.createElement("link"); css.rel = "stylesheet"; css.href = "/demos/demos.css"; document.head.appendChild(css);
+    var js = document.createElement("script"); js.src = "/demos/demos.js"; js.async = true; document.head.appendChild(js);
+  };
+  var near = new IntersectionObserver(function (entries) {
+    for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) { near.disconnect(); load(); return; }
+  }, { rootMargin: "900px 0px" });
+  for (var n = 0; n < slots.length; n++) near.observe(slots[n]);
+})();</script>
 </body>
 </html>

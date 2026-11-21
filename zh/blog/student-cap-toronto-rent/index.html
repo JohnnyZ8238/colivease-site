@@ -62,6 +62,9 @@ a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--blue-deep); }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -125,6 +128,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 .faq { margin-top: 2.6em; }
 .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin: 0 0 10px; }
 .faq summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -132,7 +137,9 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -157,6 +164,12 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+.grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
 @media (max-width: 980px) {
 .post-grid { grid-template-columns: 1fr; gap: 0; }
 .toc { display: none; }
@@ -171,14 +184,16 @@ body { font-size: 16px; }
 .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
 .btn { padding: 9px 14px; font-size: 14px; }
 .cover { border-radius: 18px; }
-.cta { padding: 24px; }
+.cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+.cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
 .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"NewsArticle","@id":"https://www.colivease.ca/zh/blog/student-cap-toronto-rent/#article","headline":"留学生配额与多伦多房租：学签收紧后好租了吗","description":"留学生配额对多伦多房租影响多大？截至2026年11月，很多校区周边租金回落，但多大附近依然坚挺。学签收紧后好不好租、去哪找、怎么谈价，一文看懂。","image":[{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/og/student-cap-toronto-rent.zh.jpg","width":1200,"height":630},{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/covers/hero.webp","width":1152,"height":928}],"datePublished":"2026-11-21","dateModified":"2026-11-21","inLanguage":"zh-Hans","articleSection":"租房新闻","keywords":"留学生配额 多伦多房租, 学签收紧后租房好租了吗, 2026学签配额, 多大附近租房, 多伦多留学生租房2026, 学院附近房租","wordCount":2208,"author":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/"},"publisher":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.colivease.ca/zh/blog/student-cap-toronto-rent/"},"isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/zh/blog/#blog","name":"ColivEase 博客：多伦多找室友与租房指南"},"translationOfWork":{"@id":"https://www.colivease.ca/blog/student-cap-toronto-rent/#article"},"citation":["https://www.canada.ca/en/immigration-refugees-citizenship/news/notices/2026-provincial-territorial-allocations-under-international-student-cap.html","https://press.rentals.ca/432008-rental-prices-near-canadian-post-secondary-schools-drop-as-international-student-numbers-fall","https://rentals.ca/blog/lower-prices-more-choice-in-student-rentals-as-international-student-caps-take-effect","https://www.cmhc-schl.gc.ca/media-newsroom/news-releases/2025/canadas-vacancy-rate-rises-amid-historically-high-rental-construction","https://www150.statcan.gc.ca/n1/daily-quotidien/260617/dq260617a-eng.htm","https://press.rentals.ca/476871-toronto-and-vancouver-rents-post-first-annual-increases-in-more-than-two-and-a-half-years-as-national-decline-narrows"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"博客","item":"https://www.colivease.ca/zh/blog/"},{"@type":"ListItem","position":3,"name":"租房新闻","item":"https://www.colivease.ca/zh/blog/category/news/"},{"@type":"ListItem","position":4,"name":"留学生配额与多伦多房租：学签收紧后好租了吗","item":"https://www.colivease.ca/zh/blog/student-cap-toronto-rent/"}]},{"@type":"FAQPage","@id":"https://www.colivease.ca/zh/blog/student-cap-toronto-rent/#faq","mainEntity":[{"@type":"Question","name":"2026年加拿大发多少学签？","acceptedAnswer":{"@type":"Answer","text":"加拿大移民部 (IRCC) 在2025年11月表示，预计2026年最多签发40.8万份学习许可，其中约15.5万份给新入境学生，25.3万份为在读学生续签。这比2025年43.7万份的目标低约7%。"}},{"@type":"Question","name":"多伦多房租下降是不是因为留学生少了？","acceptedAnswer":{"@type":"Answer","text":"留学生减少是原因之一，但不是全部。CMHC 和租金分析机构同时提到大量新出租房源完工、人口增长放缓和就业市场疲软。这些因素很难完全分开，所以不要轻信\"全是配额造成的\"这种说法。"}},{"@type":"Question","name":"2026年读硕士、博士还需要省级证明信吗？","acceptedAnswer":{"@type":"Answer","text":"IRCC 表示，从2026年1月1日起，在公立指定学校 (DLI) 就读硕士和博士的学生，申请学签时不再需要省级证明信 (PAL/TAL)，但仍计入总签发数量。具体以加拿大政府官网最新说明为准。"}},{"@type":"Question","name":"住学校宿舍比校外合租便宜吗？","acceptedAnswer":{"@type":"Answer","text":"不一定。宿舍常常捆绑餐卡和家具，月费可能比校外合租单间高，但省去了买家具和通勤的成本。比较时要把伙食、交通、水电网都算进去。"}},{"@type":"Question","name":"留学生什么时候开始在多伦多找房最好？","acceptedAnswer":{"@type":"Answer","text":"9月入学的话，6、7月开始认真找，没核实房东身份之前不要付任何钱。1月入学的话，11、12月是淡季，房源竞争小，谈价空间也更大。"}}]}]}</script>
 </head>
 <body>
 <header class="top">
+  <span class="read" aria-hidden="true"></span>
   <div class="wrap top-in">
     <a class="logo" href="/" aria-label="ColivEase"><img src="/blog/assets/logo.png" alt="ColivEase" width="96" height="66"></a>
     <nav aria-label="博客">
@@ -259,9 +274,12 @@ body { font-size: 16px; }
 
       <section class="faq" aria-labelledby="faq"><h2 id="faq">常见问题</h2><details><summary>2026年加拿大发多少学签？</summary><p>加拿大移民部 (IRCC) 在2025年11月表示，预计2026年最多签发40.8万份学习许可，其中约15.5万份给新入境学生，25.3万份为在读学生续签。这比2025年43.7万份的目标低约7%。</p></details><details><summary>多伦多房租下降是不是因为留学生少了？</summary><p>留学生减少是原因之一，但不是全部。CMHC 和租金分析机构同时提到大量新出租房源完工、人口增长放缓和就业市场疲软。这些因素很难完全分开，所以不要轻信&quot;全是配额造成的&quot;这种说法。</p></details><details><summary>2026年读硕士、博士还需要省级证明信吗？</summary><p>IRCC 表示，从2026年1月1日起，在公立指定学校 (DLI) 就读硕士和博士的学生，申请学签时不再需要省级证明信 (PAL/TAL)，但仍计入总签发数量。具体以加拿大政府官网最新说明为准。</p></details><details><summary>住学校宿舍比校外合租便宜吗？</summary><p>不一定。宿舍常常捆绑餐卡和家具，月费可能比校外合租单间高，但省去了买家具和通勤的成本。比较时要把伙食、交通、水电网都算进去。</p></details><details><summary>留学生什么时候开始在多伦多找房最好？</summary><p>9月入学的话，6、7月开始认真找，没核实房东身份之前不要付任何钱。1月入学的话，11、12月是淡季，房源竞争小，谈价空间也更大。</p></details></section>
       <aside class="cta">
-        <h2>先找对的人，再找对的房。</h2>
-        <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
-        <a class="btn big" href="/app.html">免费开始 →</a>
+        <div class="cta-copy">
+          <h2>先找对的人，再找对的房。</h2>
+          <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
+          <a class="btn big" href="/app.html">免费开始 →</a>
+        </div>
+        <div class="cta-demo" data-cv-demo="match" data-lang="zh" aria-hidden="true"></div>
       </aside>
       <section class="sources"><h2>参考资料</h2><ol><li><a href="https://www.canada.ca/en/immigration-refugees-citizenship/news/notices/2026-provincial-territorial-allocations-under-international-student-cap.html" rel="noopener" target="_blank">IRCC：2026年国际学生配额省级分配通知</a></li><li><a href="https://press.rentals.ca/432008-rental-prices-near-canadian-post-secondary-schools-drop-as-international-student-numbers-fall" rel="noopener" target="_blank">Rentals.ca：国际学生减少，加拿大高校周边租金下降（2025年10月）</a></li><li><a href="https://rentals.ca/blog/lower-prices-more-choice-in-student-rentals-as-international-student-caps-take-effect" rel="noopener" target="_blank">Rentals.ca：学签配额生效后，学生租房价格更低、选择更多</a></li><li><a href="https://www.cmhc-schl.gc.ca/media-newsroom/news-releases/2025/canadas-vacancy-rate-rises-amid-historically-high-rental-construction" rel="noopener" target="_blank">CMHC：2025年租赁市场报告新闻稿</a></li><li><a href="https://www150.statcan.gc.ca/n1/daily-quotidien/260617/dq260617a-eng.htm" rel="noopener" target="_blank">加拿大统计局：2026年第一季度人口估算</a></li><li><a href="https://press.rentals.ca/476871-toronto-and-vancouver-rents-post-first-annual-increases-in-more-than-two-and-a-half-years-as-national-decline-narrows" rel="noopener" target="_blank">Rentals.ca 与 Urbanation：2026年11月全国租金报告（10月数据）</a></li></ol></section>
     </article>
@@ -308,5 +326,28 @@ body { font-size: 16px; }
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>
+<script>(function () {
+  var links = document.querySelectorAll(".toc a[href^='#']");
+  if (links.length && "IntersectionObserver" in window) {
+    var byId = {};
+    for (var i = 0; i < links.length; i++) byId[decodeURIComponent(links[i].getAttribute("href").slice(1))] = links[i];
+    var current = null;
+    var mark = function (a) { if (a === current) return; if (current) current.removeAttribute("aria-current"); if (a) a.setAttribute("aria-current", "true"); current = a; };
+    var seen = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) mark(byId[entries[k].target.id]);
+    }, { rootMargin: "-80px 0px -70% 0px" });
+    for (var id in byId) { var h = document.getElementById(id); if (h) seen.observe(h); }
+  }
+  var slots = document.querySelectorAll("[data-cv-demo]");
+  if (!slots.length || !("IntersectionObserver" in window)) return;
+  var load = function () {
+    var css = document.createElement("link"); css.rel = "stylesheet"; css.href = "/demos/demos.css"; document.head.appendChild(css);
+    var js = document.createElement("script"); js.src = "/demos/demos.js"; js.async = true; document.head.appendChild(js);
+  };
+  var near = new IntersectionObserver(function (entries) {
+    for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) { near.disconnect(); load(); return; }
+  }, { rootMargin: "900px 0px" });
+  for (var n = 0; n < slots.length; n++) near.observe(slots[n]);
+})();</script>
 </body>
 </html>

@@ -62,6 +62,9 @@ a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--blue-deep); }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -125,6 +128,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 .faq { margin-top: 2.6em; }
 .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin: 0 0 10px; }
 .faq summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -132,7 +137,9 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -157,6 +164,12 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+.grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
 @media (max-width: 980px) {
 .post-grid { grid-template-columns: 1fr; gap: 0; }
 .toc { display: none; }
@@ -171,14 +184,16 @@ body { font-size: 16px; }
 .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
 .btn { padding: 9px 14px; font-size: 14px; }
 .cover { border-radius: 18px; }
-.cta { padding: 24px; }
+.cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+.cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
 .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"BlogPosting","@id":"https://www.colivease.ca/zh/blog/best-toronto-neighbourhoods-for-students/#article","headline":"多伦多留学生住哪里？按学校选社区（2026）","description":"多伦多留学生住哪里最合适？按多大、TMU、约克、OCAD 和 Humber、Seneca 等学院逐一分析周边社区、TTC 通勤、生活氛围和避坑要点，选房前先看这篇。","image":[{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/og/best-toronto-neighbourhoods-for-students.zh.jpg","width":1200,"height":630},{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/covers/map.webp","width":900,"height":672}],"datePublished":"2026-10-31","dateModified":"2026-11-03","inLanguage":"zh-Hans","articleSection":"社区指南","keywords":"多伦多留学生住哪里, 多伦多留学生租房, 多大附近租房, 约克大学附近租房, 多伦多学生公寓, 多伦多租房社区","wordCount":2967,"author":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/"},"publisher":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.colivease.ca/zh/blog/best-toronto-neighbourhoods-for-students/"},"isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/zh/blog/#blog","name":"ColivEase 博客：多伦多找室友与租房指南"},"translationOfWork":{"@id":"https://www.colivease.ca/blog/best-toronto-neighbourhoods-for-students/#article"},"citation":["https://www.studentlife.utoronto.ca/task/rental-costs-in-toronto-gta/","https://www.studentlife.utoronto.ca/service/off-campus-housing-finder/","https://www.ttc.ca/riding-the-ttc/Updates/Line-6-Finch-West-LRT-and-Line-1-Station-Renamings","https://www.ttc.ca/news/2025/December/Dundas-and-Eglinton-West-Stations-to-be-officially-renamed-as-of-December-7","https://www.ttc.ca/news/2023/August/TTC-improving-Line-3-Scarborough-bus-shuttle-routes","https://www.yorku.ca/housing/off-campus-housing/","https://www.torontomu.ca/housing/housing-alternatives/off-campus/find-a-place/","https://www.toronto.ca/community-people/housing-shelter/rental-housing-rights-information/multi-tenant-rooming-houses/new-framework-for-multi-tenant-rooming-houses/"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"博客","item":"https://www.colivease.ca/zh/blog/"},{"@type":"ListItem","position":3,"name":"社区指南","item":"https://www.colivease.ca/zh/blog/category/neighbourhoods/"},{"@type":"ListItem","position":4,"name":"多伦多留学生住哪里？按学校选社区（2026）","item":"https://www.colivease.ca/zh/blog/best-toronto-neighbourhoods-for-students/"}]},{"@type":"FAQPage","@id":"https://www.colivease.ca/zh/blog/best-toronto-neighbourhoods-for-students/#faq","mainEntity":[{"@type":"Question","name":"多大 St. George 校区的学生一般住在哪里？","acceptedAnswer":{"@type":"Answer","text":"很多人住在步行可达的 Annex、Harbord Village、唐人街和 Kensington Market 一带，或者沿 1 号线、2 号线坐几站地铁。预算紧的同学常常在更远一些的地铁沿线合租，用稍长的通勤换更低的房租。"}},{"@type":"Question","name":"留学生住市中心好还是住北约克好？","acceptedAnswer":{"@type":"Answer","text":"如果学校在市中心，住市中心通勤短、生活方便，但房租普遍更高。北约克 (North York) 沿 1 号线一带同样的预算往往能住得更宽敞，地铁直达，适合约克大学、Seneca 的学生，或者能接受单程半小时左右通勤的同学。"}},{"@type":"Question","name":"多伦多哪个区租房最便宜？","acceptedAnswer":{"@type":"Answer","text":"没有固定的最便宜社区，价格常常一条街一个样。总体来说，离市中心较远、但靠近地铁或轻轨站的合租房间比市中心的便宜。比较时要把通勤时间和交通费一起算进去。"}},{"@type":"Question","name":"在士嘉堡 (Scarborough) 读书住哪里方便？","acceptedAnswer":{"@type":"Answer","text":"多大士嘉堡校区 (UTSC) 和 Centennial 的 Progress 校区都主要靠公交车，住在学校附近的 Highland Creek、Morningside 或 Scarborough Centre 周边，通勤会短很多也更稳定。签约前先查好去学校的公交班次。"}},{"@type":"Question","name":"怎么判断学生合租屋 (rooming house) 是否合法？","acceptedAnswer":{"@type":"Answer","text":"自 2024 年 3 月 31 日起，多伦多的多租户住宅 (multi-tenant house) 经营者必须取得市政府执照，并在入口处张贴执照信息。看房时可以直接要求查看；如果房东分别出租很多个房间却拿不出执照，要多加小心。"}}]}]}</script>
 </head>
 <body>
 <header class="top">
+  <span class="read" aria-hidden="true"></span>
   <div class="wrap top-in">
     <a class="logo" href="/" aria-label="ColivEase"><img src="/blog/assets/logo.png" alt="ColivEase" width="96" height="66"></a>
     <nav aria-label="博客">
@@ -274,9 +289,12 @@ body { font-size: 16px; }
 
       <section class="faq" aria-labelledby="faq"><h2 id="faq">常见问题</h2><details><summary>多大 St. George 校区的学生一般住在哪里？</summary><p>很多人住在步行可达的 Annex、Harbord Village、唐人街和 Kensington Market 一带，或者沿 1 号线、2 号线坐几站地铁。预算紧的同学常常在更远一些的地铁沿线合租，用稍长的通勤换更低的房租。</p></details><details><summary>留学生住市中心好还是住北约克好？</summary><p>如果学校在市中心，住市中心通勤短、生活方便，但房租普遍更高。北约克 (North York) 沿 1 号线一带同样的预算往往能住得更宽敞，地铁直达，适合约克大学、Seneca 的学生，或者能接受单程半小时左右通勤的同学。</p></details><details><summary>多伦多哪个区租房最便宜？</summary><p>没有固定的最便宜社区，价格常常一条街一个样。总体来说，离市中心较远、但靠近地铁或轻轨站的合租房间比市中心的便宜。比较时要把通勤时间和交通费一起算进去。</p></details><details><summary>在士嘉堡 (Scarborough) 读书住哪里方便？</summary><p>多大士嘉堡校区 (UTSC) 和 Centennial 的 Progress 校区都主要靠公交车，住在学校附近的 Highland Creek、Morningside 或 Scarborough Centre 周边，通勤会短很多也更稳定。签约前先查好去学校的公交班次。</p></details><details><summary>怎么判断学生合租屋 (rooming house) 是否合法？</summary><p>自 2024 年 3 月 31 日起，多伦多的多租户住宅 (multi-tenant house) 经营者必须取得市政府执照，并在入口处张贴执照信息。看房时可以直接要求查看；如果房东分别出租很多个房间却拿不出执照，要多加小心。</p></details></section>
       <aside class="cta">
-        <h2>先找对的人，再找对的房。</h2>
-        <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
-        <a class="btn big" href="/app.html">免费开始 →</a>
+        <div class="cta-copy">
+          <h2>先找对的人，再找对的房。</h2>
+          <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
+          <a class="btn big" href="/app.html">免费开始 →</a>
+        </div>
+        <div class="cta-demo" data-cv-demo="match" data-lang="zh" aria-hidden="true"></div>
       </aside>
       <section class="sources"><h2>参考资料</h2><ol><li><a href="https://www.studentlife.utoronto.ca/task/rental-costs-in-toronto-gta/" rel="noopener" target="_blank">UofT Student Life：Rental costs in Toronto/GTA（多大租金数据）</a></li><li><a href="https://www.studentlife.utoronto.ca/service/off-campus-housing-finder/" rel="noopener" target="_blank">UofT Student Life：Off-Campus Housing Finder（多大校外租房平台）</a></li><li><a href="https://www.ttc.ca/riding-the-ttc/Updates/Line-6-Finch-West-LRT-and-Line-1-Station-Renamings" rel="noopener" target="_blank">TTC：Line 6 Finch West 及 1 号线车站更名</a></li><li><a href="https://www.ttc.ca/news/2025/December/Dundas-and-Eglinton-West-Stations-to-be-officially-renamed-as-of-December-7" rel="noopener" target="_blank">TTC：Dundas 站更名为 TMU 站、Eglinton West 站更名为 Cedarvale 站</a></li><li><a href="https://www.ttc.ca/news/2023/August/TTC-improving-Line-3-Scarborough-bus-shuttle-routes" rel="noopener" target="_blank">TTC：3 号线士嘉堡线停运后的替代公交</a></li><li><a href="https://www.yorku.ca/housing/off-campus-housing/" rel="noopener" target="_blank">York University：Off-campus housing（约克大学校外住房）</a></li><li><a href="https://www.torontomu.ca/housing/housing-alternatives/off-campus/find-a-place/" rel="noopener" target="_blank">Toronto Metropolitan University：Find a place（TMU 校外找房）</a></li><li><a href="https://www.toronto.ca/community-people/housing-shelter/rental-housing-rights-information/multi-tenant-rooming-houses/new-framework-for-multi-tenant-rooming-houses/" rel="noopener" target="_blank">City of Toronto：多租户住宅 (rooming house) 新规</a></li></ol></section>
     </article>
@@ -323,5 +341,28 @@ body { font-size: 16px; }
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>
+<script>(function () {
+  var links = document.querySelectorAll(".toc a[href^='#']");
+  if (links.length && "IntersectionObserver" in window) {
+    var byId = {};
+    for (var i = 0; i < links.length; i++) byId[decodeURIComponent(links[i].getAttribute("href").slice(1))] = links[i];
+    var current = null;
+    var mark = function (a) { if (a === current) return; if (current) current.removeAttribute("aria-current"); if (a) a.setAttribute("aria-current", "true"); current = a; };
+    var seen = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) mark(byId[entries[k].target.id]);
+    }, { rootMargin: "-80px 0px -70% 0px" });
+    for (var id in byId) { var h = document.getElementById(id); if (h) seen.observe(h); }
+  }
+  var slots = document.querySelectorAll("[data-cv-demo]");
+  if (!slots.length || !("IntersectionObserver" in window)) return;
+  var load = function () {
+    var css = document.createElement("link"); css.rel = "stylesheet"; css.href = "/demos/demos.css"; document.head.appendChild(css);
+    var js = document.createElement("script"); js.src = "/demos/demos.js"; js.async = true; document.head.appendChild(js);
+  };
+  var near = new IntersectionObserver(function (entries) {
+    for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) { near.disconnect(); load(); return; }
+  }, { rootMargin: "900px 0px" });
+  for (var n = 0; n < slots.length; n++) near.observe(slots[n]);
+})();</script>
 </body>
 </html>

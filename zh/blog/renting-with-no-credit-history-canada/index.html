@@ -62,6 +62,9 @@ a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--blue-deep); }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -125,6 +128,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 .faq { margin-top: 2.6em; }
 .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin: 0 0 10px; }
 .faq summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -132,7 +137,9 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -157,6 +164,12 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+.grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
 @media (max-width: 980px) {
 .post-grid { grid-template-columns: 1fr; gap: 0; }
 .toc { display: none; }
@@ -171,14 +184,16 @@ body { font-size: 16px; }
 .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
 .btn { padding: 9px 14px; font-size: 14px; }
 .cover { border-radius: 18px; }
-.cta { padding: 24px; }
+.cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+.cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
 .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"BlogPosting","@id":"https://www.colivease.ca/zh/blog/renting-with-no-credit-history-canada/#article","headline":"没有信用记录怎么租房？新移民加拿大租房攻略","description":"刚到加拿大没有信用记录怎么租房？房东能要求哪些材料、用什么代替信用分、担保人怎么找、安省押金和预付房租的规定，以及落地后如何尽快建立自己的信用。","image":[{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/og/renting-with-no-credit-history-canada.zh.jpg","width":1200,"height":630},{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/covers/keys.webp","width":960,"height":717}],"datePublished":"2026-10-31","dateModified":"2026-11-03","inLanguage":"zh-Hans","articleSection":"新移民与留学生","keywords":"没有信用记录怎么租房, 加拿大没有信用记录租房, 新移民租房, 多伦多租房担保人, 加拿大建立信用记录, 安省租房押金","wordCount":2602,"author":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/"},"publisher":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.colivease.ca/zh/blog/renting-with-no-credit-history-canada/"},"isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/zh/blog/#blog","name":"ColivEase 博客：多伦多找室友与租房指南"},"translationOfWork":{"@id":"https://www.colivease.ca/blog/renting-with-no-credit-history-canada/#article"},"citation":["https://www.ohrc.on.ca/en/learning/human-rights-and-newcomers/housing-human-right","https://www.ohrc.on.ca/en/human-rights-tenants-brochure","https://www.ontario.ca/laws/regulation/980290","https://www.ontario.ca/page/renting-ontario-your-rights","https://www.ontario.ca/laws/statute/06r17","https://www.canada.ca/content/dam/esdc-edsc/documents/services/sin/reports/code-of-practice/2.5_when-provide-sin_en.pdf","https://priv.gc.ca/en/privacy-topics/landlords-and-tenants/02_05_d_66_tips/","https://www.canada.ca/en/financial-consumer-agency/services/credit-reports-score.html","https://tribunalsontario.ca/ltb/","https://hrlsc.on.ca/","https://antifraudcentre-centreantifraude.ca/"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"博客","item":"https://www.colivease.ca/zh/blog/"},{"@type":"ListItem","position":3,"name":"新移民与留学生","item":"https://www.colivease.ca/zh/blog/category/newcomers-and-students/"},{"@type":"ListItem","position":4,"name":"没有信用记录怎么租房？新移民加拿大租房攻略","item":"https://www.colivease.ca/zh/blog/renting-with-no-credit-history-canada/"}]},{"@type":"FAQPage","@id":"https://www.colivease.ca/zh/blog/renting-with-no-credit-history-canada/#faq","mainEntity":[{"@type":"Question","name":"房东能因为我没有信用记录就拒绝我吗？","acceptedAnswer":{"@type":"Answer","text":"在安省，房东可以要求信用推荐、租房记录和信用查询，但安省人权委员会指出，没有信用记录或租房记录不应被当作负面因素。如果房东把“没有记录”等同于“记录差”，可能涉及歧视，可以向人权法律支援中心 (HRLSC) 咨询。"}},{"@type":"Question","name":"租房一定要给房东 SIN 号吗？","acceptedAnswer":{"@type":"Answer","text":"不需要。加拿大服务部 (Service Canada) 明确把租房、填写租房申请列为不必提供社会保险号 (SIN) 的情形。房东一般可以用你的姓名、出生日期和地址做信用查询。"}},{"@type":"Question","name":"安省房东可以要求预付 6 个月或 12 个月房租吗？","acceptedAnswer":{"@type":"Answer","text":"房东最多只能要求不超过一个月房租的押金（用于抵最后一个月房租），外加可退还的钥匙押金，不能把预付多个月房租作为出租条件。有些租客会主动提出预付以增加竞争力，但必须完全出于自愿。如果被施压，可以咨询房东与租客委员会 (LTB) 或社区法律诊所。"}},{"@type":"Question","name":"在加拿大建立信用记录要多久？","acceptedAnswer":{"@type":"Answer","text":"一般需要使用信用卡等信贷产品、按时还款几个月后才会产生信用分，要建立较好的信用则需要更长时间。每月按时全额还款、保持较低的使用额度，是最关键的两个习惯。"}},{"@type":"Question","name":"租房担保人是什么？谁可以当？","acceptedAnswer":{"@type":"Answer","text":"担保人会签一份协议，承诺在你不付房租时代为支付。安省人权法规允许房东要求租客提供租金担保。房东通常希望担保人住在加拿大、信用良好、收入稳定，比如亲戚、朋友，有时也可以是雇主。"}}]}]}</script>
 </head>
 <body>
 <header class="top">
+  <span class="read" aria-hidden="true"></span>
   <div class="wrap top-in">
     <a class="logo" href="/" aria-label="ColivEase"><img src="/blog/assets/logo.png" alt="ColivEase" width="96" height="66"></a>
     <nav aria-label="博客">
@@ -279,9 +294,12 @@ body { font-size: 16px; }
 
       <section class="faq" aria-labelledby="faq"><h2 id="faq">常见问题</h2><details><summary>房东能因为我没有信用记录就拒绝我吗？</summary><p>在安省，房东可以要求信用推荐、租房记录和信用查询，但安省人权委员会指出，没有信用记录或租房记录不应被当作负面因素。如果房东把“没有记录”等同于“记录差”，可能涉及歧视，可以向人权法律支援中心 (HRLSC) 咨询。</p></details><details><summary>租房一定要给房东 SIN 号吗？</summary><p>不需要。加拿大服务部 (Service Canada) 明确把租房、填写租房申请列为不必提供社会保险号 (SIN) 的情形。房东一般可以用你的姓名、出生日期和地址做信用查询。</p></details><details><summary>安省房东可以要求预付 6 个月或 12 个月房租吗？</summary><p>房东最多只能要求不超过一个月房租的押金（用于抵最后一个月房租），外加可退还的钥匙押金，不能把预付多个月房租作为出租条件。有些租客会主动提出预付以增加竞争力，但必须完全出于自愿。如果被施压，可以咨询房东与租客委员会 (LTB) 或社区法律诊所。</p></details><details><summary>在加拿大建立信用记录要多久？</summary><p>一般需要使用信用卡等信贷产品、按时还款几个月后才会产生信用分，要建立较好的信用则需要更长时间。每月按时全额还款、保持较低的使用额度，是最关键的两个习惯。</p></details><details><summary>租房担保人是什么？谁可以当？</summary><p>担保人会签一份协议，承诺在你不付房租时代为支付。安省人权法规允许房东要求租客提供租金担保。房东通常希望担保人住在加拿大、信用良好、收入稳定，比如亲戚、朋友，有时也可以是雇主。</p></details></section>
       <aside class="cta">
-        <h2>先找对的人，再找对的房。</h2>
-        <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
-        <a class="btn big" href="/app.html">免费开始 →</a>
+        <div class="cta-copy">
+          <h2>先找对的人，再找对的房。</h2>
+          <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
+          <a class="btn big" href="/app.html">免费开始 →</a>
+        </div>
+        <div class="cta-demo" data-cv-demo="match" data-lang="zh" aria-hidden="true"></div>
       </aside>
       <section class="sources"><h2>参考资料</h2><ol><li><a href="https://www.ohrc.on.ca/en/learning/human-rights-and-newcomers/housing-human-right" rel="noopener" target="_blank">安省人权委员会：Housing as a human right（新移民住房权利）</a></li><li><a href="https://www.ohrc.on.ca/en/human-rights-tenants-brochure" rel="noopener" target="_blank">安省人权委员会：Human rights and tenants（租客人权手册）</a></li><li><a href="https://www.ontario.ca/laws/regulation/980290" rel="noopener" target="_blank">安省法规 O. Reg. 290/98：房东筛选租客可采用的做法</a></li><li><a href="https://www.ontario.ca/page/renting-ontario-your-rights" rel="noopener" target="_blank">安省政府：Renting in Ontario: Your rights</a></li><li><a href="https://www.ontario.ca/laws/statute/06r17" rel="noopener" target="_blank">Residential Tenancies Act, 2006（住宅租赁法）</a></li><li><a href="https://www.canada.ca/content/dam/esdc-edsc/documents/services/sin/reports/code-of-practice/2.5_when-provide-sin_en.pdf" rel="noopener" target="_blank">Service Canada：何时需要提供 SIN</a></li><li><a href="https://priv.gc.ca/en/privacy-topics/landlords-and-tenants/02_05_d_66_tips/" rel="noopener" target="_blank">加拿大隐私专员办公室：租赁行业隐私建议</a></li><li><a href="https://www.canada.ca/en/financial-consumer-agency/services/credit-reports-score.html" rel="noopener" target="_blank">加拿大金融消费者管理局 (FCAC)：信用报告与信用分</a></li><li><a href="https://tribunalsontario.ca/ltb/" rel="noopener" target="_blank">房东与租客委员会 (LTB)</a></li><li><a href="https://hrlsc.on.ca/" rel="noopener" target="_blank">人权法律支援中心 (HRLSC)</a></li><li><a href="https://antifraudcentre-centreantifraude.ca/" rel="noopener" target="_blank">加拿大反诈骗中心 (CAFC)</a></li></ol></section>
     </article>
@@ -328,5 +346,28 @@ body { font-size: 16px; }
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>
+<script>(function () {
+  var links = document.querySelectorAll(".toc a[href^='#']");
+  if (links.length && "IntersectionObserver" in window) {
+    var byId = {};
+    for (var i = 0; i < links.length; i++) byId[decodeURIComponent(links[i].getAttribute("href").slice(1))] = links[i];
+    var current = null;
+    var mark = function (a) { if (a === current) return; if (current) current.removeAttribute("aria-current"); if (a) a.setAttribute("aria-current", "true"); current = a; };
+    var seen = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) mark(byId[entries[k].target.id]);
+    }, { rootMargin: "-80px 0px -70% 0px" });
+    for (var id in byId) { var h = document.getElementById(id); if (h) seen.observe(h); }
+  }
+  var slots = document.querySelectorAll("[data-cv-demo]");
+  if (!slots.length || !("IntersectionObserver" in window)) return;
+  var load = function () {
+    var css = document.createElement("link"); css.rel = "stylesheet"; css.href = "/demos/demos.css"; document.head.appendChild(css);
+    var js = document.createElement("script"); js.src = "/demos/demos.js"; js.async = true; document.head.appendChild(js);
+  };
+  var near = new IntersectionObserver(function (entries) {
+    for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) { near.disconnect(); load(); return; }
+  }, { rootMargin: "900px 0px" });
+  for (var n = 0; n < slots.length; n++) near.observe(slots[n]);
+})();</script>
 </body>
 </html>

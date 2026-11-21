@@ -62,6 +62,9 @@ a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--blue-deep); }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -125,6 +128,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 .faq { margin-top: 2.6em; }
 .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin: 0 0 10px; }
 .faq summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -132,7 +137,9 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -157,6 +164,12 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+.grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
 @media (max-width: 980px) {
 .post-grid { grid-template-columns: 1fr; gap: 0; }
 .toc { display: none; }
@@ -171,14 +184,16 @@ body { font-size: 16px; }
 .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
 .btn { padding: 9px 14px; font-size: 14px; }
 .cover { border-radius: 18px; }
-.cta { padding: 24px; }
+.cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+.cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
 .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"BlogPosting","@id":"https://www.colivease.ca/blog/rent-tax-credit-ontario/#article","headline":"Ontario Trillium Benefit for Renters: Claim Your Rent","description":"Ontario Trillium Benefit rent guide: who qualifies, how to claim rent on taxes with form ON-BEN, which rent receipts to keep, and tips for roommates.","image":[{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/og/rent-tax-credit-ontario.en.jpg","width":1200,"height":630},{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/covers/keys.webp","width":960,"height":717}],"datePublished":"2026-11-21","dateModified":"2026-11-21","inLanguage":"en-CA","articleSection":"Renting 101","keywords":"Ontario Trillium Benefit rent, rent tax credit Ontario, claim rent on taxes Ontario, do I need rent receipts, ON-BEN rent, Ontario energy and property tax credit","wordCount":1363,"author":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/"},"publisher":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.colivease.ca/blog/rent-tax-credit-ontario/"},"isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/blog/#blog","name":"ColivEase Blog: Roommates & Renting in Toronto"},"workTranslation":{"@id":"https://www.colivease.ca/zh/blog/rent-tax-credit-ontario/#article"},"citation":["https://www.ontario.ca/page/ontario-trillium-benefit","https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/ontario-trillium-benefit-questions-answers.html","https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/ontario-energy-property-tax-credit-questions-answers.html","https://www.canada.ca/en/revenue-agency/services/tax/individuals/community-volunteer-income-tax-program.html","https://www.ontario.ca/laws/statute/06r17"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://www.colivease.ca/blog/"},{"@type":"ListItem","position":3,"name":"Renting 101","item":"https://www.colivease.ca/blog/category/renting-101/"},{"@type":"ListItem","position":4,"name":"Ontario Trillium Benefit for Renters: Claim Your Rent","item":"https://www.colivease.ca/blog/rent-tax-credit-ontario/"}]},{"@type":"FAQPage","@id":"https://www.colivease.ca/blog/rent-tax-credit-ontario/#faq","mainEntity":[{"@type":"Question","name":"Can roommates both claim rent for the Ontario Trillium Benefit?","acceptedAnswer":{"@type":"Answer","text":"Yes, but each person claims only their own share of the rent they actually paid. If three of you split $3,000 a month equally, each person reports their $1,000 share, not the full amount. Keep your own proof of payment, such as e-transfer records or receipts in your name."}},{"@type":"Question","name":"Can students living in residence get the Ontario Trillium Benefit?","acceptedAnswer":{"@type":"Answer","text":"Students who lived in a designated university, college or private school residence in Ontario can still apply on form ON-BEN by indicating that they lived in a student residence instead of entering rent. The energy and property tax credit for residence students is calculated differently and is usually much smaller than for students who rent off campus. The sales tax credit part of the benefit doesn't depend on rent."}},{"@type":"Question","name":"When is the Ontario Trillium Benefit paid?","acceptedAnswer":{"@type":"Answer","text":"The CRA pays the benefit for Ontario, usually monthly, over a benefit year that runs from July to the following June. Payments from July 2026 to June 2027 are based on your 2025 tax return. If your yearly amount is small, it may be paid as a single lump sum instead, so check your CRA notice."}},{"@type":"Question","name":"What if I forgot to claim rent on my taxes in a past year?","acceptedAnswer":{"@type":"Answer","text":"You may be able to ask the CRA to adjust a past return to add your ON-BEN information. Gather your rent records for that year first. A free tax clinic or the CRA can tell you how far back you can go and how to submit the change."}},{"@type":"Question","name":"Does my landlord have to give me a rent receipt in Ontario?","acceptedAnswer":{"@type":"Answer","text":"Yes. Under Ontario's Residential Tenancies Act, a landlord must give a tenant a receipt for rent free of charge when asked, and a former tenant can request one for up to 12 months after the tenancy ends. Ask in writing so you have a record of the request."}}]}]}</script>
 </head>
 <body>
 <header class="top">
+  <span class="read" aria-hidden="true"></span>
   <div class="wrap top-in">
     <a class="logo" href="/" aria-label="ColivEase"><img src="/blog/assets/logo.png" alt="ColivEase" width="96" height="66"></a>
     <nav aria-label="Blog">
@@ -275,9 +290,12 @@ body { font-size: 16px; }
 
       <section class="faq" aria-labelledby="faq"><h2 id="faq">Frequently asked questions</h2><details><summary>Can roommates both claim rent for the Ontario Trillium Benefit?</summary><p>Yes, but each person claims only their own share of the rent they actually paid. If three of you split $3,000 a month equally, each person reports their $1,000 share, not the full amount. Keep your own proof of payment, such as e-transfer records or receipts in your name.</p></details><details><summary>Can students living in residence get the Ontario Trillium Benefit?</summary><p>Students who lived in a designated university, college or private school residence in Ontario can still apply on form ON-BEN by indicating that they lived in a student residence instead of entering rent. The energy and property tax credit for residence students is calculated differently and is usually much smaller than for students who rent off campus. The sales tax credit part of the benefit doesn't depend on rent.</p></details><details><summary>When is the Ontario Trillium Benefit paid?</summary><p>The CRA pays the benefit for Ontario, usually monthly, over a benefit year that runs from July to the following June. Payments from July 2026 to June 2027 are based on your 2025 tax return. If your yearly amount is small, it may be paid as a single lump sum instead, so check your CRA notice.</p></details><details><summary>What if I forgot to claim rent on my taxes in a past year?</summary><p>You may be able to ask the CRA to adjust a past return to add your ON-BEN information. Gather your rent records for that year first. A free tax clinic or the CRA can tell you how far back you can go and how to submit the change.</p></details><details><summary>Does my landlord have to give me a rent receipt in Ontario?</summary><p>Yes. Under Ontario's Residential Tenancies Act, a landlord must give a tenant a receipt for rent free of charge when asked, and a former tenant can request one for up to 12 months after the tenancy ends. Ask in writing so you have a record of the request.</p></details></section>
       <aside class="cta">
-        <h2>Find your people first. Then your place.</h2>
-        <p>ColivEase gives you a match score with possible roommates based on area and commute, budget, move-in date, student or worker, gender preference and shared language. Every listing is reviewed by a person, chat warns you about common scam lines, and you can rent a whole home room by room.</p>
-        <a class="btn big" href="/app.html">Start for free →</a>
+        <div class="cta-copy">
+          <h2>Find your people first. Then your place.</h2>
+          <p>ColivEase gives you a match score with possible roommates based on area and commute, budget, move-in date, student or worker, gender preference and shared language. Every listing is reviewed by a person, chat warns you about common scam lines, and you can rent a whole home room by room.</p>
+          <a class="btn big" href="/app.html">Start for free →</a>
+        </div>
+        <div class="cta-demo" data-cv-demo="match" data-lang="en" aria-hidden="true"></div>
       </aside>
       <section class="sources"><h2>Sources</h2><ol><li><a href="https://www.ontario.ca/page/ontario-trillium-benefit" rel="noopener" target="_blank">Ontario: Ontario Trillium Benefit</a></li><li><a href="https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/ontario-trillium-benefit-questions-answers.html" rel="noopener" target="_blank">CRA: Ontario Trillium Benefit questions and answers</a></li><li><a href="https://www.canada.ca/en/revenue-agency/services/child-family-benefits/provincial-territorial-programs/ontario-energy-property-tax-credit-questions-answers.html" rel="noopener" target="_blank">CRA: Ontario energy and property tax credit questions and answers</a></li><li><a href="https://www.canada.ca/en/revenue-agency/services/tax/individuals/community-volunteer-income-tax-program.html" rel="noopener" target="_blank">CRA: Free tax clinics (Community Volunteer Income Tax Program)</a></li><li><a href="https://www.ontario.ca/laws/statute/06r17" rel="noopener" target="_blank">Residential Tenancies Act, 2006, s. 109 (receipts)</a></li></ol></section>
     </article>
@@ -324,5 +342,28 @@ body { font-size: 16px; }
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>
+<script>(function () {
+  var links = document.querySelectorAll(".toc a[href^='#']");
+  if (links.length && "IntersectionObserver" in window) {
+    var byId = {};
+    for (var i = 0; i < links.length; i++) byId[decodeURIComponent(links[i].getAttribute("href").slice(1))] = links[i];
+    var current = null;
+    var mark = function (a) { if (a === current) return; if (current) current.removeAttribute("aria-current"); if (a) a.setAttribute("aria-current", "true"); current = a; };
+    var seen = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) mark(byId[entries[k].target.id]);
+    }, { rootMargin: "-80px 0px -70% 0px" });
+    for (var id in byId) { var h = document.getElementById(id); if (h) seen.observe(h); }
+  }
+  var slots = document.querySelectorAll("[data-cv-demo]");
+  if (!slots.length || !("IntersectionObserver" in window)) return;
+  var load = function () {
+    var css = document.createElement("link"); css.rel = "stylesheet"; css.href = "/demos/demos.css"; document.head.appendChild(css);
+    var js = document.createElement("script"); js.src = "/demos/demos.js"; js.async = true; document.head.appendChild(js);
+  };
+  var near = new IntersectionObserver(function (entries) {
+    for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) { near.disconnect(); load(); return; }
+  }, { rootMargin: "900px 0px" });
+  for (var n = 0; n < slots.length; n++) near.observe(slots[n]);
+})();</script>
 </body>
 </html>

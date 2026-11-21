@@ -62,6 +62,9 @@ a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--blue-deep); }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -125,6 +128,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 .faq { margin-top: 2.6em; }
 .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin: 0 0 10px; }
 .faq summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -132,7 +137,9 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -157,6 +164,12 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+.grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
 @media (max-width: 980px) {
 .post-grid { grid-template-columns: 1fr; gap: 0; }
 .toc { display: none; }
@@ -171,14 +184,16 @@ body { font-size: 16px; }
 .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
 .btn { padding: 9px 14px; font-size: 14px; }
 .cover { border-radius: 18px; }
-.cta { padding: 24px; }
+.cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+.cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
 .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"BlogPosting","@id":"https://www.colivease.ca/zh/blog/renting-in-richmond-hill/#article","headline":"列治文山租房指南：地下室、交通与社区（2026）","description":"列治文山租房怎么选？各社区特点、地下室出租安全检查清单、Viva 和 GO 通勤方式，以及 Yonge 地铁北延线施工进展，华人新移民和留学生找房前必读。","image":[{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/og/renting-in-richmond-hill.zh.jpg","width":1200,"height":630},{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/covers/map.webp","width":900,"height":672}],"datePublished":"2026-11-21","dateModified":"2026-11-21","inLanguage":"zh-Hans","articleSection":"社区指南","keywords":"列治文山租房, 列治文山地下室出租, 列治文山合租, Yonge地铁北延线, 列治文山condo出租, Richmond Hill租房","wordCount":2254,"author":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/"},"publisher":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.colivease.ca/zh/blog/renting-in-richmond-hill/"},"isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/zh/blog/#blog","name":"ColivEase 博客：多伦多找室友与租房指南"},"translationOfWork":{"@id":"https://www.colivease.ca/blog/renting-in-richmond-hill/#article"},"citation":["https://www.metrolinx.com/en/projects-and-programs/yonge-north-subway-extension","https://www.metrolinx.com/en/news/shovels-in-the-ground-for-yonge-north-subway-extension","https://www.canada.ca/en/housing-infrastructure-communities/news/2026/07/canada-and-ontario-celebrate-another-milestone-for-the-yonge-north-subway-extension.html","https://www.richmondhill.ca/en/online-services/additional-residential-unit.aspx","https://www.richmondhill.ca/en/news/notice-of-passing-of-zoning-by-law-143-24.aspx","https://www.gotransit.com/en/the-future-and-go/construction-notices/richmond-hill-construction","https://www.yrt.ca/en/fares-and-passes/transfers-with-ttc-one-fare-program.aspx","https://tribunalsontario.ca/ltb/"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"博客","item":"https://www.colivease.ca/zh/blog/"},{"@type":"ListItem","position":3,"name":"社区指南","item":"https://www.colivease.ca/zh/blog/category/neighbourhoods/"},{"@type":"ListItem","position":4,"name":"列治文山租房指南：地下室、交通与社区（2026）","item":"https://www.colivease.ca/zh/blog/renting-in-richmond-hill/"}]},{"@type":"FAQPage","@id":"https://www.colivease.ca/zh/blog/renting-in-richmond-hill/#faq","mainEntity":[{"@type":"Question","name":"住列治文山没有车方便吗？","acceptedAnswer":{"@type":"Answer","text":"住在 Yonge 街或7号公路附近比较方便，那里有 Viva 快速公交和班次较密的 YRT 公交。东西两侧和北边的 Oak Ridges 等社区公交班次少，签约前要查好你那个地址晚上和周末的公交。"}},{"@type":"Question","name":"从列治文山去多伦多市中心怎么走？","acceptedAnswer":{"@type":"Answer","text":"最常见的是坐 Viva 或 YRT 沿 Yonge 街到 Finch 站，再换 TTC 1号线南下；用 PRESTO、借记卡或信用卡付费，One Fare 政策下换乘免费。工作日高峰时段也可以坐 Richmond Hill 线 GO 火车直达 Union 站。"}},{"@type":"Question","name":"Yonge 地铁北延线什么时候通车？","acceptedAnswer":{"@type":"Answer","text":"目前没有官方公布的通车日期。Metrolinx 表示主体工程已在2026年全面展开，但签约时还是应该按现在的交通条件来判断通勤是否可行，别把未来的地铁当作选房理由。"}},{"@type":"Question","name":"在列治文山和房东同住，要注意什么？","acceptedAnswer":{"@type":"Answer","text":"如果你和房东本人共用厨房或卫生间，《住宅租赁法》(RTA) 通常不适用，退租通知、驱逐程序都和普通租约不同。入住前把房租、通知期、访客、安静时间等规矩写成书面协议，对双方都更有保障。"}}]}]}</script>
 </head>
 <body>
 <header class="top">
+  <span class="read" aria-hidden="true"></span>
   <div class="wrap top-in">
     <a class="logo" href="/" aria-label="ColivEase"><img src="/blog/assets/logo.png" alt="ColivEase" width="96" height="66"></a>
     <nav aria-label="博客">
@@ -268,9 +283,12 @@ body { font-size: 16px; }
 
       <section class="faq" aria-labelledby="faq"><h2 id="faq">常见问题</h2><details><summary>住列治文山没有车方便吗？</summary><p>住在 Yonge 街或7号公路附近比较方便，那里有 Viva 快速公交和班次较密的 YRT 公交。东西两侧和北边的 Oak Ridges 等社区公交班次少，签约前要查好你那个地址晚上和周末的公交。</p></details><details><summary>从列治文山去多伦多市中心怎么走？</summary><p>最常见的是坐 Viva 或 YRT 沿 Yonge 街到 Finch 站，再换 TTC 1号线南下；用 PRESTO、借记卡或信用卡付费，One Fare 政策下换乘免费。工作日高峰时段也可以坐 Richmond Hill 线 GO 火车直达 Union 站。</p></details><details><summary>Yonge 地铁北延线什么时候通车？</summary><p>目前没有官方公布的通车日期。Metrolinx 表示主体工程已在2026年全面展开，但签约时还是应该按现在的交通条件来判断通勤是否可行，别把未来的地铁当作选房理由。</p></details><details><summary>在列治文山和房东同住，要注意什么？</summary><p>如果你和房东本人共用厨房或卫生间，《住宅租赁法》(RTA) 通常不适用，退租通知、驱逐程序都和普通租约不同。入住前把房租、通知期、访客、安静时间等规矩写成书面协议，对双方都更有保障。</p></details></section>
       <aside class="cta">
-        <h2>先找对的人，再找对的房。</h2>
-        <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
-        <a class="btn big" href="/app.html">免费开始 →</a>
+        <div class="cta-copy">
+          <h2>先找对的人，再找对的房。</h2>
+          <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
+          <a class="btn big" href="/app.html">免费开始 →</a>
+        </div>
+        <div class="cta-demo" data-cv-demo="match" data-lang="zh" aria-hidden="true"></div>
       </aside>
       <section class="sources"><h2>参考资料</h2><ol><li><a href="https://www.metrolinx.com/en/projects-and-programs/yonge-north-subway-extension" rel="noopener" target="_blank">Metrolinx：Yonge North Subway Extension（Yonge 地铁北延线）</a></li><li><a href="https://www.metrolinx.com/en/news/shovels-in-the-ground-for-yonge-north-subway-extension" rel="noopener" target="_blank">Metrolinx：Yonge 地铁北延线主体工程开工</a></li><li><a href="https://www.canada.ca/en/housing-infrastructure-communities/news/2026/07/canada-and-ontario-celebrate-another-milestone-for-the-yonge-north-subway-extension.html" rel="noopener" target="_blank">加拿大政府：联邦与安省庆祝 Yonge 地铁北延线新里程碑（2026年7月）</a></li><li><a href="https://www.richmondhill.ca/en/online-services/additional-residential-unit.aspx" rel="noopener" target="_blank">列治文山市政府：Additional residential unit（附加住宅单元）</a></li><li><a href="https://www.richmondhill.ca/en/news/notice-of-passing-of-zoning-by-law-143-24.aspx" rel="noopener" target="_blank">列治文山市政府：Zoning By-law 143-24 通过公告</a></li><li><a href="https://www.gotransit.com/en/the-future-and-go/construction-notices/richmond-hill-construction" rel="noopener" target="_blank">GO Transit：Richmond Hill 线服务与施工</a></li><li><a href="https://www.yrt.ca/en/fares-and-passes/transfers-with-ttc-one-fare-program.aspx" rel="noopener" target="_blank">YRT：与 TTC 免费换乘（One Fare）</a></li><li><a href="https://tribunalsontario.ca/ltb/" rel="noopener" target="_blank">房东租客委员会 Landlord and Tenant Board</a></li></ol></section>
     </article>
@@ -317,5 +335,28 @@ body { font-size: 16px; }
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>
+<script>(function () {
+  var links = document.querySelectorAll(".toc a[href^='#']");
+  if (links.length && "IntersectionObserver" in window) {
+    var byId = {};
+    for (var i = 0; i < links.length; i++) byId[decodeURIComponent(links[i].getAttribute("href").slice(1))] = links[i];
+    var current = null;
+    var mark = function (a) { if (a === current) return; if (current) current.removeAttribute("aria-current"); if (a) a.setAttribute("aria-current", "true"); current = a; };
+    var seen = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) mark(byId[entries[k].target.id]);
+    }, { rootMargin: "-80px 0px -70% 0px" });
+    for (var id in byId) { var h = document.getElementById(id); if (h) seen.observe(h); }
+  }
+  var slots = document.querySelectorAll("[data-cv-demo]");
+  if (!slots.length || !("IntersectionObserver" in window)) return;
+  var load = function () {
+    var css = document.createElement("link"); css.rel = "stylesheet"; css.href = "/demos/demos.css"; document.head.appendChild(css);
+    var js = document.createElement("script"); js.src = "/demos/demos.js"; js.async = true; document.head.appendChild(js);
+  };
+  var near = new IntersectionObserver(function (entries) {
+    for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) { near.disconnect(); load(); return; }
+  }, { rootMargin: "900px 0px" });
+  for (var n = 0; n < slots.length; n++) near.observe(slots[n]);
+})();</script>
 </body>
 </html>

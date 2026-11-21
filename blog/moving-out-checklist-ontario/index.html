@@ -59,6 +59,9 @@ a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--blue-deep); }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -122,6 +125,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 .faq { margin-top: 2.6em; }
 .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin: 0 0 10px; }
 .faq summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -129,7 +134,9 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -154,6 +161,12 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+.grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
 @media (max-width: 980px) {
 .post-grid { grid-template-columns: 1fr; gap: 0; }
 .toc { display: none; }
@@ -168,14 +181,16 @@ body { font-size: 16px; }
 .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
 .btn { padding: 9px 14px; font-size: 14px; }
 .cover { border-radius: 18px; }
-.cta { padding: 24px; }
+.cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+.cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
 .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"BlogPosting","@id":"https://www.colivease.ca/blog/moving-out-checklist-ontario/#article","headline":"Moving Out Checklist Ontario: Notice, Cleaning and Deposits","description":"Moving out in Ontario: N9 notice timing, ending early with an N11, cleaning, a photo walkthrough, utilities, address changes, deposits and roommate handovers.","image":[{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/og/moving-out-checklist-ontario.en.jpg","width":1200,"height":630},{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/covers/keys.webp","width":960,"height":717}],"datePublished":"2026-11-03","dateModified":"2026-11-03","inLanguage":"en-CA","articleSection":"Renting 101","keywords":"moving out checklist Ontario, moving out of a rental Ontario, N9 60 days notice, N11 agreement to end tenancy, last month's rent deposit move out, roommate moving out Ontario","wordCount":1664,"author":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/"},"publisher":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.colivease.ca/blog/moving-out-checklist-ontario/"},"isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/blog/#blog","name":"ColivEase Blog: Roommates & Renting in Toronto"},"citation":["https://tribunalsontario.ca/documents/ltb/Brochures/How%20a%20Tenant%20Can%20End%20Their%20Tenancy%20(EN).html","https://tribunalsontario.ca/documents/ltb/Notices%20of%20Termination%20&%20Instructions/N9.pdf","https://tribunalsontario.ca/documents/ltb/Other%20Forms/N11.pdf","https://tribunalsontario.ca/2026/09/21/ltb-operational-update-legislative-changes-at-the-landlord-and-tenant-board-effective-september-21-2026/","https://stepstojustice.ca/steps/housing-law/2-get-your-deposit-back/","https://stepstojustice.ca/questions/housing-law/can-i-come-back-some-my-things-after-moving-day/","https://www.ontario.ca/page/change-my-address-ontario-services","https://tribunalsontario.ca/documents/ltb/Brochures/Information%20for%20New%20Tenants.html"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://www.colivease.ca/blog/"},{"@type":"ListItem","position":3,"name":"Renting 101","item":"https://www.colivease.ca/blog/category/renting-101/"},{"@type":"ListItem","position":4,"name":"Moving Out Checklist Ontario: Notice, Cleaning and Deposits","item":"https://www.colivease.ca/blog/moving-out-checklist-ontario/"}]},{"@type":"FAQPage","@id":"https://www.colivease.ca/blog/moving-out-checklist-ontario/#faq","mainEntity":[{"@type":"Question","name":"How much notice do I need to give before moving out in Ontario?","acceptedAnswer":{"@type":"Answer","text":"For monthly and fixed-term tenancies, give at least 60 days' written notice using Form N9, with a termination date on the last day of a rental period. In a fixed-term lease it can't be earlier than the end of the term. Daily or weekly tenancies need 28 days. Add 5 days if you mail the notice."}},{"@type":"Question","name":"Can I move out before my lease ends in Ontario?","acceptedAnswer":{"@type":"Answer","text":"Yes, if your landlord agrees. You can sign an agreement to end the tenancy on any date you both accept, ideally on Form N11. Other options include assigning your lease to a new tenant with the landlord's consent. If you just leave without proper notice, you may owe rent until the unit is re-rented or the earliest date proper notice would have allowed."}},{"@type":"Question","name":"Do I have to clean before moving out?","acceptedAnswer":{"@type":"Answer","text":"You must leave the unit at the standard of ordinary cleanliness and repair any damage you or your guests caused beyond normal wear and tear. Your landlord can't charge a cleaning deposit or keep your last month's rent deposit for cleaning or damage. Photos of the clean, empty unit protect you if there's a dispute later."}},{"@type":"Question","name":"What happens to things I leave behind after moving out?","acceptedAnswer":{"@type":"Answer","text":"If you move out after giving an N9 or signing an N11, you lose your rights to anything left in the unit after the termination date, and the landlord can keep, sell or throw it away. Take everything with you and don't plan to come back for items later."}},{"@type":"Question","name":"Do I pay rent for my last month if I paid last month's rent?","acceptedAnswer":{"@type":"Answer","text":"No. A rent deposit must be applied to your last rent period, so if you gave proper notice you don't pay again for that month. Your landlord also owes any interest on the deposit. If the deposit plus interest is less than the final month's rent, you pay the difference."}}]}]}</script>
 </head>
 <body>
 <header class="top">
+  <span class="read" aria-hidden="true"></span>
   <div class="wrap top-in">
     <a class="logo" href="/" aria-label="ColivEase"><img src="/blog/assets/logo.png" alt="ColivEase" width="96" height="66"></a>
     <nav aria-label="Blog">
@@ -281,9 +296,12 @@ body { font-size: 16px; }
 
       <section class="faq" aria-labelledby="faq"><h2 id="faq">Frequently asked questions</h2><details><summary>How much notice do I need to give before moving out in Ontario?</summary><p>For monthly and fixed-term tenancies, give at least 60 days' written notice using Form N9, with a termination date on the last day of a rental period. In a fixed-term lease it can't be earlier than the end of the term. Daily or weekly tenancies need 28 days. Add 5 days if you mail the notice.</p></details><details><summary>Can I move out before my lease ends in Ontario?</summary><p>Yes, if your landlord agrees. You can sign an agreement to end the tenancy on any date you both accept, ideally on Form N11. Other options include assigning your lease to a new tenant with the landlord's consent. If you just leave without proper notice, you may owe rent until the unit is re-rented or the earliest date proper notice would have allowed.</p></details><details><summary>Do I have to clean before moving out?</summary><p>You must leave the unit at the standard of ordinary cleanliness and repair any damage you or your guests caused beyond normal wear and tear. Your landlord can't charge a cleaning deposit or keep your last month's rent deposit for cleaning or damage. Photos of the clean, empty unit protect you if there's a dispute later.</p></details><details><summary>What happens to things I leave behind after moving out?</summary><p>If you move out after giving an N9 or signing an N11, you lose your rights to anything left in the unit after the termination date, and the landlord can keep, sell or throw it away. Take everything with you and don't plan to come back for items later.</p></details><details><summary>Do I pay rent for my last month if I paid last month's rent?</summary><p>No. A rent deposit must be applied to your last rent period, so if you gave proper notice you don't pay again for that month. Your landlord also owes any interest on the deposit. If the deposit plus interest is less than the final month's rent, you pay the difference.</p></details></section>
       <aside class="cta">
-        <h2>Find your people first. Then your place.</h2>
-        <p>ColivEase gives you a match score with possible roommates based on area and commute, budget, move-in date, student or worker, gender preference and shared language. Every listing is reviewed by a person, chat warns you about common scam lines, and you can rent a whole home room by room.</p>
-        <a class="btn big" href="/app.html">Start for free →</a>
+        <div class="cta-copy">
+          <h2>Find your people first. Then your place.</h2>
+          <p>ColivEase gives you a match score with possible roommates based on area and commute, budget, move-in date, student or worker, gender preference and shared language. Every listing is reviewed by a person, chat warns you about common scam lines, and you can rent a whole home room by room.</p>
+          <a class="btn big" href="/app.html">Start for free →</a>
+        </div>
+        <div class="cta-demo" data-cv-demo="match" data-lang="en" aria-hidden="true"></div>
       </aside>
       <section class="sources"><h2>Sources</h2><ol><li><a href="https://tribunalsontario.ca/documents/ltb/Brochures/How%20a%20Tenant%20Can%20End%20Their%20Tenancy%20(EN).html" rel="noopener" target="_blank">LTB Brochure: How a Tenant Can End Their Tenancy</a></li><li><a href="https://tribunalsontario.ca/documents/ltb/Notices%20of%20Termination%20&amp;%20Instructions/N9.pdf" rel="noopener" target="_blank">Form N9: Tenant's Notice to End the Tenancy (LTB)</a></li><li><a href="https://tribunalsontario.ca/documents/ltb/Other%20Forms/N11.pdf" rel="noopener" target="_blank">Form N11: Agreement to End the Tenancy (LTB)</a></li><li><a href="https://tribunalsontario.ca/2026/09/21/ltb-operational-update-legislative-changes-at-the-landlord-and-tenant-board-effective-september-21-2026/" rel="noopener" target="_blank">LTB Operational Update: Legislative Changes Effective September 21, 2026</a></li><li><a href="https://stepstojustice.ca/steps/housing-law/2-get-your-deposit-back/" rel="noopener" target="_blank">Get your deposit back (Steps to Justice)</a></li><li><a href="https://stepstojustice.ca/questions/housing-law/can-i-come-back-some-my-things-after-moving-day/" rel="noopener" target="_blank">Can I come back for some of my things after moving day? (Steps to Justice)</a></li><li><a href="https://www.ontario.ca/page/change-my-address-ontario-services" rel="noopener" target="_blank">Change my address (Government of Ontario)</a></li><li><a href="https://tribunalsontario.ca/documents/ltb/Brochures/Information%20for%20New%20Tenants.html" rel="noopener" target="_blank">LTB Brochure: Information for New Tenants</a></li></ol></section>
     </article>
@@ -330,5 +348,28 @@ body { font-size: 16px; }
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>
+<script>(function () {
+  var links = document.querySelectorAll(".toc a[href^='#']");
+  if (links.length && "IntersectionObserver" in window) {
+    var byId = {};
+    for (var i = 0; i < links.length; i++) byId[decodeURIComponent(links[i].getAttribute("href").slice(1))] = links[i];
+    var current = null;
+    var mark = function (a) { if (a === current) return; if (current) current.removeAttribute("aria-current"); if (a) a.setAttribute("aria-current", "true"); current = a; };
+    var seen = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) mark(byId[entries[k].target.id]);
+    }, { rootMargin: "-80px 0px -70% 0px" });
+    for (var id in byId) { var h = document.getElementById(id); if (h) seen.observe(h); }
+  }
+  var slots = document.querySelectorAll("[data-cv-demo]");
+  if (!slots.length || !("IntersectionObserver" in window)) return;
+  var load = function () {
+    var css = document.createElement("link"); css.rel = "stylesheet"; css.href = "/demos/demos.css"; document.head.appendChild(css);
+    var js = document.createElement("script"); js.src = "/demos/demos.js"; js.async = true; document.head.appendChild(js);
+  };
+  var near = new IntersectionObserver(function (entries) {
+    for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) { near.disconnect(); load(); return; }
+  }, { rootMargin: "900px 0px" });
+  for (var n = 0; n < slots.length; n++) near.observe(slots[n]);
+})();</script>
 </body>
 </html>

@@ -62,6 +62,9 @@ a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--blue-deep); }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -125,6 +128,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 .faq { margin-top: 2.6em; }
 .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin: 0 0 10px; }
 .faq summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -132,7 +137,9 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -157,6 +164,12 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+.grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
 @media (max-width: 980px) {
 .post-grid { grid-template-columns: 1fr; gap: 0; }
 .toc { display: none; }
@@ -171,14 +184,16 @@ body { font-size: 16px; }
 .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
 .btn { padding: 9px 14px; font-size: 14px; }
 .cover { border-radius: 18px; }
-.cta { padding: 24px; }
+.cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+.cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
 .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"BlogPosting","@id":"https://www.colivease.ca/zh/blog/renting-as-a-couple-toronto/#article","headline":"情侣合租多伦多：找房、加租约一文看懂","description":"情侣合租多伦多怎么找房？哪些房东可以拒绝两个人住，男朋友搬进来房东同意吗，怎样把另一半加进租约，申请材料怎么准备，分手了租约怎么办，一篇讲清楚。","image":[{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/og/renting-as-a-couple-toronto.zh.jpg","width":1200,"height":630},{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/covers/hero.webp","width":1152,"height":928}],"datePublished":"2026-11-21","dateModified":"2026-11-21","inLanguage":"zh-Hans","articleSection":"室友","keywords":"情侣合租 多伦多, 男朋友搬进来房东同意吗, 情侣租房 多伦多, 安省 加人进租约, 多伦多 情侣 租单间","wordCount":2137,"author":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/"},"publisher":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.colivease.ca/zh/blog/renting-as-a-couple-toronto/"},"isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/zh/blog/#blog","name":"ColivEase 博客：多伦多找室友与租房指南"},"translationOfWork":{"@id":"https://www.colivease.ca/blog/renting-as-a-couple-toronto/#article"},"citation":["https://www.ohrc.on.ca/en/your-rights/code-grounds/family-and-marital-status","https://www.ohrc.on.ca/en/policy-human-rights-and-rental-housing","https://www.ontario.ca/laws/statute/90h19","https://www.ontario.ca/laws/statute/06r17","https://tribunalsontario.ca/documents/ltb/Interpretation%20Guidelines/21%20-%20Landlords%20Tenants%20Occupants%20and%20Residential%20Tenancies.html"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"博客","item":"https://www.colivease.ca/zh/blog/"},{"@type":"ListItem","position":3,"name":"室友","item":"https://www.colivease.ca/zh/blog/category/roommates/"},{"@type":"ListItem","position":4,"name":"情侣合租多伦多：找房、加租约一文看懂","item":"https://www.colivease.ca/zh/blog/renting-as-a-couple-toronto/"}]},{"@type":"FAQPage","@id":"https://www.colivease.ca/zh/blog/renting-as-a-couple-toronto/#faq","mainEntity":[{"@type":"Question","name":"和房东同住，房东不让男朋友过夜，这合法吗？","acceptedAnswer":{"@type":"Answer","text":"如果你和住在楼里的房东或其近亲共用厨房或卫生间，RTA一般不适用，访客和过夜规则主要看你们的书面协议和房东的家规。入住前把访客、过夜次数这些问题问清楚并写下来，比事后争论有用得多。如果房东不住在这里，你是受RTA保护的租客，情况就不同，可以咨询法律诊所。"}},{"@type":"Question","name":"情侣住一间房，房东要多收钱合理吗？","acceptedAnswer":{"@type":"Answer","text":"刚开始租的时候，价格是谈出来的，很多房东会因为水电和公共空间用得多而对两个人报高一点的价格，可以问清楚多收的钱包含什么。但如果你已经是受RTA保护的租客，之后加租受到严格限制，因为男朋友搬进来就要涨租，先问问法律诊所。"}},{"@type":"Question","name":"两个人都要签租约吗？","acceptedAnswer":{"@type":"Answer","text":"法律上不强制，但这是对另一半最好的保护。在租约上的是租客，可以去LTB维权；不在租约上的一般只是居住者（occupant），没有这些权利，而且租客的租约结束时通常也要一起搬走。"}},{"@type":"Question","name":"情侣租一个房间比租一室一厅省钱吗？","acceptedAnswer":{"@type":"Answer","text":"通常会便宜一些，因为厨房、卫生间和水电网和别人分摊。代价是私密性差、规矩多。比较时要算总账：房租加水电网，再和分开租两间房、或租一个小公寓对比。"}},{"@type":"Question","name":"分手了，租约怎么办？","acceptedAnswer":{"@type":"Answer","text":"如果两个人都在租约上，一个人交N9一般不会让另一个人的租约结束，在处理好之前两个人都可能要对房租负责。最好签约时就书面约定：谁留下、另一方提前多久通知、押金怎么分。"}}]}]}</script>
 </head>
 <body>
 <header class="top">
+  <span class="read" aria-hidden="true"></span>
   <div class="wrap top-in">
     <a class="logo" href="/" aria-label="ColivEase"><img src="/blog/assets/logo.png" alt="ColivEase" width="96" height="66"></a>
     <nav aria-label="博客">
@@ -266,9 +281,12 @@ body { font-size: 16px; }
 
       <section class="faq" aria-labelledby="faq"><h2 id="faq">常见问题</h2><details><summary>和房东同住，房东不让男朋友过夜，这合法吗？</summary><p>如果你和住在楼里的房东或其近亲共用厨房或卫生间，RTA一般不适用，访客和过夜规则主要看你们的书面协议和房东的家规。入住前把访客、过夜次数这些问题问清楚并写下来，比事后争论有用得多。如果房东不住在这里，你是受RTA保护的租客，情况就不同，可以咨询法律诊所。</p></details><details><summary>情侣住一间房，房东要多收钱合理吗？</summary><p>刚开始租的时候，价格是谈出来的，很多房东会因为水电和公共空间用得多而对两个人报高一点的价格，可以问清楚多收的钱包含什么。但如果你已经是受RTA保护的租客，之后加租受到严格限制，因为男朋友搬进来就要涨租，先问问法律诊所。</p></details><details><summary>两个人都要签租约吗？</summary><p>法律上不强制，但这是对另一半最好的保护。在租约上的是租客，可以去LTB维权；不在租约上的一般只是居住者（occupant），没有这些权利，而且租客的租约结束时通常也要一起搬走。</p></details><details><summary>情侣租一个房间比租一室一厅省钱吗？</summary><p>通常会便宜一些，因为厨房、卫生间和水电网和别人分摊。代价是私密性差、规矩多。比较时要算总账：房租加水电网，再和分开租两间房、或租一个小公寓对比。</p></details><details><summary>分手了，租约怎么办？</summary><p>如果两个人都在租约上，一个人交N9一般不会让另一个人的租约结束，在处理好之前两个人都可能要对房租负责。最好签约时就书面约定：谁留下、另一方提前多久通知、押金怎么分。</p></details></section>
       <aside class="cta">
-        <h2>先找对的人，再找对的房。</h2>
-        <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
-        <a class="btn big" href="/app.html">免费开始 →</a>
+        <div class="cta-copy">
+          <h2>先找对的人，再找对的房。</h2>
+          <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
+          <a class="btn big" href="/app.html">免费开始 →</a>
+        </div>
+        <div class="cta-demo" data-cv-demo="match" data-lang="zh" aria-hidden="true"></div>
       </aside>
       <section class="sources"><h2>参考资料</h2><ol><li><a href="https://www.ohrc.on.ca/en/your-rights/code-grounds/family-and-marital-status" rel="noopener" target="_blank">OHRC: Family and marital status</a></li><li><a href="https://www.ohrc.on.ca/en/policy-human-rights-and-rental-housing" rel="noopener" target="_blank">OHRC: Policy on human rights and rental housing</a></li><li><a href="https://www.ontario.ca/laws/statute/90h19" rel="noopener" target="_blank">Human Rights Code（第2、21条）</a></li><li><a href="https://www.ontario.ca/laws/statute/06r17" rel="noopener" target="_blank">Residential Tenancies Act, 2006（第5、95条）</a></li><li><a href="https://tribunalsontario.ca/documents/ltb/Interpretation%20Guidelines/21%20-%20Landlords%20Tenants%20Occupants%20and%20Residential%20Tenancies.html" rel="noopener" target="_blank">LTB Interpretation Guideline 21</a></li></ol></section>
     </article>
@@ -315,5 +333,28 @@ body { font-size: 16px; }
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>
+<script>(function () {
+  var links = document.querySelectorAll(".toc a[href^='#']");
+  if (links.length && "IntersectionObserver" in window) {
+    var byId = {};
+    for (var i = 0; i < links.length; i++) byId[decodeURIComponent(links[i].getAttribute("href").slice(1))] = links[i];
+    var current = null;
+    var mark = function (a) { if (a === current) return; if (current) current.removeAttribute("aria-current"); if (a) a.setAttribute("aria-current", "true"); current = a; };
+    var seen = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) mark(byId[entries[k].target.id]);
+    }, { rootMargin: "-80px 0px -70% 0px" });
+    for (var id in byId) { var h = document.getElementById(id); if (h) seen.observe(h); }
+  }
+  var slots = document.querySelectorAll("[data-cv-demo]");
+  if (!slots.length || !("IntersectionObserver" in window)) return;
+  var load = function () {
+    var css = document.createElement("link"); css.rel = "stylesheet"; css.href = "/demos/demos.css"; document.head.appendChild(css);
+    var js = document.createElement("script"); js.src = "/demos/demos.js"; js.async = true; document.head.appendChild(js);
+  };
+  var near = new IntersectionObserver(function (entries) {
+    for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) { near.disconnect(); load(); return; }
+  }, { rootMargin: "900px 0px" });
+  for (var n = 0; n < slots.length; n++) near.observe(slots[n]);
+})();</script>
 </body>
 </html>

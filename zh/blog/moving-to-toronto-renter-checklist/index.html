@@ -62,6 +62,9 @@ a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--blue-deep); }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -125,6 +128,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 .faq { margin-top: 2.6em; }
 .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin: 0 0 10px; }
 .faq summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -132,7 +137,9 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -157,6 +164,12 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+.grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
 @media (max-width: 980px) {
 .post-grid { grid-template-columns: 1fr; gap: 0; }
 .toc { display: none; }
@@ -171,14 +184,16 @@ body { font-size: 16px; }
 .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
 .btn { padding: 9px 14px; font-size: 14px; }
 .cover { border-radius: 18px; }
-.cta { padding: 24px; }
+.cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+.cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
 .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"BlogPosting","@id":"https://www.colivease.ca/zh/blog/moving-to-toronto-renter-checklist/#article","headline":"多伦多搬家入住清单：从保险水电到PRESTO","description":"刚到多伦多租房入住？这份多伦多搬家入住清单涵盖租客保险、Toronto Hydro和Enbridge开户、网络、入住拍照、公寓电梯预约、改地址和PRESTO。","image":[{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/og/moving-to-toronto-renter-checklist.zh.jpg","width":1200,"height":630},{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/covers/keys.webp","width":960,"height":717}],"datePublished":"2026-10-31","dateModified":"2026-11-03","inLanguage":"zh-Hans","articleSection":"新移民与留学生","keywords":"多伦多搬家入住清单, 多伦多租房入住, 租客保险, Toronto Hydro 开户, 安省改地址, PRESTO 留学生","wordCount":2665,"author":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/"},"publisher":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.colivease.ca/zh/blog/moving-to-toronto-renter-checklist/"},"isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/zh/blog/#blog","name":"ColivEase 博客：多伦多找室友与租房指南"},"translationOfWork":{"@id":"https://www.colivease.ca/blog/moving-to-toronto-renter-checklist/#article"},"citation":["https://www.ontario.ca/page/guide-ontarios-standard-lease","https://www.ontario.ca/page/renting-ontario-your-rights","https://www.ontario.ca/page/change-my-address-ontario-services","https://www.canadapost-postescanada.ca/cpc/en/personal/receiving/manage-mail/mail-forwarding.page","https://www.ttc.ca/Fares-and-passes","https://www.ttc.ca/farecapping","https://www.toronto.ca/community-people/public-safety-alerts/safety-tips-prevention/safety-equipment-devices/smoke-alarms/"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"博客","item":"https://www.colivease.ca/zh/blog/"},{"@type":"ListItem","position":3,"name":"新移民与留学生","item":"https://www.colivease.ca/zh/blog/category/newcomers-and-students/"},{"@type":"ListItem","position":4,"name":"多伦多搬家入住清单：从保险水电到PRESTO","item":"https://www.colivease.ca/zh/blog/moving-to-toronto-renter-checklist/"}]},{"@type":"FAQPage","@id":"https://www.colivease.ca/zh/blog/moving-to-toronto-renter-checklist/#faq","mainEntity":[{"@type":"Question","name":"在安省租房必须买租客保险吗？","acceptedAnswer":{"@type":"Answer","text":"法律没有规定每个租客都必须买，但房东可以把它写进租约作为条件，安省标准租约里也有专门的租客保险条款。即使不是强制，租客保险 (tenant insurance) 通常能保障你的个人物品，以及意外损坏楼宇或他人受伤时的责任。"}},{"@type":"Question","name":"租房要自己开Toronto Hydro账户吗？","acceptedAnswer":{"@type":"Answer","text":"看租约。标准租约会写明电、暖气、水由谁负责。如果电费由你付、而且单元有独立电表，通常要在入住前向Toronto Hydro开户；很多公寓 (condo) 则由分表公司 (sub-metering company) 负责电费。"}},{"@type":"Question","name":"搬家后多久要在安省改地址？","acceptedAnswer":{"@type":"Answer","text":"安省要求在搬家后6天内更新驾照和车辆登记的地址，30天内更新健康卡 (health card) 地址。很多变更都可以通过ServiceOntario在网上一次办好。"}},{"@type":"Question","name":"坐TTC可以直接刷信用卡吗？","acceptedAnswer":{"@type":"Answer","text":"可以。你可以刷信用卡、借记卡（包括手机钱包），也可以用PRESTO卡。青少年、长者等优惠票价需要设置好票种的PRESTO卡；从2026年9月1日起，同一支付方式在一个自然月内付费乘坐满47次后，当月其余TTC乘车免费。"}},{"@type":"Question","name":"入住时需要做验房吗？","acceptedAnswer":{"@type":"Answer","text":"安省没有强制规定，但这是保护自己最有效的方法之一。最好和房东一起检查，每个房间都拍带日期的照片和视频，并当天发邮件给房东留底。"}}]}]}</script>
 </head>
 <body>
 <header class="top">
+  <span class="read" aria-hidden="true"></span>
   <div class="wrap top-in">
     <a class="logo" href="/" aria-label="ColivEase"><img src="/blog/assets/logo.png" alt="ColivEase" width="96" height="66"></a>
     <nav aria-label="博客">
@@ -343,9 +358,12 @@ body { font-size: 16px; }
 
       <section class="faq" aria-labelledby="faq"><h2 id="faq">常见问题</h2><details><summary>在安省租房必须买租客保险吗？</summary><p>法律没有规定每个租客都必须买，但房东可以把它写进租约作为条件，安省标准租约里也有专门的租客保险条款。即使不是强制，租客保险 (tenant insurance) 通常能保障你的个人物品，以及意外损坏楼宇或他人受伤时的责任。</p></details><details><summary>租房要自己开Toronto Hydro账户吗？</summary><p>看租约。标准租约会写明电、暖气、水由谁负责。如果电费由你付、而且单元有独立电表，通常要在入住前向Toronto Hydro开户；很多公寓 (condo) 则由分表公司 (sub-metering company) 负责电费。</p></details><details><summary>搬家后多久要在安省改地址？</summary><p>安省要求在搬家后6天内更新驾照和车辆登记的地址，30天内更新健康卡 (health card) 地址。很多变更都可以通过ServiceOntario在网上一次办好。</p></details><details><summary>坐TTC可以直接刷信用卡吗？</summary><p>可以。你可以刷信用卡、借记卡（包括手机钱包），也可以用PRESTO卡。青少年、长者等优惠票价需要设置好票种的PRESTO卡；从2026年9月1日起，同一支付方式在一个自然月内付费乘坐满47次后，当月其余TTC乘车免费。</p></details><details><summary>入住时需要做验房吗？</summary><p>安省没有强制规定，但这是保护自己最有效的方法之一。最好和房东一起检查，每个房间都拍带日期的照片和视频，并当天发邮件给房东留底。</p></details></section>
       <aside class="cta">
-        <h2>先找对的人，再找对的房。</h2>
-        <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
-        <a class="btn big" href="/app.html">免费开始 →</a>
+        <div class="cta-copy">
+          <h2>先找对的人，再找对的房。</h2>
+          <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
+          <a class="btn big" href="/app.html">免费开始 →</a>
+        </div>
+        <div class="cta-demo" data-cv-demo="match" data-lang="zh" aria-hidden="true"></div>
       </aside>
       <section class="sources"><h2>参考资料</h2><ol><li><a href="https://www.ontario.ca/page/guide-ontarios-standard-lease" rel="noopener" target="_blank">Guide to Ontario's standard lease</a></li><li><a href="https://www.ontario.ca/page/renting-ontario-your-rights" rel="noopener" target="_blank">Renting in Ontario: your rights</a></li><li><a href="https://www.ontario.ca/page/change-my-address-ontario-services" rel="noopener" target="_blank">ServiceOntario: Change my address</a></li><li><a href="https://www.canadapost-postescanada.ca/cpc/en/personal/receiving/manage-mail/mail-forwarding.page" rel="noopener" target="_blank">Canada Post: Mail Forwarding</a></li><li><a href="https://www.ttc.ca/Fares-and-passes" rel="noopener" target="_blank">TTC: Fares and passes</a></li><li><a href="https://www.ttc.ca/farecapping" rel="noopener" target="_blank">TTC: Monthly fare capping</a></li><li><a href="https://www.toronto.ca/community-people/public-safety-alerts/safety-tips-prevention/safety-equipment-devices/smoke-alarms/" rel="noopener" target="_blank">City of Toronto: Smoke alarms</a></li></ol></section>
     </article>
@@ -392,5 +410,28 @@ body { font-size: 16px; }
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>
+<script>(function () {
+  var links = document.querySelectorAll(".toc a[href^='#']");
+  if (links.length && "IntersectionObserver" in window) {
+    var byId = {};
+    for (var i = 0; i < links.length; i++) byId[decodeURIComponent(links[i].getAttribute("href").slice(1))] = links[i];
+    var current = null;
+    var mark = function (a) { if (a === current) return; if (current) current.removeAttribute("aria-current"); if (a) a.setAttribute("aria-current", "true"); current = a; };
+    var seen = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) mark(byId[entries[k].target.id]);
+    }, { rootMargin: "-80px 0px -70% 0px" });
+    for (var id in byId) { var h = document.getElementById(id); if (h) seen.observe(h); }
+  }
+  var slots = document.querySelectorAll("[data-cv-demo]");
+  if (!slots.length || !("IntersectionObserver" in window)) return;
+  var load = function () {
+    var css = document.createElement("link"); css.rel = "stylesheet"; css.href = "/demos/demos.css"; document.head.appendChild(css);
+    var js = document.createElement("script"); js.src = "/demos/demos.js"; js.async = true; document.head.appendChild(js);
+  };
+  var near = new IntersectionObserver(function (entries) {
+    for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) { near.disconnect(); load(); return; }
+  }, { rootMargin: "900px 0px" });
+  for (var n = 0; n < slots.length; n++) near.observe(slots[n]);
+})();</script>
 </body>
 </html>

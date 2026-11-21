@@ -62,6 +62,9 @@ a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--blue-deep); }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -125,6 +128,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 .faq { margin-top: 2.6em; }
 .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin: 0 0 10px; }
 .faq summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -132,7 +137,9 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -157,6 +164,12 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+.grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
 @media (max-width: 980px) {
 .post-grid { grid-template-columns: 1fr; gap: 0; }
 .toc { display: none; }
@@ -171,14 +184,16 @@ body { font-size: 16px; }
 .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
 .btn { padding: 9px 14px; font-size: 14px; }
 .cover { border-radius: 18px; }
-.cta { padding: 24px; }
+.cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+.cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
 .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"BlogPosting","@id":"https://www.colivease.ca/blog/renting-in-vaughan/#article","headline":"Vaughan Rentals: VMC Condos, Areas and Commutes","description":"Searching Vaughan rentals? Compare VMC condos, Woodbridge, Maple and Thornhill, see how Line 1, Viva and GO connect, and what to check before signing a lease.","image":[{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/og/renting-in-vaughan.en.jpg","width":1200,"height":630},{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/covers/map.webp","width":900,"height":672}],"datePublished":"2026-11-21","dateModified":"2026-11-21","inLanguage":"en-CA","articleSection":"Neighbourhoods","keywords":"Vaughan rentals, Vaughan Metropolitan Centre condos, Vaughan to York University commute, renting in Vaughan, VMC condo rental, Vaughan basement apartment","wordCount":1208,"author":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/"},"publisher":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.colivease.ca/blog/renting-in-vaughan/"},"isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/blog/#blog","name":"ColivEase Blog: Roommates & Renting in Toronto"},"workTranslation":{"@id":"https://www.colivease.ca/zh/blog/renting-in-vaughan/#article"},"citation":["https://www.ttc.ca/subway-stations/vaughan-metropolitan-centre-station","https://www.ttc.ca/news/2017/December/Line-1-extension-opening-brings-TTC-service-changes-","https://www.yrt.ca/en/fares-and-passes/transfers-with-ttc-one-fare-program.aspx","https://www.yrrtc.ca/bulletins/H2/VMC/CB_H2VMC_2018_02-06_VMC_Open","https://www.vaughan.ca/residential/secondary-suites/about-secondary-suites","https://www.metrolinx.com/en/discover/go-expansion-progresses-along-the-barrie-line"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://www.colivease.ca/blog/"},{"@type":"ListItem","position":3,"name":"Neighbourhoods","item":"https://www.colivease.ca/blog/category/neighbourhoods/"},{"@type":"ListItem","position":4,"name":"Vaughan Rentals: VMC Condos, Areas and Commutes","item":"https://www.colivease.ca/blog/renting-in-vaughan/"}]},{"@type":"FAQPage","@id":"https://www.colivease.ca/blog/renting-in-vaughan/#faq","mainEntity":[{"@type":"Question","name":"How do I commute from Vaughan to York University?","acceptedAnswer":{"@type":"Answer","text":"From Vaughan Metropolitan Centre, take Line 1 south: York University station is three stops away, after Highway 407 and Pioneer Village. If you live elsewhere in Vaughan, a YRT or Viva bus to VMC or Pioneer Village usually gets you onto the subway. With PRESTO, debit or credit, the One Fare Program makes YRT-to-TTC transfers free within the transfer window."}},{"@type":"Question","name":"Is renting a condo at Vaughan Metropolitan Centre worth it?","acceptedAnswer":{"@type":"Answer","text":"It suits people who want new buildings, amenities and a subway station at the door, especially commuters to York University or downtown along Line 1. You trade a quieter suburban street for a busy, still-growing district. Compare total monthly cost, including parking and utilities, against a room in a nearby house."}},{"@type":"Question","name":"Can I live in Vaughan without a car?","acceptedAnswer":{"@type":"Answer","text":"Around VMC and along the Highway 7 Viva corridor, yes for most daily needs. In much of Woodbridge, Maple and Kleinburg, life is more car-oriented and buses run less often, so check routes and frequencies from the exact address."}},{"@type":"Question","name":"Are basement apartments legal in Vaughan?","acceptedAnswer":{"@type":"Answer","text":"Vaughan permits secondary suites in certain detached, semi-detached and street townhouses, as long as they meet the zoning by-law, the Ontario Building Code and the Fire Code. Ask the landlord whether the unit was built with a permit, and look for safety basics like alarms and a proper exit."}},{"@type":"Question","name":"Which GO stations are in Vaughan?","acceptedAnswer":{"@type":"Answer","text":"Maple and Rutherford stations on the Barrie line are in Vaughan. They are handy if you work downtown near Union, but check the schedule for your hours, since service levels vary through the day."}}]}]}</script>
 </head>
 <body>
 <header class="top">
+  <span class="read" aria-hidden="true"></span>
   <div class="wrap top-in">
     <a class="logo" href="/" aria-label="ColivEase"><img src="/blog/assets/logo.png" alt="ColivEase" width="96" height="66"></a>
     <nav aria-label="Blog">
@@ -256,9 +271,12 @@ body { font-size: 16px; }
 
       <section class="faq" aria-labelledby="faq"><h2 id="faq">Frequently asked questions</h2><details><summary>How do I commute from Vaughan to York University?</summary><p>From Vaughan Metropolitan Centre, take Line 1 south: York University station is three stops away, after Highway 407 and Pioneer Village. If you live elsewhere in Vaughan, a YRT or Viva bus to VMC or Pioneer Village usually gets you onto the subway. With PRESTO, debit or credit, the One Fare Program makes YRT-to-TTC transfers free within the transfer window.</p></details><details><summary>Is renting a condo at Vaughan Metropolitan Centre worth it?</summary><p>It suits people who want new buildings, amenities and a subway station at the door, especially commuters to York University or downtown along Line 1. You trade a quieter suburban street for a busy, still-growing district. Compare total monthly cost, including parking and utilities, against a room in a nearby house.</p></details><details><summary>Can I live in Vaughan without a car?</summary><p>Around VMC and along the Highway 7 Viva corridor, yes for most daily needs. In much of Woodbridge, Maple and Kleinburg, life is more car-oriented and buses run less often, so check routes and frequencies from the exact address.</p></details><details><summary>Are basement apartments legal in Vaughan?</summary><p>Vaughan permits secondary suites in certain detached, semi-detached and street townhouses, as long as they meet the zoning by-law, the Ontario Building Code and the Fire Code. Ask the landlord whether the unit was built with a permit, and look for safety basics like alarms and a proper exit.</p></details><details><summary>Which GO stations are in Vaughan?</summary><p>Maple and Rutherford stations on the Barrie line are in Vaughan. They are handy if you work downtown near Union, but check the schedule for your hours, since service levels vary through the day.</p></details></section>
       <aside class="cta">
-        <h2>Find your people first. Then your place.</h2>
-        <p>ColivEase gives you a match score with possible roommates based on area and commute, budget, move-in date, student or worker, gender preference and shared language. Every listing is reviewed by a person, chat warns you about common scam lines, and you can rent a whole home room by room.</p>
-        <a class="btn big" href="/app.html">Start for free →</a>
+        <div class="cta-copy">
+          <h2>Find your people first. Then your place.</h2>
+          <p>ColivEase gives you a match score with possible roommates based on area and commute, budget, move-in date, student or worker, gender preference and shared language. Every listing is reviewed by a person, chat warns you about common scam lines, and you can rent a whole home room by room.</p>
+          <a class="btn big" href="/app.html">Start for free →</a>
+        </div>
+        <div class="cta-demo" data-cv-demo="match" data-lang="en" aria-hidden="true"></div>
       </aside>
       <section class="sources"><h2>Sources</h2><ol><li><a href="https://www.ttc.ca/subway-stations/vaughan-metropolitan-centre-station" rel="noopener" target="_blank">Vaughan Metropolitan Centre station (TTC)</a></li><li><a href="https://www.ttc.ca/news/2017/December/Line-1-extension-opening-brings-TTC-service-changes-" rel="noopener" target="_blank">Line 1 extension opening brings TTC service changes (TTC, 2017)</a></li><li><a href="https://www.yrt.ca/en/fares-and-passes/transfers-with-ttc-one-fare-program.aspx" rel="noopener" target="_blank">Transfers with the TTC One Fare Program (YRT)</a></li><li><a href="https://www.yrrtc.ca/bulletins/H2/VMC/CB_H2VMC_2018_02-06_VMC_Open" rel="noopener" target="_blank">VMC transit hub (York Region Rapid Transit)</a></li><li><a href="https://www.vaughan.ca/residential/secondary-suites/about-secondary-suites" rel="noopener" target="_blank">About secondary suites (City of Vaughan)</a></li><li><a href="https://www.metrolinx.com/en/discover/go-expansion-progresses-along-the-barrie-line" rel="noopener" target="_blank">Barrie line expansion (Metrolinx)</a></li></ol></section>
     </article>
@@ -305,5 +323,28 @@ body { font-size: 16px; }
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>
+<script>(function () {
+  var links = document.querySelectorAll(".toc a[href^='#']");
+  if (links.length && "IntersectionObserver" in window) {
+    var byId = {};
+    for (var i = 0; i < links.length; i++) byId[decodeURIComponent(links[i].getAttribute("href").slice(1))] = links[i];
+    var current = null;
+    var mark = function (a) { if (a === current) return; if (current) current.removeAttribute("aria-current"); if (a) a.setAttribute("aria-current", "true"); current = a; };
+    var seen = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) mark(byId[entries[k].target.id]);
+    }, { rootMargin: "-80px 0px -70% 0px" });
+    for (var id in byId) { var h = document.getElementById(id); if (h) seen.observe(h); }
+  }
+  var slots = document.querySelectorAll("[data-cv-demo]");
+  if (!slots.length || !("IntersectionObserver" in window)) return;
+  var load = function () {
+    var css = document.createElement("link"); css.rel = "stylesheet"; css.href = "/demos/demos.css"; document.head.appendChild(css);
+    var js = document.createElement("script"); js.src = "/demos/demos.js"; js.async = true; document.head.appendChild(js);
+  };
+  var near = new IntersectionObserver(function (entries) {
+    for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) { near.disconnect(); load(); return; }
+  }, { rootMargin: "900px 0px" });
+  for (var n = 0; n < slots.length; n++) near.observe(slots[n]);
+})();</script>
 </body>
 </html>

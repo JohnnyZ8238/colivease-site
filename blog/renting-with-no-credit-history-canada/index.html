@@ -62,6 +62,9 @@ a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--blue-deep); }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -125,6 +128,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 .faq { margin-top: 2.6em; }
 .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin: 0 0 10px; }
 .faq summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -132,7 +137,9 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -157,6 +164,12 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+.grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
 @media (max-width: 980px) {
 .post-grid { grid-template-columns: 1fr; gap: 0; }
 .toc { display: none; }
@@ -171,14 +184,16 @@ body { font-size: 16px; }
 .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
 .btn { padding: 9px 14px; font-size: 14px; }
 .cover { border-radius: 18px; }
-.cta { padding: 24px; }
+.cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+.cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
 .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"BlogPosting","@id":"https://www.colivease.ca/blog/renting-with-no-credit-history-canada/#article","headline":"How to Rent With No Credit History in Canada (2026)","description":"How to rent with no credit history in Canada: what landlords can ask, documents that replace a credit score, guarantors, Ontario deposit rules and more.","image":[{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/og/renting-with-no-credit-history-canada.en.jpg","width":1200,"height":630},{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/covers/keys.webp","width":960,"height":717}],"datePublished":"2026-10-31","dateModified":"2026-11-03","inLanguage":"en-CA","articleSection":"Newcomers & students","keywords":"rent with no credit history Canada, renting with no credit Canada, newcomer renting no credit, guarantor rent Ontario, build credit newcomer Canada, rent apartment without credit check Toronto","wordCount":1366,"author":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/"},"publisher":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.colivease.ca/blog/renting-with-no-credit-history-canada/"},"isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/blog/#blog","name":"ColivEase Blog: Roommates & Renting in Toronto"},"workTranslation":{"@id":"https://www.colivease.ca/zh/blog/renting-with-no-credit-history-canada/#article"},"citation":["https://www.ohrc.on.ca/en/learning/human-rights-and-newcomers/housing-human-right","https://www.ohrc.on.ca/en/human-rights-tenants-brochure","https://www.ontario.ca/laws/regulation/980290","https://www.ontario.ca/page/renting-ontario-your-rights","https://www.ontario.ca/laws/statute/06r17","https://www.canada.ca/content/dam/esdc-edsc/documents/services/sin/reports/code-of-practice/2.5_when-provide-sin_en.pdf","https://priv.gc.ca/en/privacy-topics/landlords-and-tenants/02_05_d_66_tips/","https://www.canada.ca/en/financial-consumer-agency/services/credit-reports-score.html","https://tribunalsontario.ca/ltb/","https://hrlsc.on.ca/","https://antifraudcentre-centreantifraude.ca/"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://www.colivease.ca/blog/"},{"@type":"ListItem","position":3,"name":"Newcomers & students","item":"https://www.colivease.ca/blog/category/newcomers-and-students/"},{"@type":"ListItem","position":4,"name":"How to Rent With No Credit History in Canada (2026)","item":"https://www.colivease.ca/blog/renting-with-no-credit-history-canada/"}]},{"@type":"FAQPage","@id":"https://www.colivease.ca/blog/renting-with-no-credit-history-canada/#faq","mainEntity":[{"@type":"Question","name":"Can a landlord refuse me just because I have no credit history?","acceptedAnswer":{"@type":"Answer","text":"In Ontario, landlords may ask for credit references, rental history and a credit check, but the Ontario Human Rights Commission says a lack of credit or rental history should not be held against you. A landlord who treats having no history as a bad history may be acting in a discriminatory way. You can contact the Human Rights Legal Support Centre if you think this happened to you."}},{"@type":"Question","name":"Do I have to give my SIN to a landlord?","acceptedAnswer":{"@type":"Answer","text":"No. Service Canada lists renting a property and filling out a rental application among the situations where you don't need to provide your Social Insurance Number. A landlord can usually run a credit check using your name, date of birth and address instead."}},{"@type":"Question","name":"Can a landlord in Ontario ask for 6 or 12 months' rent upfront?","acceptedAnswer":{"@type":"Answer","text":"A landlord in Ontario can't require more than a rent deposit of up to one month's rent, used for your last month, plus a refundable key deposit. Some tenants choose to offer prepaid rent to strengthen an application, but that must be your own voluntary decision, never a condition of renting. If you're pressured, get advice from the Landlord and Tenant Board or a legal clinic."}},{"@type":"Question","name":"How long does it take to build a credit score in Canada?","acceptedAnswer":{"@type":"Answer","text":"It usually takes several months of regular, on-time activity on a credit product, such as a credit card, before a score appears, and longer to build a strong one. Paying your full balance on time every month and keeping your balance low are the habits that matter most."}},{"@type":"Question","name":"What is a rent guarantor and who can be one?","acceptedAnswer":{"@type":"Answer","text":"A guarantor signs an agreement promising to pay your rent if you don't. Ontario's human rights regulations allow landlords to require a guarantee. Landlords usually want someone who lives in Canada with good credit and stable income, such as a relative, friend or employer."}}]}]}</script>
 </head>
 <body>
 <header class="top">
+  <span class="read" aria-hidden="true"></span>
   <div class="wrap top-in">
     <a class="logo" href="/" aria-label="ColivEase"><img src="/blog/assets/logo.png" alt="ColivEase" width="96" height="66"></a>
     <nav aria-label="Blog">
@@ -273,9 +288,12 @@ body { font-size: 16px; }
 
       <section class="faq" aria-labelledby="faq"><h2 id="faq">Frequently asked questions</h2><details><summary>Can a landlord refuse me just because I have no credit history?</summary><p>In Ontario, landlords may ask for credit references, rental history and a credit check, but the Ontario Human Rights Commission says a lack of credit or rental history should not be held against you. A landlord who treats having no history as a bad history may be acting in a discriminatory way. You can contact the Human Rights Legal Support Centre if you think this happened to you.</p></details><details><summary>Do I have to give my SIN to a landlord?</summary><p>No. Service Canada lists renting a property and filling out a rental application among the situations where you don't need to provide your Social Insurance Number. A landlord can usually run a credit check using your name, date of birth and address instead.</p></details><details><summary>Can a landlord in Ontario ask for 6 or 12 months' rent upfront?</summary><p>A landlord in Ontario can't require more than a rent deposit of up to one month's rent, used for your last month, plus a refundable key deposit. Some tenants choose to offer prepaid rent to strengthen an application, but that must be your own voluntary decision, never a condition of renting. If you're pressured, get advice from the Landlord and Tenant Board or a legal clinic.</p></details><details><summary>How long does it take to build a credit score in Canada?</summary><p>It usually takes several months of regular, on-time activity on a credit product, such as a credit card, before a score appears, and longer to build a strong one. Paying your full balance on time every month and keeping your balance low are the habits that matter most.</p></details><details><summary>What is a rent guarantor and who can be one?</summary><p>A guarantor signs an agreement promising to pay your rent if you don't. Ontario's human rights regulations allow landlords to require a guarantee. Landlords usually want someone who lives in Canada with good credit and stable income, such as a relative, friend or employer.</p></details></section>
       <aside class="cta">
-        <h2>Find your people first. Then your place.</h2>
-        <p>ColivEase gives you a match score with possible roommates based on area and commute, budget, move-in date, student or worker, gender preference and shared language. Every listing is reviewed by a person, chat warns you about common scam lines, and you can rent a whole home room by room.</p>
-        <a class="btn big" href="/app.html">Start for free →</a>
+        <div class="cta-copy">
+          <h2>Find your people first. Then your place.</h2>
+          <p>ColivEase gives you a match score with possible roommates based on area and commute, budget, move-in date, student or worker, gender preference and shared language. Every listing is reviewed by a person, chat warns you about common scam lines, and you can rent a whole home room by room.</p>
+          <a class="btn big" href="/app.html">Start for free →</a>
+        </div>
+        <div class="cta-demo" data-cv-demo="match" data-lang="en" aria-hidden="true"></div>
       </aside>
       <section class="sources"><h2>Sources</h2><ol><li><a href="https://www.ohrc.on.ca/en/learning/human-rights-and-newcomers/housing-human-right" rel="noopener" target="_blank">Ontario Human Rights Commission: Housing as a human right (newcomers)</a></li><li><a href="https://www.ohrc.on.ca/en/human-rights-tenants-brochure" rel="noopener" target="_blank">Ontario Human Rights Commission: Human rights and tenants brochure</a></li><li><a href="https://www.ontario.ca/laws/regulation/980290" rel="noopener" target="_blank">Ontario Regulation 290/98: Business practices permissible to landlords in selecting prospective tenants</a></li><li><a href="https://www.ontario.ca/page/renting-ontario-your-rights" rel="noopener" target="_blank">Government of Ontario: Renting in Ontario, your rights</a></li><li><a href="https://www.ontario.ca/laws/statute/06r17" rel="noopener" target="_blank">Residential Tenancies Act, 2006</a></li><li><a href="https://www.canada.ca/content/dam/esdc-edsc/documents/services/sin/reports/code-of-practice/2.5_when-provide-sin_en.pdf" rel="noopener" target="_blank">Service Canada: When to provide your SIN (code of practice)</a></li><li><a href="https://priv.gc.ca/en/privacy-topics/landlords-and-tenants/02_05_d_66_tips/" rel="noopener" target="_blank">Office of the Privacy Commissioner: Privacy tips for the rental housing sector</a></li><li><a href="https://www.canada.ca/en/financial-consumer-agency/services/credit-reports-score.html" rel="noopener" target="_blank">Financial Consumer Agency of Canada: Credit reports and scores</a></li><li><a href="https://tribunalsontario.ca/ltb/" rel="noopener" target="_blank">Landlord and Tenant Board</a></li><li><a href="https://hrlsc.on.ca/" rel="noopener" target="_blank">Human Rights Legal Support Centre</a></li><li><a href="https://antifraudcentre-centreantifraude.ca/" rel="noopener" target="_blank">Canadian Anti-Fraud Centre</a></li></ol></section>
     </article>
@@ -322,5 +340,28 @@ body { font-size: 16px; }
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>
+<script>(function () {
+  var links = document.querySelectorAll(".toc a[href^='#']");
+  if (links.length && "IntersectionObserver" in window) {
+    var byId = {};
+    for (var i = 0; i < links.length; i++) byId[decodeURIComponent(links[i].getAttribute("href").slice(1))] = links[i];
+    var current = null;
+    var mark = function (a) { if (a === current) return; if (current) current.removeAttribute("aria-current"); if (a) a.setAttribute("aria-current", "true"); current = a; };
+    var seen = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) mark(byId[entries[k].target.id]);
+    }, { rootMargin: "-80px 0px -70% 0px" });
+    for (var id in byId) { var h = document.getElementById(id); if (h) seen.observe(h); }
+  }
+  var slots = document.querySelectorAll("[data-cv-demo]");
+  if (!slots.length || !("IntersectionObserver" in window)) return;
+  var load = function () {
+    var css = document.createElement("link"); css.rel = "stylesheet"; css.href = "/demos/demos.css"; document.head.appendChild(css);
+    var js = document.createElement("script"); js.src = "/demos/demos.js"; js.async = true; document.head.appendChild(js);
+  };
+  var near = new IntersectionObserver(function (entries) {
+    for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) { near.disconnect(); load(); return; }
+  }, { rootMargin: "900px 0px" });
+  for (var n = 0; n < slots.length; n++) near.observe(slots[n]);
+})();</script>
 </body>
 </html>

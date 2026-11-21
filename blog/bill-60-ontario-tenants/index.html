@@ -62,6 +62,9 @@ a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--blue-deep); }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -125,6 +128,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 .faq { margin-top: 2.6em; }
 .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin: 0 0 10px; }
 .faq summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -132,7 +137,9 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -157,6 +164,12 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+.grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
 @media (max-width: 980px) {
 .post-grid { grid-template-columns: 1fr; gap: 0; }
 .toc { display: none; }
@@ -171,14 +184,16 @@ body { font-size: 16px; }
 .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
 .btn { padding: 9px 14px; font-size: 14px; }
 .cover { border-radius: 18px; }
-.cta { padding: 24px; }
+.cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+.cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
 .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"NewsArticle","@id":"https://www.colivease.ca/blog/bill-60-ontario-tenants/#article","headline":"Bill 60 Ontario Tenants: What Changed in 2026","description":"Bill 60 Ontario tenants guide, as of November 2026: the 7-day N4 notice, the 15-day LTB review deadline, the half-arrears rule and the new N12 rules.","image":[{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/og/bill-60-ontario-tenants.en.jpg","width":1200,"height":630},{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/covers/keys.webp","width":960,"height":717}],"datePublished":"2026-11-21","dateModified":"2026-11-21","inLanguage":"en-CA","articleSection":"Rental news","keywords":"Bill 60 Ontario tenants, what is Bill 60, N4 notice 7 days, LTB review deadline 15 days, Ontario tenant law changes 2026, Residential Tenancies Act changes","wordCount":1279,"author":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/"},"publisher":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.colivease.ca/blog/bill-60-ontario-tenants/"},"isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/blog/#blog","name":"ColivEase Blog: Roommates & Renting in Toronto"},"workTranslation":{"@id":"https://www.colivease.ca/zh/blog/bill-60-ontario-tenants/#article"},"citation":["https://tribunalsontario.ca/2026/09/21/ltb-operational-update-legislative-changes-at-the-landlord-and-tenant-board-effective-september-21-2026/","https://tribunalsontario.ca/2026/06/30/ltb-operational-update-legislative-changes-at-the-ltb/","https://tribunalsontario.ca/documents/ltb/Brochures/If%20a%20Tenant%20Does%20Not%20Pay%20Rent.html","https://www.ontario.ca/laws/statute/06r17","https://www.acto.ca/actos-top-5-concerns-for-bill-60/","https://gowlingwlg.com/en-ca/insights-resources/articles/2026/ontario-new-ltb-rules","https://www.ontario.ca/page/residential-rent-increases"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://www.colivease.ca/blog/"},{"@type":"ListItem","position":3,"name":"Rental news","item":"https://www.colivease.ca/blog/category/news/"},{"@type":"ListItem","position":4,"name":"Bill 60 Ontario Tenants: What Changed in 2026","item":"https://www.colivease.ca/blog/bill-60-ontario-tenants/"}]},{"@type":"FAQPage","@id":"https://www.colivease.ca/blog/bill-60-ontario-tenants/#faq","mainEntity":[{"@type":"Question","name":"Can my landlord evict me 7 days after I miss rent?","acceptedAnswer":{"@type":"Answer","text":"No. Seven days is only the minimum notice period on an N4 for notices given on or after September 21, 2026. If you don't pay, the landlord still has to file with the Landlord and Tenant Board, attend a hearing and get an eviction order, and only the Sheriff can enforce it."}},{"@type":"Question","name":"Does Bill 60 change rent control in Ontario?","acceptedAnswer":{"@type":"Answer","text":"The tenancy changes now in force focus on notices, hearings, reviews and own-use evictions. The annual rent increase guideline still applies to most units first occupied before November 15, 2018, and it is 2.1% for 2026. Check ontario.ca for the current rules before a renewal."}},{"@type":"Question","name":"Do the new rules apply to notices I received before September 21, 2026?","acceptedAnswer":{"@type":"Answer","text":"Generally not. The LTB says the 7-day N4 period applies to notices given on or after September 21, 2026, the half-arrears rule applies to applications filed on or after that date, and the N12 change applies to notices served on or after it. Older notices follow the earlier rules."}},{"@type":"Question","name":"Can I still get more time after an LTB order?","acceptedAnswer":{"@type":"Answer","text":"You can ask, but the window to request a review of an order is now 15 days for orders issued on or after July 1, 2026, and the LTB only extends it when it considers that just. Tenant duty counsel or a community legal clinic can help you act quickly."}},{"@type":"Question","name":"Where can I get free help with Bill 60 changes?","acceptedAnswer":{"@type":"Answer","text":"Contact your local community legal clinic through Legal Aid Ontario, Tenant Duty Counsel on the day of an LTB hearing, or the Advocacy Centre for Tenants Ontario's resources. In Toronto, call 311 to reach the City's Tenant Support Program."}}]}]}</script>
 </head>
 <body>
 <header class="top">
+  <span class="read" aria-hidden="true"></span>
   <div class="wrap top-in">
     <a class="logo" href="/" aria-label="ColivEase"><img src="/blog/assets/logo.png" alt="ColivEase" width="96" height="66"></a>
     <nav aria-label="Blog">
@@ -253,9 +268,12 @@ body { font-size: 16px; }
 
       <section class="faq" aria-labelledby="faq"><h2 id="faq">Frequently asked questions</h2><details><summary>Can my landlord evict me 7 days after I miss rent?</summary><p>No. Seven days is only the minimum notice period on an N4 for notices given on or after September 21, 2026. If you don't pay, the landlord still has to file with the Landlord and Tenant Board, attend a hearing and get an eviction order, and only the Sheriff can enforce it.</p></details><details><summary>Does Bill 60 change rent control in Ontario?</summary><p>The tenancy changes now in force focus on notices, hearings, reviews and own-use evictions. The annual rent increase guideline still applies to most units first occupied before November 15, 2018, and it is 2.1% for 2026. Check ontario.ca for the current rules before a renewal.</p></details><details><summary>Do the new rules apply to notices I received before September 21, 2026?</summary><p>Generally not. The LTB says the 7-day N4 period applies to notices given on or after September 21, 2026, the half-arrears rule applies to applications filed on or after that date, and the N12 change applies to notices served on or after it. Older notices follow the earlier rules.</p></details><details><summary>Can I still get more time after an LTB order?</summary><p>You can ask, but the window to request a review of an order is now 15 days for orders issued on or after July 1, 2026, and the LTB only extends it when it considers that just. Tenant duty counsel or a community legal clinic can help you act quickly.</p></details><details><summary>Where can I get free help with Bill 60 changes?</summary><p>Contact your local community legal clinic through Legal Aid Ontario, Tenant Duty Counsel on the day of an LTB hearing, or the Advocacy Centre for Tenants Ontario's resources. In Toronto, call 311 to reach the City's Tenant Support Program.</p></details></section>
       <aside class="cta">
-        <h2>Find your people first. Then your place.</h2>
-        <p>ColivEase gives you a match score with possible roommates based on area and commute, budget, move-in date, student or worker, gender preference and shared language. Every listing is reviewed by a person, chat warns you about common scam lines, and you can rent a whole home room by room.</p>
-        <a class="btn big" href="/app.html">Start for free →</a>
+        <div class="cta-copy">
+          <h2>Find your people first. Then your place.</h2>
+          <p>ColivEase gives you a match score with possible roommates based on area and commute, budget, move-in date, student or worker, gender preference and shared language. Every listing is reviewed by a person, chat warns you about common scam lines, and you can rent a whole home room by room.</p>
+          <a class="btn big" href="/app.html">Start for free →</a>
+        </div>
+        <div class="cta-demo" data-cv-demo="match" data-lang="en" aria-hidden="true"></div>
       </aside>
       <section class="sources"><h2>Sources</h2><ol><li><a href="https://tribunalsontario.ca/2026/09/21/ltb-operational-update-legislative-changes-at-the-landlord-and-tenant-board-effective-september-21-2026/" rel="noopener" target="_blank">Tribunals Ontario: LTB operational update, legislative changes effective September 21, 2026</a></li><li><a href="https://tribunalsontario.ca/2026/06/30/ltb-operational-update-legislative-changes-at-the-ltb/" rel="noopener" target="_blank">Tribunals Ontario: LTB operational update, legislative changes at the LTB (July 1, 2026)</a></li><li><a href="https://tribunalsontario.ca/documents/ltb/Brochures/If%20a%20Tenant%20Does%20Not%20Pay%20Rent.html" rel="noopener" target="_blank">Tribunals Ontario: What a landlord can do if a tenant does not pay rent (brochure)</a></li><li><a href="https://www.ontario.ca/laws/statute/06r17" rel="noopener" target="_blank">Government of Ontario: Residential Tenancies Act, 2006</a></li><li><a href="https://www.acto.ca/actos-top-5-concerns-for-bill-60/" rel="noopener" target="_blank">Advocacy Centre for Tenants Ontario: Top 5 concerns on Bill 60</a></li><li><a href="https://gowlingwlg.com/en-ca/insights-resources/articles/2026/ontario-new-ltb-rules" rel="noopener" target="_blank">Gowling WLG: Ontario's new LTB rules now in effect</a></li><li><a href="https://www.ontario.ca/page/residential-rent-increases" rel="noopener" target="_blank">Government of Ontario: Residential rent increases</a></li></ol></section>
     </article>
@@ -302,5 +320,28 @@ body { font-size: 16px; }
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>
+<script>(function () {
+  var links = document.querySelectorAll(".toc a[href^='#']");
+  if (links.length && "IntersectionObserver" in window) {
+    var byId = {};
+    for (var i = 0; i < links.length; i++) byId[decodeURIComponent(links[i].getAttribute("href").slice(1))] = links[i];
+    var current = null;
+    var mark = function (a) { if (a === current) return; if (current) current.removeAttribute("aria-current"); if (a) a.setAttribute("aria-current", "true"); current = a; };
+    var seen = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) mark(byId[entries[k].target.id]);
+    }, { rootMargin: "-80px 0px -70% 0px" });
+    for (var id in byId) { var h = document.getElementById(id); if (h) seen.observe(h); }
+  }
+  var slots = document.querySelectorAll("[data-cv-demo]");
+  if (!slots.length || !("IntersectionObserver" in window)) return;
+  var load = function () {
+    var css = document.createElement("link"); css.rel = "stylesheet"; css.href = "/demos/demos.css"; document.head.appendChild(css);
+    var js = document.createElement("script"); js.src = "/demos/demos.js"; js.async = true; document.head.appendChild(js);
+  };
+  var near = new IntersectionObserver(function (entries) {
+    for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) { near.disconnect(); load(); return; }
+  }, { rootMargin: "900px 0px" });
+  for (var n = 0; n < slots.length; n++) near.observe(slots[n]);
+})();</script>
 </body>
 </html>

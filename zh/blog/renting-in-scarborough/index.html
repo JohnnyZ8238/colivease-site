@@ -62,6 +62,9 @@ a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--blue-deep); }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -125,6 +128,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 .faq { margin-top: 2.6em; }
 .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin: 0 0 10px; }
 .faq summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -132,7 +137,9 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -157,6 +164,12 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+.grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
 @media (max-width: 980px) {
 .post-grid { grid-template-columns: 1fr; gap: 0; }
 .toc { display: none; }
@@ -171,14 +184,16 @@ body { font-size: 16px; }
 .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
 .btn { padding: 9px 14px; font-size: 14px; }
 .cover { border-radius: 18px; }
-.cta { padding: 24px; }
+.cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+.cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
 .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"BlogPosting","@id":"https://www.colivease.ca/zh/blog/renting-in-scarborough/#article","headline":"士嘉堡租房指南：UTSC附近怎么选（2026）","description":"士嘉堡租房怎么选？UTSC、Centennial附近哪些社区适合学生合租，3号线停运后公交和快速公交怎么坐，地下室和合租屋看房签约要注意什么，一篇讲清。","image":[{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/og/renting-in-scarborough.zh.jpg","width":1200,"height":630},{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/covers/map.webp","width":900,"height":672}],"datePublished":"2026-11-21","dateModified":"2026-11-21","inLanguage":"zh-Hans","articleSection":"社区指南","keywords":"士嘉堡租房, 士嘉堡学生合租, UTSC附近租房, Centennial附近租房, 士嘉堡地铁延长线, 士嘉堡快速公交","wordCount":2358,"author":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/"},"publisher":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.colivease.ca/zh/blog/renting-in-scarborough/"},"isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/zh/blog/#blog","name":"ColivEase 博客：多伦多找室友与租房指南"},"translationOfWork":{"@id":"https://www.colivease.ca/blog/renting-in-scarborough/#article"},"citation":["https://www.ttc.ca/news/2026/September/Scarborough-Busway-now-open-delivering-faster-and-more-reliable-transit-to-Scarborough","https://www.ttc.ca/about-the-ttc/projects-and-plans/Future-of-Line-3-Scarborough","https://www.metrolinx.com/en/projects-and-programs/scarborough-subway-extension","https://www.toronto.ca/community-people/housing-shelter/rental-housing-rights-information/multi-tenant-rooming-houses/new-framework-for-multi-tenant-rooming-houses/","https://utsc.utoronto.ca/home/ttc-public-transit","https://www.ttc.ca/riding-the-ttc/Updates/One-Fare-Program"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"博客","item":"https://www.colivease.ca/zh/blog/"},{"@type":"ListItem","position":3,"name":"社区指南","item":"https://www.colivease.ca/zh/blog/category/neighbourhoods/"},{"@type":"ListItem","position":4,"name":"士嘉堡租房指南：UTSC附近怎么选（2026）","item":"https://www.colivease.ca/zh/blog/renting-in-scarborough/"}]},{"@type":"FAQPage","@id":"https://www.colivease.ca/zh/blog/renting-in-scarborough/#faq","mainEntity":[{"@type":"Question","name":"UTSC附近租房一般住哪里？","acceptedAnswer":{"@type":"Answer","text":"离多大士嘉堡校区 (UTSC) 最近的是 Highland Creek、West Hill 和 Morningside 一带，很多独立屋出租单间或地下室给学生。想住公寓、离商场近，可以考虑 Scarborough Centre，公交枢纽在那里。签约前用具体地址查一下去学校的公交路线和班次。"}},{"@type":"Question","name":"在士嘉堡没有车生活方便吗？","acceptedAnswer":{"@type":"Answer","text":"选对位置就不难。2号线终点在 Kennedy 站，士嘉堡快速公交专用道 (Scarborough Busway) 连接 Kennedy 和 Scarborough Centre，5号线 Eglinton 也在 Kennedy 换乘，另外还有 GO 火车站。住在这些枢纽或高频公交线附近，没车也能过得不错。"}},{"@type":"Question","name":"士嘉堡地铁延长线什么时候通车？","acceptedAnswer":{"@type":"Answer","text":"士嘉堡地铁延长线 (Scarborough Subway Extension) 正在建设，隧道工程已经推进了一大半，但目前没有可以拿来规划租约的确定通车日期。选房还是要按现有的公交和火车来算，地铁只能当作以后的加分项。"}},{"@type":"Question","name":"士嘉堡的合租屋合法吗？","acceptedAnswer":{"@type":"Answer","text":"从2024年3月31日起，多租户住宅 (multi-tenant / rooming house) 在全多伦多（包括士嘉堡）都允许经营，但经营者必须持有市政府执照。如果一栋房子把很多房间分别租给不同的人，可以直接问房东有没有执照，并检查烟雾和一氧化碳报警器。"}},{"@type":"Question","name":"Centennial学院的学生住哪里比较方便？","acceptedAnswer":{"@type":"Answer","text":"读 Progress 校区的话，Scarborough Centre、Progress Avenue 和 Markham Road 一带公交最短。Centennial 还有一个 Morningside 校区，离 UTSC 很近，住 Highland Creek 更合适。先确认你的专业在哪个校区上课。"}}]}]}</script>
 </head>
 <body>
 <header class="top">
+  <span class="read" aria-hidden="true"></span>
   <div class="wrap top-in">
     <a class="logo" href="/" aria-label="ColivEase"><img src="/blog/assets/logo.png" alt="ColivEase" width="96" height="66"></a>
     <nav aria-label="博客">
@@ -284,9 +299,12 @@ body { font-size: 16px; }
 
       <section class="faq" aria-labelledby="faq"><h2 id="faq">常见问题</h2><details><summary>UTSC附近租房一般住哪里？</summary><p>离多大士嘉堡校区 (UTSC) 最近的是 Highland Creek、West Hill 和 Morningside 一带，很多独立屋出租单间或地下室给学生。想住公寓、离商场近，可以考虑 Scarborough Centre，公交枢纽在那里。签约前用具体地址查一下去学校的公交路线和班次。</p></details><details><summary>在士嘉堡没有车生活方便吗？</summary><p>选对位置就不难。2号线终点在 Kennedy 站，士嘉堡快速公交专用道 (Scarborough Busway) 连接 Kennedy 和 Scarborough Centre，5号线 Eglinton 也在 Kennedy 换乘，另外还有 GO 火车站。住在这些枢纽或高频公交线附近，没车也能过得不错。</p></details><details><summary>士嘉堡地铁延长线什么时候通车？</summary><p>士嘉堡地铁延长线 (Scarborough Subway Extension) 正在建设，隧道工程已经推进了一大半，但目前没有可以拿来规划租约的确定通车日期。选房还是要按现有的公交和火车来算，地铁只能当作以后的加分项。</p></details><details><summary>士嘉堡的合租屋合法吗？</summary><p>从2024年3月31日起，多租户住宅 (multi-tenant / rooming house) 在全多伦多（包括士嘉堡）都允许经营，但经营者必须持有市政府执照。如果一栋房子把很多房间分别租给不同的人，可以直接问房东有没有执照，并检查烟雾和一氧化碳报警器。</p></details><details><summary>Centennial学院的学生住哪里比较方便？</summary><p>读 Progress 校区的话，Scarborough Centre、Progress Avenue 和 Markham Road 一带公交最短。Centennial 还有一个 Morningside 校区，离 UTSC 很近，住 Highland Creek 更合适。先确认你的专业在哪个校区上课。</p></details></section>
       <aside class="cta">
-        <h2>先找对的人，再找对的房。</h2>
-        <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
-        <a class="btn big" href="/app.html">免费开始 →</a>
+        <div class="cta-copy">
+          <h2>先找对的人，再找对的房。</h2>
+          <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
+          <a class="btn big" href="/app.html">免费开始 →</a>
+        </div>
+        <div class="cta-demo" data-cv-demo="match" data-lang="zh" aria-hidden="true"></div>
       </aside>
       <section class="sources"><h2>参考资料</h2><ol><li><a href="https://www.ttc.ca/news/2026/September/Scarborough-Busway-now-open-delivering-faster-and-more-reliable-transit-to-Scarborough" rel="noopener" target="_blank">TTC：Scarborough Busway now open（士嘉堡快速公交开通）</a></li><li><a href="https://www.ttc.ca/about-the-ttc/projects-and-plans/Future-of-Line-3-Scarborough" rel="noopener" target="_blank">TTC：The future of Line 3 Scarborough（3号线停运后的安排）</a></li><li><a href="https://www.metrolinx.com/en/projects-and-programs/scarborough-subway-extension" rel="noopener" target="_blank">Metrolinx：Scarborough Subway Extension（士嘉堡地铁延长线）</a></li><li><a href="https://www.toronto.ca/community-people/housing-shelter/rental-housing-rights-information/multi-tenant-rooming-houses/new-framework-for-multi-tenant-rooming-houses/" rel="noopener" target="_blank">City of Toronto：多租户住宅新规</a></li><li><a href="https://utsc.utoronto.ca/home/ttc-public-transit" rel="noopener" target="_blank">UTSC：TTC public transit（去UTSC的公交）</a></li><li><a href="https://www.ttc.ca/riding-the-ttc/Updates/One-Fare-Program" rel="noopener" target="_blank">TTC：Ontario's One Fare Program（一票通换乘）</a></li></ol></section>
     </article>
@@ -333,5 +351,28 @@ body { font-size: 16px; }
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>
+<script>(function () {
+  var links = document.querySelectorAll(".toc a[href^='#']");
+  if (links.length && "IntersectionObserver" in window) {
+    var byId = {};
+    for (var i = 0; i < links.length; i++) byId[decodeURIComponent(links[i].getAttribute("href").slice(1))] = links[i];
+    var current = null;
+    var mark = function (a) { if (a === current) return; if (current) current.removeAttribute("aria-current"); if (a) a.setAttribute("aria-current", "true"); current = a; };
+    var seen = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) mark(byId[entries[k].target.id]);
+    }, { rootMargin: "-80px 0px -70% 0px" });
+    for (var id in byId) { var h = document.getElementById(id); if (h) seen.observe(h); }
+  }
+  var slots = document.querySelectorAll("[data-cv-demo]");
+  if (!slots.length || !("IntersectionObserver" in window)) return;
+  var load = function () {
+    var css = document.createElement("link"); css.rel = "stylesheet"; css.href = "/demos/demos.css"; document.head.appendChild(css);
+    var js = document.createElement("script"); js.src = "/demos/demos.js"; js.async = true; document.head.appendChild(js);
+  };
+  var near = new IntersectionObserver(function (entries) {
+    for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) { near.disconnect(); load(); return; }
+  }, { rootMargin: "900px 0px" });
+  for (var n = 0; n < slots.length; n++) near.observe(slots[n]);
+})();</script>
 </body>
 </html>

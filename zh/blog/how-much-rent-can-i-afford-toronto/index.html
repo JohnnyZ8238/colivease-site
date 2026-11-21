@@ -62,6 +62,9 @@ a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--blue-deep); }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -125,6 +128,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 .faq { margin-top: 2.6em; }
 .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin: 0 0 10px; }
 .faq summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -132,7 +137,9 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -157,6 +164,12 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+.grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
 @media (max-width: 980px) {
 .post-grid { grid-template-columns: 1fr; gap: 0; }
 .toc { display: none; }
@@ -171,14 +184,16 @@ body { font-size: 16px; }
 .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
 .btn { padding: 9px 14px; font-size: 14px; }
 .cover { border-radius: 18px; }
-.cta { padding: 24px; }
+.cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+.cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
 .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"BlogPosting","@id":"https://www.colivease.ca/zh/blog/how-much-rent-can-i-afford-toronto/#article","headline":"多伦多收入多少能租房？房租预算一次算清","description":"多伦多收入多少能租房？用30%法则算出房租上限，把水电网、保险、交通一起列进预算，看合租怎么省钱，并讲清房东要求收入是房租3倍是否合法，新移民和留学生必看。","image":[{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/og/how-much-rent-can-i-afford-toronto.zh.jpg","width":1200,"height":630},{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/covers/kitchen.webp","width":1000,"height":747}],"datePublished":"2026-11-21","dateModified":"2026-11-21","inLanguage":"zh-Hans","articleSection":"租房入门","keywords":"多伦多收入多少能租房, 房租占收入多少合适, 房东要求收入是房租3倍合法吗, 多伦多一个人生活费, 30%法则, 多伦多租房预算","wordCount":2161,"author":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/"},"publisher":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.colivease.ca/zh/blog/how-much-rent-can-i-afford-toronto/"},"isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/zh/blog/#blog","name":"ColivEase 博客：多伦多找室友与租房指南"},"translationOfWork":{"@id":"https://www.colivease.ca/blog/how-much-rent-can-i-afford-toronto/#article"},"citation":["https://liv.rent/blog/rent-reports/october-2026-ontario-rent-report/","https://www.studentlife.utoronto.ca/task/rental-costs-in-toronto-gta/","https://www.ohrc.on.ca/en/policy-human-rights-and-rental-housing","https://www.ohrc.on.ca/en/human-rights-tenants-brochure","https://www.ontario.ca/laws/regulation/980290","https://www.cmhc-schl.gc.ca/nhs/guidepage-strategy/glossary","https://hrlsc.on.ca/"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"博客","item":"https://www.colivease.ca/zh/blog/"},{"@type":"ListItem","position":3,"name":"租房入门","item":"https://www.colivease.ca/zh/blog/category/renting-101/"},{"@type":"ListItem","position":4,"name":"多伦多收入多少能租房？房租预算一次算清","item":"https://www.colivease.ca/zh/blog/how-much-rent-can-i-afford-toronto/"}]},{"@type":"FAQPage","@id":"https://www.colivease.ca/zh/blog/how-much-rent-can-i-afford-toronto/#faq","mainEntity":[{"@type":"Question","name":"房租占收入多少合适？","acceptedAnswer":{"@type":"Answer","text":"常用的经验法则是房租不超过税前收入的30%左右，加拿大按揭和住房公司 (CMHC) 定义\"可负担住房\"时也用30%这条线。它只是规划参考，不是法律规定；很多多伦多租客实际花得更多，这也是合租如此普遍的原因。"}},{"@type":"Question","name":"在多伦多年薪多少才能自己租一室一厅？","acceptedAnswer":{"@type":"Answer","text":"按30%法则，把月租乘以40，就是建议的税前年收入。liv.rent 2026年10月报告显示，多伦多市无家具一室一厅的平均挂牌月租为1,969加元，换算下来约需年薪7.9万加元。合租一个房间便宜得多，对收入的要求也低得多。"}},{"@type":"Question","name":"收入来自存款或政府补助，房东可以因此拒绝我吗？","acceptedAnswer":{"@type":"Answer","text":"不能仅凭这一点拒绝。安省人权委员会 (OHRC) 表示，房东不能只因为你的收入不是来自工作（例如存款、养老金或社会救助）就拒租，领取公共援助在住房方面属于受保护的理由。房东仍然可以核实你是否付得起房租。"}},{"@type":"Question","name":"收入不固定，房租预算怎么定？","acceptedAnswer":{"@type":"Answer","text":"按收入较低的月份来定房租，而不是按最好的月份；存款里最好留出一到两个月的房租作缓冲。申请时，提供几个月的银行流水、合同或发票，可以帮房东了解你的平均收入。"}},{"@type":"Question","name":"留学生没有工作收入，怎么证明付得起房租？","acceptedAnswer":{"@type":"Answer","text":"可以提供资金证明（银行存款证明或流水）、录取信、学签，以及以前的房东推荐信。和室友一起申请，让房东看到大家合计的支付能力，也是常见做法。"}}]}]}</script>
 </head>
 <body>
 <header class="top">
+  <span class="read" aria-hidden="true"></span>
   <div class="wrap top-in">
     <a class="logo" href="/" aria-label="ColivEase"><img src="/blog/assets/logo.png" alt="ColivEase" width="96" height="66"></a>
     <nav aria-label="博客">
@@ -270,9 +285,12 @@ body { font-size: 16px; }
 
       <section class="faq" aria-labelledby="faq"><h2 id="faq">常见问题</h2><details><summary>房租占收入多少合适？</summary><p>常用的经验法则是房租不超过税前收入的30%左右，加拿大按揭和住房公司 (CMHC) 定义&quot;可负担住房&quot;时也用30%这条线。它只是规划参考，不是法律规定；很多多伦多租客实际花得更多，这也是合租如此普遍的原因。</p></details><details><summary>在多伦多年薪多少才能自己租一室一厅？</summary><p>按30%法则，把月租乘以40，就是建议的税前年收入。liv.rent 2026年10月报告显示，多伦多市无家具一室一厅的平均挂牌月租为1,969加元，换算下来约需年薪7.9万加元。合租一个房间便宜得多，对收入的要求也低得多。</p></details><details><summary>收入来自存款或政府补助，房东可以因此拒绝我吗？</summary><p>不能仅凭这一点拒绝。安省人权委员会 (OHRC) 表示，房东不能只因为你的收入不是来自工作（例如存款、养老金或社会救助）就拒租，领取公共援助在住房方面属于受保护的理由。房东仍然可以核实你是否付得起房租。</p></details><details><summary>收入不固定，房租预算怎么定？</summary><p>按收入较低的月份来定房租，而不是按最好的月份；存款里最好留出一到两个月的房租作缓冲。申请时，提供几个月的银行流水、合同或发票，可以帮房东了解你的平均收入。</p></details><details><summary>留学生没有工作收入，怎么证明付得起房租？</summary><p>可以提供资金证明（银行存款证明或流水）、录取信、学签，以及以前的房东推荐信。和室友一起申请，让房东看到大家合计的支付能力，也是常见做法。</p></details></section>
       <aside class="cta">
-        <h2>先找对的人，再找对的房。</h2>
-        <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
-        <a class="btn big" href="/app.html">免费开始 →</a>
+        <div class="cta-copy">
+          <h2>先找对的人，再找对的房。</h2>
+          <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
+          <a class="btn big" href="/app.html">免费开始 →</a>
+        </div>
+        <div class="cta-demo" data-cv-demo="match" data-lang="zh" aria-hidden="true"></div>
       </aside>
       <section class="sources"><h2>参考资料</h2><ol><li><a href="https://liv.rent/blog/rent-reports/october-2026-ontario-rent-report/" rel="noopener" target="_blank">liv.rent：October 2026 Ontario rent report（2026年10月安省租金报告）</a></li><li><a href="https://www.studentlife.utoronto.ca/task/rental-costs-in-toronto-gta/" rel="noopener" target="_blank">U of T Student Life：Rental costs in Toronto/GTA（多大汇总的租金数据，2026）</a></li><li><a href="https://www.ohrc.on.ca/en/policy-human-rights-and-rental-housing" rel="noopener" target="_blank">Ontario Human Rights Commission：Policy on human rights and rental housing（安省人权委员会租房政策）</a></li><li><a href="https://www.ohrc.on.ca/en/human-rights-tenants-brochure" rel="noopener" target="_blank">Ontario Human Rights Commission：Human rights for tenants（租客人权手册）</a></li><li><a href="https://www.ontario.ca/laws/regulation/980290" rel="noopener" target="_blank">O. Reg. 290/98（安省法律 e-Laws）</a></li><li><a href="https://www.cmhc-schl.gc.ca/nhs/guidepage-strategy/glossary" rel="noopener" target="_blank">CMHC：National Housing Strategy glossary（可负担住房定义）</a></li><li><a href="https://hrlsc.on.ca/" rel="noopener" target="_blank">Human Rights Legal Support Centre（人权法律支援中心）</a></li></ol></section>
     </article>
@@ -319,5 +337,28 @@ body { font-size: 16px; }
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>
+<script>(function () {
+  var links = document.querySelectorAll(".toc a[href^='#']");
+  if (links.length && "IntersectionObserver" in window) {
+    var byId = {};
+    for (var i = 0; i < links.length; i++) byId[decodeURIComponent(links[i].getAttribute("href").slice(1))] = links[i];
+    var current = null;
+    var mark = function (a) { if (a === current) return; if (current) current.removeAttribute("aria-current"); if (a) a.setAttribute("aria-current", "true"); current = a; };
+    var seen = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) mark(byId[entries[k].target.id]);
+    }, { rootMargin: "-80px 0px -70% 0px" });
+    for (var id in byId) { var h = document.getElementById(id); if (h) seen.observe(h); }
+  }
+  var slots = document.querySelectorAll("[data-cv-demo]");
+  if (!slots.length || !("IntersectionObserver" in window)) return;
+  var load = function () {
+    var css = document.createElement("link"); css.rel = "stylesheet"; css.href = "/demos/demos.css"; document.head.appendChild(css);
+    var js = document.createElement("script"); js.src = "/demos/demos.js"; js.async = true; document.head.appendChild(js);
+  };
+  var near = new IntersectionObserver(function (entries) {
+    for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) { near.disconnect(); load(); return; }
+  }, { rootMargin: "900px 0px" });
+  for (var n = 0; n < slots.length; n++) near.observe(slots[n]);
+})();</script>
 </body>
 </html>

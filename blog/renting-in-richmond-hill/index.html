@@ -62,6 +62,9 @@ a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--blue-deep); }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -125,6 +128,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 .faq { margin-top: 2.6em; }
 .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin: 0 0 10px; }
 .faq summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -132,7 +137,9 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -157,6 +164,12 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+.grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
 @media (max-width: 980px) {
 .post-grid { grid-template-columns: 1fr; gap: 0; }
 .toc { display: none; }
@@ -171,14 +184,16 @@ body { font-size: 16px; }
 .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
 .btn { padding: 9px 14px; font-size: 14px; }
 .cover { border-radius: 18px; }
-.cta { padding: 24px; }
+.cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+.cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
 .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"BlogPosting","@id":"https://www.colivease.ca/blog/renting-in-richmond-hill/#article","headline":"Richmond Hill Rentals: 2026 Guide for Renters","description":"Browsing Richmond Hill rentals? Compare areas from Richmond Hill Centre to Oak Ridges, check a basement apartment safely and see where the subway stands.","image":[{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/og/renting-in-richmond-hill.en.jpg","width":1200,"height":630},{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/covers/map.webp","width":900,"height":672}],"datePublished":"2026-11-21","dateModified":"2026-11-21","inLanguage":"en-CA","articleSection":"Neighbourhoods","keywords":"Richmond Hill rentals, Richmond Hill basement apartment, Yonge North subway extension, rooms for rent Richmond Hill, Richmond Hill condos for rent, Richmond Hill to downtown Toronto commute","wordCount":1207,"author":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/"},"publisher":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.colivease.ca/blog/renting-in-richmond-hill/"},"isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/blog/#blog","name":"ColivEase Blog: Roommates & Renting in Toronto"},"workTranslation":{"@id":"https://www.colivease.ca/zh/blog/renting-in-richmond-hill/#article"},"citation":["https://www.metrolinx.com/en/projects-and-programs/yonge-north-subway-extension","https://www.metrolinx.com/en/news/shovels-in-the-ground-for-yonge-north-subway-extension","https://www.canada.ca/en/housing-infrastructure-communities/news/2026/07/canada-and-ontario-celebrate-another-milestone-for-the-yonge-north-subway-extension.html","https://www.richmondhill.ca/en/online-services/additional-residential-unit.aspx","https://www.richmondhill.ca/en/news/notice-of-passing-of-zoning-by-law-143-24.aspx","https://www.gotransit.com/en/the-future-and-go/construction-notices/richmond-hill-construction","https://www.yrt.ca/en/fares-and-passes/transfers-with-ttc-one-fare-program.aspx","https://tribunalsontario.ca/ltb/"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://www.colivease.ca/blog/"},{"@type":"ListItem","position":3,"name":"Neighbourhoods","item":"https://www.colivease.ca/blog/category/neighbourhoods/"},{"@type":"ListItem","position":4,"name":"Richmond Hill Rentals: 2026 Guide for Renters","item":"https://www.colivease.ca/blog/renting-in-richmond-hill/"}]},{"@type":"FAQPage","@id":"https://www.colivease.ca/blog/renting-in-richmond-hill/#faq","mainEntity":[{"@type":"Question","name":"Can I live in Richmond Hill without a car?","acceptedAnswer":{"@type":"Answer","text":"Yes, if you live close to Yonge Street or Highway 7, where Viva rapid transit and frequent YRT routes run. Neighbourhoods further east, west or north, such as parts of Oak Ridges, have less frequent buses. Check evening and weekend service for your exact address before signing."}},{"@type":"Question","name":"How do I get from Richmond Hill to downtown Toronto?","acceptedAnswer":{"@type":"Answer","text":"The most common route is Viva or YRT down Yonge Street to Finch station, then TTC Line 1 south; One Fare makes that transfer free with PRESTO, debit or credit. Richmond Hill GO line trains run to Union Station at weekday rush hours, and driving via Highway 404 or Yonge Street is another option."}},{"@type":"Question","name":"Is it common to live with the landlord in Richmond Hill?","acceptedAnswer":{"@type":"Answer","text":"Yes. Many rooms and basement suites are in homes where the owner lives. If you share a kitchen or bathroom with the owner, the Residential Tenancies Act usually doesn't apply, so ask about the arrangement and agree on house rules and notice in writing."}},{"@type":"Question","name":"Are there Chinese-speaking landlords and roommates in Richmond Hill?","acceptedAnswer":{"@type":"Answer","text":"Yes, Richmond Hill has a large Chinese community, especially in the central and southern parts of the city around Highway 7. Many listings are posted in Chinese online. Use the same caution as with any listing: verify the landlord and see the unit before paying."}}]}]}</script>
 </head>
 <body>
 <header class="top">
+  <span class="read" aria-hidden="true"></span>
   <div class="wrap top-in">
     <a class="logo" href="/" aria-label="ColivEase"><img src="/blog/assets/logo.png" alt="ColivEase" width="96" height="66"></a>
     <nav aria-label="Blog">
@@ -263,9 +278,12 @@ body { font-size: 16px; }
 
       <section class="faq" aria-labelledby="faq"><h2 id="faq">Frequently asked questions</h2><details><summary>Can I live in Richmond Hill without a car?</summary><p>Yes, if you live close to Yonge Street or Highway 7, where Viva rapid transit and frequent YRT routes run. Neighbourhoods further east, west or north, such as parts of Oak Ridges, have less frequent buses. Check evening and weekend service for your exact address before signing.</p></details><details><summary>How do I get from Richmond Hill to downtown Toronto?</summary><p>The most common route is Viva or YRT down Yonge Street to Finch station, then TTC Line 1 south; One Fare makes that transfer free with PRESTO, debit or credit. Richmond Hill GO line trains run to Union Station at weekday rush hours, and driving via Highway 404 or Yonge Street is another option.</p></details><details><summary>Is it common to live with the landlord in Richmond Hill?</summary><p>Yes. Many rooms and basement suites are in homes where the owner lives. If you share a kitchen or bathroom with the owner, the Residential Tenancies Act usually doesn't apply, so ask about the arrangement and agree on house rules and notice in writing.</p></details><details><summary>Are there Chinese-speaking landlords and roommates in Richmond Hill?</summary><p>Yes, Richmond Hill has a large Chinese community, especially in the central and southern parts of the city around Highway 7. Many listings are posted in Chinese online. Use the same caution as with any listing: verify the landlord and see the unit before paying.</p></details></section>
       <aside class="cta">
-        <h2>Find your people first. Then your place.</h2>
-        <p>ColivEase gives you a match score with possible roommates based on area and commute, budget, move-in date, student or worker, gender preference and shared language. Every listing is reviewed by a person, chat warns you about common scam lines, and you can rent a whole home room by room.</p>
-        <a class="btn big" href="/app.html">Start for free →</a>
+        <div class="cta-copy">
+          <h2>Find your people first. Then your place.</h2>
+          <p>ColivEase gives you a match score with possible roommates based on area and commute, budget, move-in date, student or worker, gender preference and shared language. Every listing is reviewed by a person, chat warns you about common scam lines, and you can rent a whole home room by room.</p>
+          <a class="btn big" href="/app.html">Start for free →</a>
+        </div>
+        <div class="cta-demo" data-cv-demo="match" data-lang="en" aria-hidden="true"></div>
       </aside>
       <section class="sources"><h2>Sources</h2><ol><li><a href="https://www.metrolinx.com/en/projects-and-programs/yonge-north-subway-extension" rel="noopener" target="_blank">Metrolinx: Yonge North Subway Extension</a></li><li><a href="https://www.metrolinx.com/en/news/shovels-in-the-ground-for-yonge-north-subway-extension" rel="noopener" target="_blank">Metrolinx: Shovels in the ground for Yonge North Subway Extension</a></li><li><a href="https://www.canada.ca/en/housing-infrastructure-communities/news/2026/07/canada-and-ontario-celebrate-another-milestone-for-the-yonge-north-subway-extension.html" rel="noopener" target="_blank">Government of Canada: Canada and Ontario celebrate another milestone for the Yonge North Subway Extension (July 2026)</a></li><li><a href="https://www.richmondhill.ca/en/online-services/additional-residential-unit.aspx" rel="noopener" target="_blank">City of Richmond Hill: Additional residential unit</a></li><li><a href="https://www.richmondhill.ca/en/news/notice-of-passing-of-zoning-by-law-143-24.aspx" rel="noopener" target="_blank">City of Richmond Hill: Notice of passing of Zoning By-law 143-24</a></li><li><a href="https://www.gotransit.com/en/the-future-and-go/construction-notices/richmond-hill-construction" rel="noopener" target="_blank">GO Transit: Richmond Hill line construction and service</a></li><li><a href="https://www.yrt.ca/en/fares-and-passes/transfers-with-ttc-one-fare-program.aspx" rel="noopener" target="_blank">YRT: Transfers with TTC (One Fare program)</a></li><li><a href="https://tribunalsontario.ca/ltb/" rel="noopener" target="_blank">Landlord and Tenant Board (Tribunals Ontario)</a></li></ol></section>
     </article>
@@ -312,5 +330,28 @@ body { font-size: 16px; }
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>
+<script>(function () {
+  var links = document.querySelectorAll(".toc a[href^='#']");
+  if (links.length && "IntersectionObserver" in window) {
+    var byId = {};
+    for (var i = 0; i < links.length; i++) byId[decodeURIComponent(links[i].getAttribute("href").slice(1))] = links[i];
+    var current = null;
+    var mark = function (a) { if (a === current) return; if (current) current.removeAttribute("aria-current"); if (a) a.setAttribute("aria-current", "true"); current = a; };
+    var seen = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) mark(byId[entries[k].target.id]);
+    }, { rootMargin: "-80px 0px -70% 0px" });
+    for (var id in byId) { var h = document.getElementById(id); if (h) seen.observe(h); }
+  }
+  var slots = document.querySelectorAll("[data-cv-demo]");
+  if (!slots.length || !("IntersectionObserver" in window)) return;
+  var load = function () {
+    var css = document.createElement("link"); css.rel = "stylesheet"; css.href = "/demos/demos.css"; document.head.appendChild(css);
+    var js = document.createElement("script"); js.src = "/demos/demos.js"; js.async = true; document.head.appendChild(js);
+  };
+  var near = new IntersectionObserver(function (entries) {
+    for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) { near.disconnect(); load(); return; }
+  }, { rootMargin: "900px 0px" });
+  for (var n = 0; n < slots.length; n++) near.observe(slots[n]);
+})();</script>
 </body>
 </html>

@@ -62,6 +62,9 @@ a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--blue-deep); }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -125,6 +128,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 .faq { margin-top: 2.6em; }
 .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin: 0 0 10px; }
 .faq summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -132,7 +137,9 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -157,6 +164,12 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+.grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
 @media (max-width: 980px) {
 .post-grid { grid-template-columns: 1fr; gap: 0; }
 .toc { display: none; }
@@ -171,14 +184,16 @@ body { font-size: 16px; }
 .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
 .btn { padding: 9px 14px; font-size: 14px; }
 .cover { border-radius: 18px; }
-.cta { padding: 24px; }
+.cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+.cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
 .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"BlogPosting","@id":"https://www.colivease.ca/blog/living-with-your-landlord-ontario/#article","headline":"Living With Your Landlord in Ontario: Know the RTA Gap","description":"Living with your landlord in Ontario? If you share a kitchen or bathroom with the owner, the RTA may not apply. Learn what changes and how to protect yourself.","image":[{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/og/living-with-your-landlord-ontario.en.jpg","width":1200,"height":630},{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/covers/kitchen.webp","width":1000,"height":747}],"datePublished":"2026-10-31","dateModified":"2026-11-03","inLanguage":"en-CA","articleSection":"Tenant rights","keywords":"living with landlord Ontario RTA, living with landlord Ontario, renting a room in landlord's house Ontario, RTA section 5(i), shared kitchen with owner Ontario, room rental agreement Ontario","wordCount":1489,"author":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/"},"publisher":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.colivease.ca/blog/living-with-your-landlord-ontario/"},"isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/blog/#blog","name":"ColivEase Blog: Roommates & Renting in Toronto"},"workTranslation":{"@id":"https://www.colivease.ca/zh/blog/living-with-your-landlord-ontario/#article"},"citation":["https://www.ontario.ca/laws/statute/06r17","https://www.ontario.ca/page/renting-ontario-your-rights","https://tribunalsontario.ca/ltb/","https://www.ontario.ca/laws/statute/90h19","https://www.ohrc.on.ca/en/policy-human-rights-and-rental-housing"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://www.colivease.ca/blog/"},{"@type":"ListItem","position":3,"name":"Tenant rights","item":"https://www.colivease.ca/blog/category/tenant-rights/"},{"@type":"ListItem","position":4,"name":"Living With Your Landlord in Ontario: Know the RTA Gap","item":"https://www.colivease.ca/blog/living-with-your-landlord-ontario/"}]},{"@type":"FAQPage","@id":"https://www.colivease.ca/blog/living-with-your-landlord-ontario/#faq","mainEntity":[{"@type":"Question","name":"Does the Residential Tenancies Act apply if I live with my landlord in Ontario?","acceptedAnswer":{"@type":"Answer","text":"Usually not, if you have to share a kitchen or bathroom with the owner or the owner's spouse, child or parent (or the spouse's child or parent) and that person lives in the same building. This exemption is in section 5(i) of the RTA. If you have your own kitchen and bathroom, the RTA generally still applies even if the owner lives upstairs."}},{"@type":"Question","name":"How much notice does a live-in landlord have to give me in Ontario?","acceptedAnswer":{"@type":"Answer","text":"Because the RTA's notice rules don't apply in an exempt arrangement, there is no LTB notice form or fixed statutory period. Your written agreement and general contract law decide what is fair, which is why it's smart to put a notice period, such as 30 days, in writing before you move in."}},{"@type":"Question","name":"Can I take a live-in landlord to the Landlord and Tenant Board?","acceptedAnswer":{"@type":"Answer","text":"Generally no. If the RTA doesn't apply, the LTB has no jurisdiction over the arrangement. Money disputes, like an unreturned deposit, usually go to Small Claims Court, which handles claims up to $50,000 in Ontario."}},{"@type":"Question","name":"Can a live-in landlord ask for a damage deposit?","acceptedAnswer":{"@type":"Answer","text":"The RTA's limit of one month's rent as a deposit doesn't apply to exempt arrangements, so a live-in owner can ask for a damage deposit. Get the amount, the conditions for keeping any of it, and the return date in writing, and pay in a traceable way."}},{"@type":"Question","name":"Is the arrangement covered if I share a kitchen with the landlord's adult son but the owner lives elsewhere?","acceptedAnswer":{"@type":"Answer","text":"The exemption covers the owner's child if that child lives in the building and you must share the kitchen or bathroom with them. Situations like this can be fact-specific, so contact the LTB or a community legal clinic if you're not sure."}}]}]}</script>
 </head>
 <body>
 <header class="top">
+  <span class="read" aria-hidden="true"></span>
   <div class="wrap top-in">
     <a class="logo" href="/" aria-label="ColivEase"><img src="/blog/assets/logo.png" alt="ColivEase" width="96" height="66"></a>
     <nav aria-label="Blog">
@@ -291,9 +306,12 @@ body { font-size: 16px; }
 
       <section class="faq" aria-labelledby="faq"><h2 id="faq">Frequently asked questions</h2><details><summary>Does the Residential Tenancies Act apply if I live with my landlord in Ontario?</summary><p>Usually not, if you have to share a kitchen or bathroom with the owner or the owner's spouse, child or parent (or the spouse's child or parent) and that person lives in the same building. This exemption is in section 5(i) of the RTA. If you have your own kitchen and bathroom, the RTA generally still applies even if the owner lives upstairs.</p></details><details><summary>How much notice does a live-in landlord have to give me in Ontario?</summary><p>Because the RTA's notice rules don't apply in an exempt arrangement, there is no LTB notice form or fixed statutory period. Your written agreement and general contract law decide what is fair, which is why it's smart to put a notice period, such as 30 days, in writing before you move in.</p></details><details><summary>Can I take a live-in landlord to the Landlord and Tenant Board?</summary><p>Generally no. If the RTA doesn't apply, the LTB has no jurisdiction over the arrangement. Money disputes, like an unreturned deposit, usually go to Small Claims Court, which handles claims up to $50,000 in Ontario.</p></details><details><summary>Can a live-in landlord ask for a damage deposit?</summary><p>The RTA's limit of one month's rent as a deposit doesn't apply to exempt arrangements, so a live-in owner can ask for a damage deposit. Get the amount, the conditions for keeping any of it, and the return date in writing, and pay in a traceable way.</p></details><details><summary>Is the arrangement covered if I share a kitchen with the landlord's adult son but the owner lives elsewhere?</summary><p>The exemption covers the owner's child if that child lives in the building and you must share the kitchen or bathroom with them. Situations like this can be fact-specific, so contact the LTB or a community legal clinic if you're not sure.</p></details></section>
       <aside class="cta">
-        <h2>Find your people first. Then your place.</h2>
-        <p>ColivEase gives you a match score with possible roommates based on area and commute, budget, move-in date, student or worker, gender preference and shared language. Every listing is reviewed by a person, chat warns you about common scam lines, and you can rent a whole home room by room.</p>
-        <a class="btn big" href="/app.html">Start for free →</a>
+        <div class="cta-copy">
+          <h2>Find your people first. Then your place.</h2>
+          <p>ColivEase gives you a match score with possible roommates based on area and commute, budget, move-in date, student or worker, gender preference and shared language. Every listing is reviewed by a person, chat warns you about common scam lines, and you can rent a whole home room by room.</p>
+          <a class="btn big" href="/app.html">Start for free →</a>
+        </div>
+        <div class="cta-demo" data-cv-demo="match" data-lang="en" aria-hidden="true"></div>
       </aside>
       <section class="sources"><h2>Sources</h2><ol><li><a href="https://www.ontario.ca/laws/statute/06r17" rel="noopener" target="_blank">Residential Tenancies Act, 2006 (section 5 exemptions)</a></li><li><a href="https://www.ontario.ca/page/renting-ontario-your-rights" rel="noopener" target="_blank">Renting in Ontario: your rights</a></li><li><a href="https://tribunalsontario.ca/ltb/" rel="noopener" target="_blank">Landlord and Tenant Board</a></li><li><a href="https://www.ontario.ca/laws/statute/90h19" rel="noopener" target="_blank">Human Rights Code (section 21 exemptions)</a></li><li><a href="https://www.ohrc.on.ca/en/policy-human-rights-and-rental-housing" rel="noopener" target="_blank">OHRC Policy on human rights and rental housing</a></li></ol></section>
     </article>
@@ -340,5 +358,28 @@ body { font-size: 16px; }
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>
+<script>(function () {
+  var links = document.querySelectorAll(".toc a[href^='#']");
+  if (links.length && "IntersectionObserver" in window) {
+    var byId = {};
+    for (var i = 0; i < links.length; i++) byId[decodeURIComponent(links[i].getAttribute("href").slice(1))] = links[i];
+    var current = null;
+    var mark = function (a) { if (a === current) return; if (current) current.removeAttribute("aria-current"); if (a) a.setAttribute("aria-current", "true"); current = a; };
+    var seen = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) mark(byId[entries[k].target.id]);
+    }, { rootMargin: "-80px 0px -70% 0px" });
+    for (var id in byId) { var h = document.getElementById(id); if (h) seen.observe(h); }
+  }
+  var slots = document.querySelectorAll("[data-cv-demo]");
+  if (!slots.length || !("IntersectionObserver" in window)) return;
+  var load = function () {
+    var css = document.createElement("link"); css.rel = "stylesheet"; css.href = "/demos/demos.css"; document.head.appendChild(css);
+    var js = document.createElement("script"); js.src = "/demos/demos.js"; js.async = true; document.head.appendChild(js);
+  };
+  var near = new IntersectionObserver(function (entries) {
+    for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) { near.disconnect(); load(); return; }
+  }, { rootMargin: "900px 0px" });
+  for (var n = 0; n < slots.length; n++) near.observe(slots[n]);
+})();</script>
 </body>
 </html>

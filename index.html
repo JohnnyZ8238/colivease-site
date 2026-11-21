@@ -750,6 +750,15 @@ main { position: relative; }
 .t-stub small { font-size: 13.5px; color: var(--ink-2); }
 .ticket.agent .t-stub { background: var(--blue-soft); }
 .ticket.agent .t-stub .t-k { color: var(--blue-btn); }
+/* The host's side as a short animated demo (landing/demos, built with the Stageshow kit): a team applies, the host
+   accepts once, the exact address goes to the whole team. Copy on the left, the demo beside it; stacked on narrow
+   screens. The slot keeps the demo's shape until its script (loaded only when the slot nears the screen) mounts it. */
+.land-top { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 620px); gap: clamp(32px, 4vw, 64px); align-items: center; }
+.land-demo { width: 100%; aspect-ratio: 620 / 380; }
+.land-demo[data-cv-ready] { aspect-ratio: auto; }
+/* Stacked, the window (not the stage around it) lines up with the copy: the stage's gutter hangs into the margin. */
+@media (max-width: 1100px) { .land-top { grid-template-columns: minmax(0, 1fr); } .land-demo { max-width: 620px; margin-left: -28px; } }
+@media (max-width: 600px) { .land-demo { aspect-ratio: 358 / 344; margin-left: -12px; } }
 
 /* Pricing: a fare table, then the one-time extras. */
 .fare-wrap { margin-top: clamp(36px, 5vw, 60px); border-radius: 28px; background: var(--white); box-shadow: 0 1px 0 var(--line), 0 30px 50px -40px rgba(11,34,85,.45); overflow: hidden; }
@@ -1315,8 +1324,13 @@ footer .legal { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; 
 
   <section class="block gutter" id="landlords" aria-labelledby="land-h" style="padding-top:0">
     <div class="wrap">
-      <h2 id="land-h">Listing a place? Meet tenants who already get along.</h2>
-      <p class="sub">Owner-direct landlords and licensed agents post homes on the same map renters use. Every listing is reviewed first.</p>
+      <div class="land-top">
+        <div>
+          <h2 id="land-h">Listing a place? Meet tenants who already get along.</h2>
+          <p class="sub">Owner-direct landlords and licensed agents post homes on the same map renters use. Every listing is reviewed first.</p>
+        </div>
+        <div class="land-demo" data-cv-demo="landlord" data-lang="en" aria-hidden="true"></div>
+      </div>
       <div class="tickets">
         <article class="ticket owner">
           <div class="t-main">
@@ -1659,7 +1673,7 @@ footer .legal { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; 
   $$(".hero, #ride, .after .block").forEach((el) => live.observe(el));
 
   // Scroll entrance: content below the screen rises in as it arrives, staggered within each batch.
-  const RV = [".after .block h2", ".after .block .sub", ".verify", ".sph", ".rules li", ".ticket", ".fare-wrap", ".tiers .tier", ".price-note", ".qs details", ".final > div:first-child", ".fph", ".park", "footer .row > *"];
+  const RV = [".after .block h2", ".after .block .sub", ".land-demo", ".verify", ".sph", ".rules li", ".ticket", ".fare-wrap", ".tiers .tier", ".price-note", ".qs details", ".final > div:first-child", ".fph", ".park", "footer .row > *"];
   const below = $$(RV.join(",")).filter((el) => el.getBoundingClientRect().top > innerHeight);
   below.forEach((el) => el.classList.add("rv", ...(el.matches(".sph, .fph") ? ["pop"] : [])));
   const rvo = new IntersectionObserver((es) => {
@@ -2212,6 +2226,21 @@ const cvRide = () => {
   new IntersectionObserver(([e], o) => { if (e.isIntersecting) { o.disconnect(); start(); } }, { rootMargin: "0px 0px 25% 0px" }).observe(document.getElementById("ride"));
   const whenLoaded = (f) => ("complete" === document.readyState ? f() : addEventListener("load", f, { once: true }));
   whenLoaded(() => setTimeout(() => (window.requestIdleCallback || setTimeout)(start, { timeout: 2000 }), 6000));
+})();
+</script>
+<script>
+// Product demos (landing/demos): their script and stylesheet load only when a demo slot comes within a screen or so.
+(function () {
+  var slots = document.querySelectorAll("[data-cv-demo]");
+  if (!slots.length || !("IntersectionObserver" in window)) return;
+  var load = function () {
+    var css = document.createElement("link"); css.rel = "stylesheet"; css.href = "/demos/demos.css"; document.head.appendChild(css);
+    var js = document.createElement("script"); js.src = "/demos/demos.js"; js.async = true; document.head.appendChild(js);
+  };
+  var io = new IntersectionObserver(function (entries) {
+    for (var i = 0; i < entries.length; i++) if (entries[i].isIntersecting) { io.disconnect(); load(); return; }
+  }, { rootMargin: "900px 0px" });
+  for (var k = 0; k < slots.length; k++) io.observe(slots[k]);
 })();
 </script>
 </body>

@@ -62,6 +62,9 @@ a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--blue-deep); }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -125,6 +128,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 .faq { margin-top: 2.6em; }
 .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin: 0 0 10px; }
 .faq summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -132,7 +137,9 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -157,6 +164,12 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+.grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
 @media (max-width: 980px) {
 .post-grid { grid-template-columns: 1fr; gap: 0; }
 .toc { display: none; }
@@ -171,14 +184,16 @@ body { font-size: 16px; }
 .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
 .btn { padding: 9px 14px; font-size: 14px; }
 .cover { border-radius: 18px; }
-.cta { padding: 24px; }
+.cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+.cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
 .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"BlogPosting","@id":"https://www.colivease.ca/zh/blog/renting-in-north-york/#article","headline":"北约克租房指南：Finch地铁站、约大与华人合租（2026）","description":"北约克租房住哪里？Finch地铁站附近、North York Centre、约克大学和 Seneca 周边各社区对比，北约克华人合租渠道与防骗要点，以及多伦多市的租房规定。","image":[{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/og/renting-in-north-york.zh.jpg","width":1200,"height":630},{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/covers/map.webp","width":900,"height":672}],"datePublished":"2026-11-21","dateModified":"2026-11-21","inLanguage":"zh-Hans","articleSection":"社区指南","keywords":"北约克租房, 北约克华人合租, Finch地铁站附近租房, 约克大学附近租房, Seneca附近租房, North York租房","wordCount":2267,"author":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/"},"publisher":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.colivease.ca/zh/blog/renting-in-north-york/"},"isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/zh/blog/#blog","name":"ColivEase 博客：多伦多找室友与租房指南"},"translationOfWork":{"@id":"https://www.colivease.ca/blog/renting-in-north-york/#article"},"citation":["https://www.ttc.ca/news/2025/December/Line-6-Finch-West-officially-opened-to-customers-December-7","https://www.ttc.ca/riding-the-ttc/Line-6-Finch-West","https://www.toronto.ca/community-people/housing-shelter/rental-housing-rights-information/multi-tenant-rooming-houses/new-framework-for-multi-tenant-rooming-houses/","https://www.toronto.ca/renovictions","https://www.toronto.ca/city-government/planning-development/planning-studies-initiatives/secondary-suites/overview-secondary-suites/","https://www.toronto.ca/community-people/housing-shelter/rental-housing-standards/apartment-building-standards/rentsafeto-for-tenants/","https://senecapolytechnic.ca/campuses/newnhamlocation.html","https://www.yorku.ca/housing/off-campus-housing/","https://tribunalsontario.ca/ltb/"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"博客","item":"https://www.colivease.ca/zh/blog/"},{"@type":"ListItem","position":3,"name":"社区指南","item":"https://www.colivease.ca/zh/blog/category/neighbourhoods/"},{"@type":"ListItem","position":4,"name":"北约克租房指南：Finch地铁站、约大与华人合租（2026）","item":"https://www.colivease.ca/zh/blog/renting-in-north-york/"}]},{"@type":"FAQPage","@id":"https://www.colivease.ca/zh/blog/renting-in-north-york/#faq","mainEntity":[{"@type":"Question","name":"北约克属于多伦多吗？","acceptedAnswer":{"@type":"Answer","text":"属于。北约克 (North York) 原本是独立城市，1998年并入多伦多市。现在由 TTC 提供公共交通，多伦多市的各项规定，比如合租屋执照和翻新驱逐许可条例，在北约克同样适用。"}},{"@type":"Question","name":"住北约克比住市中心便宜吗？","acceptedAnswer":{"@type":"Answer","text":"很多时候是，但不绝对。同样的预算，在北约克尤其是离地铁站几站远的地方，通常能住得更宽敞；不过紧挨主要地铁站的新 condo，价格可能接近市中心。比较时要把交通和水电网等费用一起算。"}},{"@type":"Question","name":"Seneca Newnham 校区的学生住哪里？","acceptedAnswer":{"@type":"Answer","text":"Seneca 的 Newnham 校区在 Finch Avenue East 与404公路附近，很多学生住在 4号线 Don Mills 站周边、Don Valley Village，或者 1号线 Finch 站附近，再坐公交去学校。签约前先查清上下课时间段的公交班次。"}},{"@type":"Question","name":"从北约克去市中心方便吗？","acceptedAnswer":{"@type":"Answer","text":"Yonge 街沿线的北约克大部分都在 1号线上，坐地铁可以直达市中心。具体用时取决于出发地点，建议用 TTC 行程规划按你的地址查询，高峰期或地铁临时停运时要多留时间。"}}]}]}</script>
 </head>
 <body>
 <header class="top">
+  <span class="read" aria-hidden="true"></span>
   <div class="wrap top-in">
     <a class="logo" href="/" aria-label="ColivEase"><img src="/blog/assets/logo.png" alt="ColivEase" width="96" height="66"></a>
     <nav aria-label="博客">
@@ -265,9 +280,12 @@ body { font-size: 16px; }
 
       <section class="faq" aria-labelledby="faq"><h2 id="faq">常见问题</h2><details><summary>北约克属于多伦多吗？</summary><p>属于。北约克 (North York) 原本是独立城市，1998年并入多伦多市。现在由 TTC 提供公共交通，多伦多市的各项规定，比如合租屋执照和翻新驱逐许可条例，在北约克同样适用。</p></details><details><summary>住北约克比住市中心便宜吗？</summary><p>很多时候是，但不绝对。同样的预算，在北约克尤其是离地铁站几站远的地方，通常能住得更宽敞；不过紧挨主要地铁站的新 condo，价格可能接近市中心。比较时要把交通和水电网等费用一起算。</p></details><details><summary>Seneca Newnham 校区的学生住哪里？</summary><p>Seneca 的 Newnham 校区在 Finch Avenue East 与404公路附近，很多学生住在 4号线 Don Mills 站周边、Don Valley Village，或者 1号线 Finch 站附近，再坐公交去学校。签约前先查清上下课时间段的公交班次。</p></details><details><summary>从北约克去市中心方便吗？</summary><p>Yonge 街沿线的北约克大部分都在 1号线上，坐地铁可以直达市中心。具体用时取决于出发地点，建议用 TTC 行程规划按你的地址查询，高峰期或地铁临时停运时要多留时间。</p></details></section>
       <aside class="cta">
-        <h2>先找对的人，再找对的房。</h2>
-        <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
-        <a class="btn big" href="/app.html">免费开始 →</a>
+        <div class="cta-copy">
+          <h2>先找对的人，再找对的房。</h2>
+          <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
+          <a class="btn big" href="/app.html">免费开始 →</a>
+        </div>
+        <div class="cta-demo" data-cv-demo="match" data-lang="zh" aria-hidden="true"></div>
       </aside>
       <section class="sources"><h2>参考资料</h2><ol><li><a href="https://www.ttc.ca/news/2025/December/Line-6-Finch-West-officially-opened-to-customers-December-7" rel="noopener" target="_blank">TTC：6号线 Finch West 于12月7日正式开通</a></li><li><a href="https://www.ttc.ca/riding-the-ttc/Line-6-Finch-West" rel="noopener" target="_blank">TTC：Line 6 Finch West（6号线）</a></li><li><a href="https://www.toronto.ca/community-people/housing-shelter/rental-housing-rights-information/multi-tenant-rooming-houses/new-framework-for-multi-tenant-rooming-houses/" rel="noopener" target="_blank">多伦多市政府：多租户（合租屋）新规</a></li><li><a href="https://www.toronto.ca/renovictions" rel="noopener" target="_blank">多伦多市政府：翻新驱逐条例与租赁翻新许可</a></li><li><a href="https://www.toronto.ca/city-government/planning-development/planning-studies-initiatives/secondary-suites/overview-secondary-suites/" rel="noopener" target="_blank">多伦多市政府：第二套房（secondary suites）概览</a></li><li><a href="https://www.toronto.ca/community-people/housing-shelter/rental-housing-standards/apartment-building-standards/rentsafeto-for-tenants/" rel="noopener" target="_blank">多伦多市政府：RentSafeTO 租客须知</a></li><li><a href="https://senecapolytechnic.ca/campuses/newnhamlocation.html" rel="noopener" target="_blank">Seneca Polytechnic：Newnham 校区</a></li><li><a href="https://www.yorku.ca/housing/off-campus-housing/" rel="noopener" target="_blank">约克大学：校外住房</a></li><li><a href="https://tribunalsontario.ca/ltb/" rel="noopener" target="_blank">房东租客委员会 Landlord and Tenant Board</a></li></ol></section>
     </article>
@@ -314,5 +332,28 @@ body { font-size: 16px; }
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>
+<script>(function () {
+  var links = document.querySelectorAll(".toc a[href^='#']");
+  if (links.length && "IntersectionObserver" in window) {
+    var byId = {};
+    for (var i = 0; i < links.length; i++) byId[decodeURIComponent(links[i].getAttribute("href").slice(1))] = links[i];
+    var current = null;
+    var mark = function (a) { if (a === current) return; if (current) current.removeAttribute("aria-current"); if (a) a.setAttribute("aria-current", "true"); current = a; };
+    var seen = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) mark(byId[entries[k].target.id]);
+    }, { rootMargin: "-80px 0px -70% 0px" });
+    for (var id in byId) { var h = document.getElementById(id); if (h) seen.observe(h); }
+  }
+  var slots = document.querySelectorAll("[data-cv-demo]");
+  if (!slots.length || !("IntersectionObserver" in window)) return;
+  var load = function () {
+    var css = document.createElement("link"); css.rel = "stylesheet"; css.href = "/demos/demos.css"; document.head.appendChild(css);
+    var js = document.createElement("script"); js.src = "/demos/demos.js"; js.async = true; document.head.appendChild(js);
+  };
+  var near = new IntersectionObserver(function (entries) {
+    for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) { near.disconnect(); load(); return; }
+  }, { rootMargin: "900px 0px" });
+  for (var n = 0; n < slots.length; n++) near.observe(slots[n]);
+})();</script>
 </body>
 </html>

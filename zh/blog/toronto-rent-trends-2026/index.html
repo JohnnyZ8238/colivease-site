@@ -62,6 +62,9 @@ a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--blue-deep); }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -125,6 +128,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 .faq { margin-top: 2.6em; }
 .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin: 0 0 10px; }
 .faq summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -132,7 +137,9 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -157,6 +164,12 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+.grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
 @media (max-width: 980px) {
 .post-grid { grid-template-columns: 1fr; gap: 0; }
 .toc { display: none; }
@@ -171,14 +184,16 @@ body { font-size: 16px; }
 .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
 .btn { padding: 9px 14px; font-size: 14px; }
 .cover { border-radius: 18px; }
-.cta { padding: 24px; }
+.cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+.cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
 .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"NewsArticle","@id":"https://www.colivease.ca/zh/blog/toronto-rent-trends-2026/#article","headline":"2026多伦多房租走势：房租还在降吗？","description":"2026多伦多房租走势（截至2026年11月）：Rentals.ca、liv.rent、TRREB、CMHC最新数据怎么看，一室一厅多少钱，什么时候租房最便宜，一篇讲清楚。","image":[{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/og/toronto-rent-trends-2026.zh.jpg","width":1200,"height":630},{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/covers/map.webp","width":900,"height":672}],"datePublished":"2026-11-21","dateModified":"2026-11-21","inLanguage":"zh-Hans","articleSection":"租房新闻","keywords":"2026多伦多房租走势, 多伦多房租下降了吗, 多伦多一室一厅多少钱, 什么时候租房最便宜, 多伦多租金报告, 多伦多空置率","wordCount":2422,"author":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/"},"publisher":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.colivease.ca/zh/blog/toronto-rent-trends-2026/"},"isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/zh/blog/#blog","name":"ColivEase 博客：多伦多找室友与租房指南"},"translationOfWork":{"@id":"https://www.colivease.ca/blog/toronto-rent-trends-2026/#article"},"citation":["https://press.rentals.ca/476871-toronto-and-vancouver-rents-post-first-annual-increases-in-more-than-two-and-a-half-years-as-national-decline-narrows","https://www.bnnbloomberg.ca/business/real-estate/2026/11/05/average-asking-rents-fall-32-in-october-but-prices-rising-in-toronto-vancouver/","https://www.ctvnews.ca/toronto/article/average-rent-in-toronto-is-at-its-lowest-since-early-2022-a-new-report-finds/","https://cp24.com/local/toronto/2026/03/12/why-are-rent-prices-in-toronto-continuing-to-drop-experts-weigh-in","https://liv.rent/blog/?p=70039","https://public.trreb.ca/wp-content/files/market-stats/rental-reports/rental_report_Q2-2026.pdf","https://www.cmhc-schl.gc.ca/media-newsroom/news-releases/2025/canadas-vacancy-rate-rises-amid-historically-high-rental-construction","https://www.ontario.ca/page/residential-rent-increases","https://globalnews.ca/news/12138065/toronto-vancouver-rent-increase-2026/"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"博客","item":"https://www.colivease.ca/zh/blog/"},{"@type":"ListItem","position":3,"name":"租房新闻","item":"https://www.colivease.ca/zh/blog/category/news/"},{"@type":"ListItem","position":4,"name":"2026多伦多房租走势：房租还在降吗？","item":"https://www.colivease.ca/zh/blog/toronto-rent-trends-2026/"}]},{"@type":"FAQPage","@id":"https://www.colivease.ca/zh/blog/toronto-rent-trends-2026/#faq","mainEntity":[{"@type":"Question","name":"2027年多伦多房租会涨吗？","acceptedAnswer":{"@type":"Answer","text":"没人能打包票。根据2026年10月的数据，Urbanation 总裁认为多伦多\"房租便宜的窗口正在关闭\"，原因是新完工的房源在减少；CMHC 则预计2026年空置率维持在3%左右或略高。总体看，更可能是横盘或小幅波动，而不是像2024、2025年那样持续下跌。"}},{"@type":"Question","name":"为什么2024、2025年多伦多房租一直在跌？","acceptedAnswer":{"@type":"Answer","text":"主要是大量新公寓和专门出租楼在同一时间完工，而人口增长放缓、国际学生减少、就业市场疲软又让需求下降。租客选择多了，议价空间也大了，挂牌租金因此连续下跌了将近三年。"}},{"@type":"Question","name":"市场房租降了，我现在的房租会降吗？","acceptedAnswer":{"@type":"Answer","text":"不会自动降。房租只在续租时调整；2018年11月15日之前首次入住的大多数单位，涨幅受安省涨租指导线限制（2026年为2.1%）。市场价下跌主要对正在找房、准备签新约的人有利。"}},{"@type":"Question","name":"多伦多合租一个房间比租一室一厅便宜多少？","acceptedAnswer":{"@type":"Answer","text":"通常便宜很多。按不同数据来源，一室一厅挂牌价大约在2,000到2,300加元之间，而合租单间平均远低于这个水平。和一个室友分租两室，人均价格一般介于两者之间。"}},{"@type":"Question","name":"网上的多伦多房租数据是哪里来的？","acceptedAnswer":{"@type":"Answer","text":"最常被引用的有：Rentals.ca 与 Urbanation 每月的全国租金报告、liv.rent 每月报告、TRREB（多伦多地区地产局）季度公寓租赁报告，以及 CMHC 每年的租赁市场报告。它们统计口径不同，看数字时一定要注意来源和月份。"}}]}]}</script>
 </head>
 <body>
 <header class="top">
+  <span class="read" aria-hidden="true"></span>
   <div class="wrap top-in">
     <a class="logo" href="/" aria-label="ColivEase"><img src="/blog/assets/logo.png" alt="ColivEase" width="96" height="66"></a>
     <nav aria-label="博客">
@@ -273,9 +288,12 @@ body { font-size: 16px; }
 
       <section class="faq" aria-labelledby="faq"><h2 id="faq">常见问题</h2><details><summary>2027年多伦多房租会涨吗？</summary><p>没人能打包票。根据2026年10月的数据，Urbanation 总裁认为多伦多&quot;房租便宜的窗口正在关闭&quot;，原因是新完工的房源在减少；CMHC 则预计2026年空置率维持在3%左右或略高。总体看，更可能是横盘或小幅波动，而不是像2024、2025年那样持续下跌。</p></details><details><summary>为什么2024、2025年多伦多房租一直在跌？</summary><p>主要是大量新公寓和专门出租楼在同一时间完工，而人口增长放缓、国际学生减少、就业市场疲软又让需求下降。租客选择多了，议价空间也大了，挂牌租金因此连续下跌了将近三年。</p></details><details><summary>市场房租降了，我现在的房租会降吗？</summary><p>不会自动降。房租只在续租时调整；2018年11月15日之前首次入住的大多数单位，涨幅受安省涨租指导线限制（2026年为2.1%）。市场价下跌主要对正在找房、准备签新约的人有利。</p></details><details><summary>多伦多合租一个房间比租一室一厅便宜多少？</summary><p>通常便宜很多。按不同数据来源，一室一厅挂牌价大约在2,000到2,300加元之间，而合租单间平均远低于这个水平。和一个室友分租两室，人均价格一般介于两者之间。</p></details><details><summary>网上的多伦多房租数据是哪里来的？</summary><p>最常被引用的有：Rentals.ca 与 Urbanation 每月的全国租金报告、liv.rent 每月报告、TRREB（多伦多地区地产局）季度公寓租赁报告，以及 CMHC 每年的租赁市场报告。它们统计口径不同，看数字时一定要注意来源和月份。</p></details></section>
       <aside class="cta">
-        <h2>先找对的人，再找对的房。</h2>
-        <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
-        <a class="btn big" href="/app.html">免费开始 →</a>
+        <div class="cta-copy">
+          <h2>先找对的人，再找对的房。</h2>
+          <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
+          <a class="btn big" href="/app.html">免费开始 →</a>
+        </div>
+        <div class="cta-demo" data-cv-demo="match" data-lang="zh" aria-hidden="true"></div>
       </aside>
       <section class="sources"><h2>参考资料</h2><ol><li><a href="https://press.rentals.ca/476871-toronto-and-vancouver-rents-post-first-annual-increases-in-more-than-two-and-a-half-years-as-national-decline-narrows" rel="noopener" target="_blank">Rentals.ca 与 Urbanation：2026年11月全国租金报告（10月数据），Rentals.ca 新闻稿</a></li><li><a href="https://www.bnnbloomberg.ca/business/real-estate/2026/11/05/average-asking-rents-fall-32-in-october-but-prices-rising-in-toronto-vancouver/" rel="noopener" target="_blank">BNN Bloomberg / 加通社：10月全国平均挂牌租金下降3.2%，但多伦多、温哥华上涨（2026年11月5日）</a></li><li><a href="https://www.ctvnews.ca/toronto/article/average-rent-in-toronto-is-at-its-lowest-since-early-2022-a-new-report-finds/" rel="noopener" target="_blank">CTV News：多伦多平均租金降至2022年初以来最低（2026年1月12日）</a></li><li><a href="https://cp24.com/local/toronto/2026/03/12/why-are-rent-prices-in-toronto-continuing-to-drop-experts-weigh-in" rel="noopener" target="_blank">CP24：多伦多房租为何持续下跌？专家解读（2026年3月12日）</a></li><li><a href="https://liv.rent/blog/?p=70039" rel="noopener" target="_blank">liv.rent：2026年11月安省租金报告</a></li><li><a href="https://public.trreb.ca/wp-content/files/market-stats/rental-reports/rental_report_Q2-2026.pdf" rel="noopener" target="_blank">TRREB：2026年第二季度租赁市场报告</a></li><li><a href="https://www.cmhc-schl.gc.ca/media-newsroom/news-releases/2025/canadas-vacancy-rate-rises-amid-historically-high-rental-construction" rel="noopener" target="_blank">CMHC：2025年租赁市场报告新闻稿（全国空置率上升）</a></li><li><a href="https://www.ontario.ca/page/residential-rent-increases" rel="noopener" target="_blank">安省政府：Residential rent increases（涨租规定）</a></li><li><a href="https://globalnews.ca/news/12138065/toronto-vancouver-rent-increase-2026/" rel="noopener" target="_blank">Global News: Toronto and Vancouver saw first rent increase in nearly 3 years (Nov 2026)</a></li></ol></section>
     </article>
@@ -322,5 +340,28 @@ body { font-size: 16px; }
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>
+<script>(function () {
+  var links = document.querySelectorAll(".toc a[href^='#']");
+  if (links.length && "IntersectionObserver" in window) {
+    var byId = {};
+    for (var i = 0; i < links.length; i++) byId[decodeURIComponent(links[i].getAttribute("href").slice(1))] = links[i];
+    var current = null;
+    var mark = function (a) { if (a === current) return; if (current) current.removeAttribute("aria-current"); if (a) a.setAttribute("aria-current", "true"); current = a; };
+    var seen = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) mark(byId[entries[k].target.id]);
+    }, { rootMargin: "-80px 0px -70% 0px" });
+    for (var id in byId) { var h = document.getElementById(id); if (h) seen.observe(h); }
+  }
+  var slots = document.querySelectorAll("[data-cv-demo]");
+  if (!slots.length || !("IntersectionObserver" in window)) return;
+  var load = function () {
+    var css = document.createElement("link"); css.rel = "stylesheet"; css.href = "/demos/demos.css"; document.head.appendChild(css);
+    var js = document.createElement("script"); js.src = "/demos/demos.js"; js.async = true; document.head.appendChild(js);
+  };
+  var near = new IntersectionObserver(function (entries) {
+    for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) { near.disconnect(); load(); return; }
+  }, { rootMargin: "900px 0px" });
+  for (var n = 0; n < slots.length; n++) near.observe(slots[n]);
+})();</script>
 </body>
 </html>

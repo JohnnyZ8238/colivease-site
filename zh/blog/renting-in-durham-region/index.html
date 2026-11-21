@@ -62,6 +62,9 @@ a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--blue-deep); }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -125,6 +128,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 .faq { margin-top: 2.6em; }
 .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin: 0 0 10px; }
 .faq summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -132,7 +137,9 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -157,6 +164,12 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+.grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
 @media (max-width: 980px) {
 .post-grid { grid-template-columns: 1fr; gap: 0; }
 .toc { display: none; }
@@ -171,14 +184,16 @@ body { font-size: 16px; }
 .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
 .btn { padding: 9px 14px; font-size: 14px; }
 .cover { border-radius: 18px; }
-.cta { padding: 24px; }
+.cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+.cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
 .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"BlogPosting","@id":"https://www.colivease.ca/zh/blog/renting-in-durham-region/#article","headline":"杜伦区租房：皮克林、惠特比、奥沙瓦怎么选","description":"杜伦区租房指南：皮克林、阿贾克斯、惠特比、奥沙瓦的房租和GO通勤对比，安大略理工大学和杜伦学院附近租房、奥沙瓦学生屋执照怎么查，一篇全部看懂。","image":[{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/og/renting-in-durham-region.zh.jpg","width":1200,"height":630},{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/covers/map.webp","width":900,"height":672}],"datePublished":"2026-11-21","dateModified":"2026-11-21","inLanguage":"zh-Hans","articleSection":"社区指南","keywords":"杜伦区租房, 奥沙瓦租房, 皮克林 合租, 安大略理工大学附近租房, 杜伦学院附近租房, Durham Region 租房","wordCount":2183,"author":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/"},"publisher":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.colivease.ca/zh/blog/renting-in-durham-region/"},"isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/zh/blog/#blog","name":"ColivEase 博客：多伦多找室友与租房指南"},"translationOfWork":{"@id":"https://www.colivease.ca/blog/renting-in-durham-region/#article"},"citation":["https://rentals.ca/blog/rentals-ca-april-2026-rent-report","https://www.cp24.com/local/toronto/2026/09/22/rent-has-fallen-faster-in-the-most-tariff-exposed-areas-in-canada-report-finds/","https://www.oshawa.ca/en/business-development/residential-rental-housing.aspx","https://www.gotransit.com/","https://www.ctvnews.ca/toronto/article/ford-government-officially-lifts-tolls-on-stretch-of-hwy-407-east-saving-drivers-7200-a-year/","https://www.durhamregiontransit.com/"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"博客","item":"https://www.colivease.ca/zh/blog/"},{"@type":"ListItem","position":3,"name":"社区指南","item":"https://www.colivease.ca/zh/blog/category/neighbourhoods/"},{"@type":"ListItem","position":4,"name":"杜伦区租房：皮克林、惠特比、奥沙瓦怎么选","item":"https://www.colivease.ca/zh/blog/renting-in-durham-region/"}]},{"@type":"FAQPage","@id":"https://www.colivease.ca/zh/blog/renting-in-durham-region/#faq","mainEntity":[{"@type":"Question","name":"杜伦区房租比多伦多便宜吗？","acceptedAnswer":{"@type":"Answer","text":"很多地方是，但不是全部。Rentals.ca 2026年4月的报告显示，皮克林平均挂牌租金为2,591加元，是多伦多以外安省最贵的租房市场；奥沙瓦整体更实惠，过去一年租金也有所下降。比较时要把GO车费和停车费一起算进去。"}},{"@type":"Question","name":"住杜伦区一定要有车吗？","acceptedAnswer":{"@type":"Answer","text":"如果住在GO站或频繁公交线路附近，不一定需要车。皮克林、阿贾克斯、惠特比和奥沙瓦都有GO火车站，杜伦区公交 (DRT) 也有本地线路和快线。但北边的Brooklin、Seaton等新社区，没有车会很不方便。"}},{"@type":"Question","name":"怎么确认奥沙瓦的学生屋有没有执照？","acceptedAnswer":{"@type":"Answer","text":"奥沙瓦市规定，杜伦学院和安大略理工大学周边区域的出租房必须持有执照，市政府在其 Residential Rental Housing 页面公布已持照房屋的信息。签约前请房东出示执照，再和市政府的信息核对。"}},{"@type":"Question","name":"在多伦多市中心上班，住杜伦区哪个城市最方便？","acceptedAnswer":{"@type":"Answer","text":"皮克林和阿贾克斯离多伦多最近，坐GO到Union站的时间通常最短。惠特比和奥沙瓦通勤更久，但同样的预算往往能住得更宽敞。最好选在步行或短途公交就能到GO站的地方。"}}]}]}</script>
 </head>
 <body>
 <header class="top">
+  <span class="read" aria-hidden="true"></span>
   <div class="wrap top-in">
     <a class="logo" href="/" aria-label="ColivEase"><img src="/blog/assets/logo.png" alt="ColivEase" width="96" height="66"></a>
     <nav aria-label="博客">
@@ -268,9 +283,12 @@ body { font-size: 16px; }
 
       <section class="faq" aria-labelledby="faq"><h2 id="faq">常见问题</h2><details><summary>杜伦区房租比多伦多便宜吗？</summary><p>很多地方是，但不是全部。Rentals.ca 2026年4月的报告显示，皮克林平均挂牌租金为2,591加元，是多伦多以外安省最贵的租房市场；奥沙瓦整体更实惠，过去一年租金也有所下降。比较时要把GO车费和停车费一起算进去。</p></details><details><summary>住杜伦区一定要有车吗？</summary><p>如果住在GO站或频繁公交线路附近，不一定需要车。皮克林、阿贾克斯、惠特比和奥沙瓦都有GO火车站，杜伦区公交 (DRT) 也有本地线路和快线。但北边的Brooklin、Seaton等新社区，没有车会很不方便。</p></details><details><summary>怎么确认奥沙瓦的学生屋有没有执照？</summary><p>奥沙瓦市规定，杜伦学院和安大略理工大学周边区域的出租房必须持有执照，市政府在其 Residential Rental Housing 页面公布已持照房屋的信息。签约前请房东出示执照，再和市政府的信息核对。</p></details><details><summary>在多伦多市中心上班，住杜伦区哪个城市最方便？</summary><p>皮克林和阿贾克斯离多伦多最近，坐GO到Union站的时间通常最短。惠特比和奥沙瓦通勤更久，但同样的预算往往能住得更宽敞。最好选在步行或短途公交就能到GO站的地方。</p></details></section>
       <aside class="cta">
-        <h2>先找对的人，再找对的房。</h2>
-        <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
-        <a class="btn big" href="/app.html">免费开始 →</a>
+        <div class="cta-copy">
+          <h2>先找对的人，再找对的房。</h2>
+          <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
+          <a class="btn big" href="/app.html">免费开始 →</a>
+        </div>
+        <div class="cta-demo" data-cv-demo="match" data-lang="zh" aria-hidden="true"></div>
       </aside>
       <section class="sources"><h2>参考资料</h2><ol><li><a href="https://rentals.ca/blog/rentals-ca-april-2026-rent-report" rel="noopener" target="_blank">Rentals.ca: April 2026 rent report</a></li><li><a href="https://www.cp24.com/local/toronto/2026/09/22/rent-has-fallen-faster-in-the-most-tariff-exposed-areas-in-canada-report-finds/" rel="noopener" target="_blank">CP24: Rent has fallen faster in the most tariff-exposed areas in Canada, report finds (September 2026)</a></li><li><a href="https://www.oshawa.ca/en/business-development/residential-rental-housing.aspx" rel="noopener" target="_blank">City of Oshawa: Residential rental housing licensing</a></li><li><a href="https://www.gotransit.com/" rel="noopener" target="_blank">GO Transit: schedules and trip planner</a></li><li><a href="https://www.ctvnews.ca/toronto/article/ford-government-officially-lifts-tolls-on-stretch-of-hwy-407-east-saving-drivers-7200-a-year/" rel="noopener" target="_blank">CTV News: Tolls lifted on Highway 407 East (June 2025)</a></li><li><a href="https://www.durhamregiontransit.com/" rel="noopener" target="_blank">Durham Region Transit</a></li></ol></section>
     </article>
@@ -317,5 +335,28 @@ body { font-size: 16px; }
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>
+<script>(function () {
+  var links = document.querySelectorAll(".toc a[href^='#']");
+  if (links.length && "IntersectionObserver" in window) {
+    var byId = {};
+    for (var i = 0; i < links.length; i++) byId[decodeURIComponent(links[i].getAttribute("href").slice(1))] = links[i];
+    var current = null;
+    var mark = function (a) { if (a === current) return; if (current) current.removeAttribute("aria-current"); if (a) a.setAttribute("aria-current", "true"); current = a; };
+    var seen = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) mark(byId[entries[k].target.id]);
+    }, { rootMargin: "-80px 0px -70% 0px" });
+    for (var id in byId) { var h = document.getElementById(id); if (h) seen.observe(h); }
+  }
+  var slots = document.querySelectorAll("[data-cv-demo]");
+  if (!slots.length || !("IntersectionObserver" in window)) return;
+  var load = function () {
+    var css = document.createElement("link"); css.rel = "stylesheet"; css.href = "/demos/demos.css"; document.head.appendChild(css);
+    var js = document.createElement("script"); js.src = "/demos/demos.js"; js.async = true; document.head.appendChild(js);
+  };
+  var near = new IntersectionObserver(function (entries) {
+    for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) { near.disconnect(); load(); return; }
+  }, { rootMargin: "900px 0px" });
+  for (var n = 0; n < slots.length; n++) near.observe(slots[n]);
+})();</script>
 </body>
 </html>

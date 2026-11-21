@@ -59,6 +59,9 @@ a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--blue-deep); }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -122,6 +125,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 .faq { margin-top: 2.6em; }
 .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin: 0 0 10px; }
 .faq summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -129,7 +134,9 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -154,6 +161,12 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+.grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
 @media (max-width: 980px) {
 .post-grid { grid-template-columns: 1fr; gap: 0; }
 .toc { display: none; }
@@ -168,14 +181,16 @@ body { font-size: 16px; }
 .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
 .btn { padding: 9px 14px; font-size: 14px; }
 .cover { border-radius: 18px; }
-.cta { padding: 24px; }
+.cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+.cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
 .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"BlogPosting","@id":"https://www.colivease.ca/blog/n12-n13-eviction-ontario/#article","headline":"N12 and N13 Evictions in Ontario: 2026 Rules for Tenants","description":"N12 and N13 notices in Ontario: notice periods, compensation, the new 120-day N12 rule, your right to move back after renovations, and T5 bad-faith claims.","image":[{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/og/n12-n13-eviction-ontario.en.jpg","width":1200,"height":630},{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/covers/map.webp","width":900,"height":672}],"datePublished":"2026-11-03","dateModified":"2026-11-03","inLanguage":"en-CA","articleSection":"Tenant rights","keywords":"N12 eviction Ontario, N13 renoviction Ontario, N12 compensation 2026, landlord own use eviction Ontario, right of first refusal Ontario, T5 bad faith application, Toronto rental renovation licence","wordCount":1847,"author":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/"},"publisher":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.colivease.ca/blog/n12-n13-eviction-ontario/"},"isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/blog/#blog","name":"ColivEase Blog: Roommates & Renting in Toronto"},"citation":["https://tribunalsontario.ca/2026/09/21/ltb-operational-update-legislative-changes-at-the-landlord-and-tenant-board-effective-september-21-2026/","https://tribunalsontario.ca/documents/ltb/Interpretation%20Guidelines/12%20-%20Eviction%20for%20Personal%20Use.html","https://www.ontario.ca/laws/statute/06r17","https://www.ontario.ca/page/renting-ontario-your-rights","https://www.toronto.ca/services-payments/permits-licences-bylaws/renovictions-bylaw-development/","https://tribunalsontario.ca/ltb/forms-filing-and-fees/"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://www.colivease.ca/blog/"},{"@type":"ListItem","position":3,"name":"Tenant rights","item":"https://www.colivease.ca/blog/category/tenant-rights/"},{"@type":"ListItem","position":4,"name":"N12 and N13 Evictions in Ontario: 2026 Rules for Tenants","item":"https://www.colivease.ca/blog/n12-n13-eviction-ontario/"}]},{"@type":"FAQPage","@id":"https://www.colivease.ca/blog/n12-n13-eviction-ontario/#faq","mainEntity":[{"@type":"Question","name":"Do I have to move out when I get an N12 or N13?","acceptedAnswer":{"@type":"Answer","text":"No. An N12 or N13 is only a notice. If you stay, your landlord must apply to the Landlord and Tenant Board and prove their case at a hearing, and only an LTB eviction order enforced by the Sheriff can remove you. You can also choose to leave earlier by giving 10 days' written notice on Form N9."}},{"@type":"Question","name":"Does my landlord still have to pay me one month's rent for an N12?","acceptedAnswer":{"@type":"Answer","text":"Usually yes, by the termination date. The exception: for a landlord's own-use N12 served on or after September 21, 2026, no compensation or alternative unit is owed if the notice gives at least 120 days and ends on the last day of a rental period or fixed term. Purchaser N12s always require one month's rent."}},{"@type":"Question","name":"How much compensation do I get for an N13 renovation eviction?","acceptedAnswer":{"@type":"Answer","text":"It depends on building size and whether you plan to return. In a building with five or more units, it's three months' rent, or another acceptable unit. With fewer than five units, it's one month. If you've told the landlord in writing you'll move back, it's the lesser of that amount and the rent for the time the work actually takes."}},{"@type":"Question","name":"What happens if my landlord doesn't move in after an N12?","acceptedAnswer":{"@type":"Answer","text":"You can file a Form T5 within one year of moving out. Since September 21, 2026, bad faith is presumed if the person named on the notice doesn't move in within 60 days of the termination date or your move-out. The LTB can award rent differences for a year, moving costs and up to 12 months' rent as general compensation."}},{"@type":"Question","name":"Can I move back in after renovations under an N13?","acceptedAnswer":{"@type":"Answer","text":"Yes, if you tell the landlord in writing before you move out and keep them updated on your address. Your rent must be no more than what the landlord could have charged without the interruption. The landlord must keep you informed of completion dates and give you at least 60 days to move back once the unit is ready."}}]}]}</script>
 </head>
 <body>
 <header class="top">
+  <span class="read" aria-hidden="true"></span>
   <div class="wrap top-in">
     <a class="logo" href="/" aria-label="ColivEase"><img src="/blog/assets/logo.png" alt="ColivEase" width="96" height="66"></a>
     <nav aria-label="Blog">
@@ -294,9 +309,12 @@ body { font-size: 16px; }
 
       <section class="faq" aria-labelledby="faq"><h2 id="faq">Frequently asked questions</h2><details><summary>Do I have to move out when I get an N12 or N13?</summary><p>No. An N12 or N13 is only a notice. If you stay, your landlord must apply to the Landlord and Tenant Board and prove their case at a hearing, and only an LTB eviction order enforced by the Sheriff can remove you. You can also choose to leave earlier by giving 10 days' written notice on Form N9.</p></details><details><summary>Does my landlord still have to pay me one month's rent for an N12?</summary><p>Usually yes, by the termination date. The exception: for a landlord's own-use N12 served on or after September 21, 2026, no compensation or alternative unit is owed if the notice gives at least 120 days and ends on the last day of a rental period or fixed term. Purchaser N12s always require one month's rent.</p></details><details><summary>How much compensation do I get for an N13 renovation eviction?</summary><p>It depends on building size and whether you plan to return. In a building with five or more units, it's three months' rent, or another acceptable unit. With fewer than five units, it's one month. If you've told the landlord in writing you'll move back, it's the lesser of that amount and the rent for the time the work actually takes.</p></details><details><summary>What happens if my landlord doesn't move in after an N12?</summary><p>You can file a Form T5 within one year of moving out. Since September 21, 2026, bad faith is presumed if the person named on the notice doesn't move in within 60 days of the termination date or your move-out. The LTB can award rent differences for a year, moving costs and up to 12 months' rent as general compensation.</p></details><details><summary>Can I move back in after renovations under an N13?</summary><p>Yes, if you tell the landlord in writing before you move out and keep them updated on your address. Your rent must be no more than what the landlord could have charged without the interruption. The landlord must keep you informed of completion dates and give you at least 60 days to move back once the unit is ready.</p></details></section>
       <aside class="cta">
-        <h2>Find your people first. Then your place.</h2>
-        <p>ColivEase gives you a match score with possible roommates based on area and commute, budget, move-in date, student or worker, gender preference and shared language. Every listing is reviewed by a person, chat warns you about common scam lines, and you can rent a whole home room by room.</p>
-        <a class="btn big" href="/app.html">Start for free →</a>
+        <div class="cta-copy">
+          <h2>Find your people first. Then your place.</h2>
+          <p>ColivEase gives you a match score with possible roommates based on area and commute, budget, move-in date, student or worker, gender preference and shared language. Every listing is reviewed by a person, chat warns you about common scam lines, and you can rent a whole home room by room.</p>
+          <a class="btn big" href="/app.html">Start for free →</a>
+        </div>
+        <div class="cta-demo" data-cv-demo="match" data-lang="en" aria-hidden="true"></div>
       </aside>
       <section class="sources"><h2>Sources</h2><ol><li><a href="https://tribunalsontario.ca/2026/09/21/ltb-operational-update-legislative-changes-at-the-landlord-and-tenant-board-effective-september-21-2026/" rel="noopener" target="_blank">LTB Operational Update: Legislative changes effective September 21, 2026</a></li><li><a href="https://tribunalsontario.ca/documents/ltb/Interpretation%20Guidelines/12%20-%20Eviction%20for%20Personal%20Use.html" rel="noopener" target="_blank">LTB Interpretation Guideline 12: Eviction for Personal Use, Demolition, Repairs and Conversion</a></li><li><a href="https://www.ontario.ca/laws/statute/06r17" rel="noopener" target="_blank">Residential Tenancies Act, 2006 (Ontario e-Laws)</a></li><li><a href="https://www.ontario.ca/page/renting-ontario-your-rights" rel="noopener" target="_blank">Government of Ontario: Renting in Ontario, your rights</a></li><li><a href="https://www.toronto.ca/services-payments/permits-licences-bylaws/renovictions-bylaw-development/" rel="noopener" target="_blank">City of Toronto: Rental Renovation Licence Bylaw</a></li><li><a href="https://tribunalsontario.ca/ltb/forms-filing-and-fees/" rel="noopener" target="_blank">LTB: Forms, filing and fees</a></li></ol></section>
     </article>
@@ -343,5 +361,28 @@ body { font-size: 16px; }
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>
+<script>(function () {
+  var links = document.querySelectorAll(".toc a[href^='#']");
+  if (links.length && "IntersectionObserver" in window) {
+    var byId = {};
+    for (var i = 0; i < links.length; i++) byId[decodeURIComponent(links[i].getAttribute("href").slice(1))] = links[i];
+    var current = null;
+    var mark = function (a) { if (a === current) return; if (current) current.removeAttribute("aria-current"); if (a) a.setAttribute("aria-current", "true"); current = a; };
+    var seen = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) mark(byId[entries[k].target.id]);
+    }, { rootMargin: "-80px 0px -70% 0px" });
+    for (var id in byId) { var h = document.getElementById(id); if (h) seen.observe(h); }
+  }
+  var slots = document.querySelectorAll("[data-cv-demo]");
+  if (!slots.length || !("IntersectionObserver" in window)) return;
+  var load = function () {
+    var css = document.createElement("link"); css.rel = "stylesheet"; css.href = "/demos/demos.css"; document.head.appendChild(css);
+    var js = document.createElement("script"); js.src = "/demos/demos.js"; js.async = true; document.head.appendChild(js);
+  };
+  var near = new IntersectionObserver(function (entries) {
+    for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) { near.disconnect(); load(); return; }
+  }, { rootMargin: "900px 0px" });
+  for (var n = 0; n < slots.length; n++) near.observe(slots[n]);
+})();</script>
 </body>
 </html>

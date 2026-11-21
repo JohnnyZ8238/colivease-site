@@ -59,6 +59,9 @@ a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--blue-deep); }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -122,6 +125,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 .faq { margin-top: 2.6em; }
 .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin: 0 0 10px; }
 .faq summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -129,7 +134,9 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -154,6 +161,12 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+.grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
 @media (max-width: 980px) {
 .post-grid { grid-template-columns: 1fr; gap: 0; }
 .toc { display: none; }
@@ -168,14 +181,16 @@ body { font-size: 16px; }
 .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
 .btn { padding: 9px 14px; font-size: 14px; }
 .cover { border-radius: 18px; }
-.cta { padding: 24px; }
+.cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+.cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
 .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"Blog","@id":"https://www.colivease.ca/zh/blog/#blog","name":"ColivEase 博客：多伦多找室友与租房指南","description":"写给多伦多租客的实用指南：找室友、防租房诈骗、安省租客权益、社区选择、租房费用，以及留学生和新移民租房攻略。","url":"https://www.colivease.ca/zh/blog/","inLanguage":"zh-Hans","publisher":{"@id":"https://www.colivease.ca/#org"}},{"@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"url":"https://www.colivease.ca/zh/blog/best-rental-websites-toronto/","name":"多伦多租房网站推荐：哪个平台靠谱？"},{"@type":"ListItem","position":2,"url":"https://www.colivease.ca/zh/blog/bill-60-ontario-tenants/","name":"安省Bill 60 租客新规：2026年改了什么"},{"@type":"ListItem","position":3,"url":"https://www.colivease.ca/zh/blog/brampton-rental-licensing/","name":"宾顿出租屋执照：租客入住前要查什么"},{"@type":"ListItem","position":4,"url":"https://www.colivease.ca/zh/blog/female-roommates-toronto/","name":"多伦多找女室友：只租女生合法吗？安全指南"},{"@type":"ListItem","position":5,"url":"https://www.colivease.ca/zh/blog/how-much-rent-can-i-afford-toronto/","name":"多伦多收入多少能租房？房租预算一次算清"},{"@type":"ListItem","position":6,"url":"https://www.colivease.ca/zh/blog/negotiate-rent-toronto/","name":"多伦多租房砍价指南：免租月还能谈吗（2026年11月）"},{"@type":"ListItem","position":7,"url":"https://www.colivease.ca/zh/blog/renoviction-bylaw-toronto/","name":"多伦多翻新驱逐 N13：市政执照新规详解"},{"@type":"ListItem","position":8,"url":"https://www.colivease.ca/zh/blog/rent-guarantor-ontario/","name":"租房担保人：安省规定、风险和替代方案"},{"@type":"ListItem","position":9,"url":"https://www.colivease.ca/zh/blog/rent-tax-credit-ontario/","name":"安省房租退税：OTB怎么申请、收据怎么留"},{"@type":"ListItem","position":10,"url":"https://www.colivease.ca/zh/blog/renting-a-condo-downtown-toronto/","name":"多伦多市中心公寓出租：Condo租房注意事项"},{"@type":"ListItem","position":11,"url":"https://www.colivease.ca/zh/blog/renting-as-a-couple-toronto/","name":"情侣合租多伦多：找房、加租约一文看懂"},{"@type":"ListItem","position":12,"url":"https://www.colivease.ca/zh/blog/renting-in-durham-region/","name":"杜伦区租房：皮克林、惠特比、奥沙瓦怎么选"},{"@type":"ListItem","position":13,"url":"https://www.colivease.ca/zh/blog/renting-in-etobicoke/","name":"怡陶碧谷租房：社区、交通和汉博学院周边"},{"@type":"ListItem","position":14,"url":"https://www.colivease.ca/zh/blog/renting-in-markham/","name":"万锦租房指南：华人合租、通勤与社区（2026）"},{"@type":"ListItem","position":15,"url":"https://www.colivease.ca/zh/blog/renting-in-mississauga/","name":"密西沙加租房指南：合租、交通与UTM周边（2026）"},{"@type":"ListItem","position":16,"url":"https://www.colivease.ca/zh/blog/renting-in-north-york/","name":"北约克租房指南：Finch地铁站、约大与华人合租（2026）"},{"@type":"ListItem","position":17,"url":"https://www.colivease.ca/zh/blog/renting-in-oakville-burlington/","name":"奥克维尔租房指南：伯灵顿对比与GO通勤"},{"@type":"ListItem","position":18,"url":"https://www.colivease.ca/zh/blog/renting-in-richmond-hill/","name":"列治文山租房指南：地下室、交通与社区（2026）"},{"@type":"ListItem","position":19,"url":"https://www.colivease.ca/zh/blog/renting-in-scarborough/","name":"士嘉堡租房指南：UTSC附近怎么选（2026）"},{"@type":"ListItem","position":20,"url":"https://www.colivease.ca/zh/blog/renting-in-vaughan/","name":"旺市租房指南：VMC公寓与各社区怎么选"},{"@type":"ListItem","position":21,"url":"https://www.colivease.ca/zh/blog/roommate-moving-out-early/","name":"室友提前搬走怎么办？安省租约、房租与押金"},{"@type":"ListItem","position":22,"url":"https://www.colivease.ca/zh/blog/roommate-red-flags/","name":"室友雷区：什么样的室友不能要？"},{"@type":"ListItem","position":23,"url":"https://www.colivease.ca/zh/blog/short-term-sublet-toronto/","name":"多伦多短租：留学生4个月短租与暑假转租指南"},{"@type":"ListItem","position":24,"url":"https://www.colivease.ca/zh/blog/student-cap-toronto-rent/","name":"留学生配额与多伦多房租：学签收紧后好租了吗"},{"@type":"ListItem","position":25,"url":"https://www.colivease.ca/zh/blog/toronto-rent-trends-2026/","name":"2026多伦多房租走势：房租还在降吗？"},{"@type":"ListItem","position":26,"url":"https://www.colivease.ca/zh/blog/best-toronto-neighbourhoods-for-students/","name":"多伦多留学生住哪里？按学校选社区（2026）"},{"@type":"ListItem","position":27,"url":"https://www.colivease.ca/zh/blog/best-toronto-neighbourhoods-for-young-professionals/","name":"多伦多上班族住哪里？热门租房社区对比"},{"@type":"ListItem","position":28,"url":"https://www.colivease.ca/zh/blog/cost-of-renting-a-room-in-toronto/","name":"多伦多租房多少钱？2026 房间与公寓价格指南"},{"@type":"ListItem","position":29,"url":"https://www.colivease.ca/zh/blog/ending-a-tenancy-n9/","name":"安省退租 N9 表格指南：提前60天怎么算"},{"@type":"ListItem","position":30,"url":"https://www.colivease.ca/zh/blog/find-a-roommate-in-toronto/","name":"多伦多找室友全攻略（2026版）"},{"@type":"ListItem","position":31,"url":"https://www.colivease.ca/zh/blog/international-student-renting-toronto/","name":"多伦多留学生租房全攻略：时间线与避坑清单"},{"@type":"ListItem","position":32,"url":"https://www.colivease.ca/zh/blog/legal-basement-apartments-toronto/","name":"多伦多地下室租房：合法吗？看房必查清单"},{"@type":"ListItem","position":33,"url":"https://www.colivease.ca/zh/blog/living-with-your-landlord-ontario/","name":"和房东同住：安省租房前必须知道的RTA例外"},{"@type":"ListItem","position":34,"url":"https://www.colivease.ca/zh/blog/moving-to-toronto-renter-checklist/","name":"多伦多搬家入住清单：从保险水电到PRESTO"},{"@type":"ListItem","position":35,"url":"https://www.colivease.ca/zh/blog/ontario-rent-increase-guideline-2026/","name":"2026安省涨租上限2.1%：规则与计算一文讲清"},{"@type":"ListItem","position":36,"url":"https://www.colivease.ca/zh/blog/ontario-standard-lease/","name":"安省标准租约逐条解读：签约前必看"},{"@type":"ListItem","position":37,"url":"https://www.colivease.ca/zh/blog/ontario-tenant-rights/","name":"安省租客权益全攻略：2026年租房必知的法律保护"},{"@type":"ListItem","position":38,"url":"https://www.colivease.ca/zh/blog/questions-to-ask-a-roommate/","name":"找室友要问的30个问题（入住前必看）"},{"@type":"ListItem","position":39,"url":"https://www.colivease.ca/zh/blog/rent-deposit-rules-ontario/","name":"安省租房押金规定：哪些押金合法？"},{"@type":"ListItem","position":40,"url":"https://www.colivease.ca/zh/blog/rental-application-toronto/","name":"多伦多租房申请材料清单：留学生新移民必看"},{"@type":"ListItem","position":41,"url":"https://www.colivease.ca/zh/blog/renting-with-no-credit-history-canada/","name":"没有信用记录怎么租房？新移民加拿大租房攻略"},{"@type":"ListItem","position":42,"url":"https://www.colivease.ca/zh/blog/roommate-agreement-ontario/","name":"安省室友协议怎么写（附模板大纲）"},{"@type":"ListItem","position":43,"url":"https://www.colivease.ca/zh/blog/split-rent-fairly/","name":"合租房租怎么分才公平？附加元计算示例"},{"@type":"ListItem","position":44,"url":"https://www.colivease.ca/zh/blog/sublet-and-assignment-ontario/","name":"安省转租规定：分租(Sublet)与转让租约怎么选"},{"@type":"ListItem","position":45,"url":"https://www.colivease.ca/zh/blog/toronto-rental-scams/","name":"多伦多租房诈骗：识别信号与核实房东方法"}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"博客","item":"https://www.colivease.ca/zh/blog/"}]}]}</script>
 </head>
 <body>
 <header class="top">
+  <span class="read" aria-hidden="true"></span>
   <div class="wrap top-in">
     <a class="logo" href="/" aria-label="ColivEase"><img src="/blog/assets/logo.png" alt="ColivEase" width="96" height="66"></a>
     <nav aria-label="博客">

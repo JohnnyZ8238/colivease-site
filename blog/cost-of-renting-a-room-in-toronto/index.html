@@ -62,6 +62,9 @@ a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--blue-deep); }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -125,6 +128,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 .faq { margin-top: 2.6em; }
 .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin: 0 0 10px; }
 .faq summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -132,7 +137,9 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -157,6 +164,12 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+.grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
 @media (max-width: 980px) {
 .post-grid { grid-template-columns: 1fr; gap: 0; }
 .toc { display: none; }
@@ -171,14 +184,16 @@ body { font-size: 16px; }
 .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
 .btn { padding: 9px 14px; font-size: 14px; }
 .cover { border-radius: 18px; }
-.cta { padding: 24px; }
+.cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+.cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
 .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"BlogPosting","@id":"https://www.colivease.ca/blog/cost-of-renting-a-room-in-toronto/#article","headline":"Cost of Renting a Room in Toronto (2026 Budget Guide)","description":"What's the cost of renting a room in Toronto in 2026? Typical ranges for rooms, studios and one-bedrooms, what's included, upfront costs and ways to pay less.","image":[{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/og/cost-of-renting-a-room-in-toronto.en.jpg","width":1200,"height":630},{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/covers/kitchen.webp","width":1000,"height":747}],"datePublished":"2026-10-31","dateModified":"2026-11-03","inLanguage":"en-CA","articleSection":"Renting 101","keywords":"cost of renting a room in Toronto, how much is a room in Toronto, Toronto rent 2026, average rent Toronto one bedroom, Toronto rental budget, cheap rooms Toronto","wordCount":1445,"author":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/"},"publisher":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.colivease.ca/blog/cost-of-renting-a-room-in-toronto/"},"isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/blog/#blog","name":"ColivEase Blog: Roommates & Renting in Toronto"},"workTranslation":{"@id":"https://www.colivease.ca/zh/blog/cost-of-renting-a-room-in-toronto/#article"},"citation":["https://www.studentlife.utoronto.ca/task/rental-costs-in-toronto-gta/","https://public.trreb.ca/wp-content/files/market-stats/rental-reports/rental_report_Q2-2026.pdf","https://rentals.ca/national-rent-report","https://www.ctvnews.ca/toronto/article/average-rent-in-toronto-is-at-its-lowest-since-early-2022-a-new-report-finds/","https://www.cmhc-schl.gc.ca/professionals/housing-markets-data-and-research/market-reports/rental-market-reports-major-centres","https://www.cmhc-schl.gc.ca/nhs/guidepage-strategy/glossary","https://www.ontario.ca/page/renting-ontario-your-rights","https://www.ontario.ca/page/residential-rent-increases","https://www.ohrc.on.ca/en/learning/human-rights-and-newcomers/housing-human-right"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://www.colivease.ca/blog/"},{"@type":"ListItem","position":3,"name":"Renting 101","item":"https://www.colivease.ca/blog/category/renting-101/"},{"@type":"ListItem","position":4,"name":"Cost of Renting a Room in Toronto (2026 Budget Guide)","item":"https://www.colivease.ca/blog/cost-of-renting-a-room-in-toronto/"}]},{"@type":"FAQPage","@id":"https://www.colivease.ca/blog/cost-of-renting-a-room-in-toronto/#faq","mainEntity":[{"@type":"Question","name":"How much is a room in Toronto per month in 2026?","acceptedAnswer":{"@type":"Answer","text":"U of T's Student Life office, using City of Toronto data and its own housing listings, puts the average room at about $1,150 to $1,220 a month. Rooms downtown, near campuses or with a private bathroom often cost more, and rooms further out can cost less."}},{"@type":"Question","name":"Is it cheaper to rent a room or a one-bedroom in Toronto?","acceptedAnswer":{"@type":"Answer","text":"A room is almost always cheaper. Average one-bedroom rents for new listings are roughly $1,900 to $2,300 a month depending on the source, while the average room is closer to $1,200. Splitting a two-bedroom with one roommate often lands in between."}},{"@type":"Question","name":"Are utilities usually included in a Toronto room rental?","acceptedAnswer":{"@type":"Answer","text":"Often, but not always. Room rentals in shared houses frequently include heat, hydro, water and internet, while condo and apartment rentals may include some utilities but charge hydro or internet separately. Always confirm in writing what the rent covers."}},{"@type":"Question","name":"What upfront costs should I expect when renting in Ontario?","acceptedAnswer":{"@type":"Answer","text":"Typically your first month's rent and a rent deposit of up to one month's rent, which is applied to your last month. A landlord may also take a refundable key deposit. Damage deposits are not allowed in Ontario, so budget for moving costs and basic furniture instead."}},{"@type":"Question","name":"How much income do I need to rent in Toronto?","acceptedAnswer":{"@type":"Answer","text":"CMHC treats housing as affordable when it costs under 30% of before-tax income, which is a helpful planning target. Landlords in Ontario may ask about income, but the Ontario Human Rights Commission says rigid rent-to-income cut-offs can be discriminatory, and income should be considered together with other information."}}]}]}</script>
 </head>
 <body>
 <header class="top">
+  <span class="read" aria-hidden="true"></span>
   <div class="wrap top-in">
     <a class="logo" href="/" aria-label="ColivEase"><img src="/blog/assets/logo.png" alt="ColivEase" width="96" height="66"></a>
     <nav aria-label="Blog">
@@ -278,9 +293,12 @@ body { font-size: 16px; }
 
       <section class="faq" aria-labelledby="faq"><h2 id="faq">Frequently asked questions</h2><details><summary>How much is a room in Toronto per month in 2026?</summary><p>U of T's Student Life office, using City of Toronto data and its own housing listings, puts the average room at about $1,150 to $1,220 a month. Rooms downtown, near campuses or with a private bathroom often cost more, and rooms further out can cost less.</p></details><details><summary>Is it cheaper to rent a room or a one-bedroom in Toronto?</summary><p>A room is almost always cheaper. Average one-bedroom rents for new listings are roughly $1,900 to $2,300 a month depending on the source, while the average room is closer to $1,200. Splitting a two-bedroom with one roommate often lands in between.</p></details><details><summary>Are utilities usually included in a Toronto room rental?</summary><p>Often, but not always. Room rentals in shared houses frequently include heat, hydro, water and internet, while condo and apartment rentals may include some utilities but charge hydro or internet separately. Always confirm in writing what the rent covers.</p></details><details><summary>What upfront costs should I expect when renting in Ontario?</summary><p>Typically your first month's rent and a rent deposit of up to one month's rent, which is applied to your last month. A landlord may also take a refundable key deposit. Damage deposits are not allowed in Ontario, so budget for moving costs and basic furniture instead.</p></details><details><summary>How much income do I need to rent in Toronto?</summary><p>CMHC treats housing as affordable when it costs under 30% of before-tax income, which is a helpful planning target. Landlords in Ontario may ask about income, but the Ontario Human Rights Commission says rigid rent-to-income cut-offs can be discriminatory, and income should be considered together with other information.</p></details></section>
       <aside class="cta">
-        <h2>Find your people first. Then your place.</h2>
-        <p>ColivEase gives you a match score with possible roommates based on area and commute, budget, move-in date, student or worker, gender preference and shared language. Every listing is reviewed by a person, chat warns you about common scam lines, and you can rent a whole home room by room.</p>
-        <a class="btn big" href="/app.html">Start for free →</a>
+        <div class="cta-copy">
+          <h2>Find your people first. Then your place.</h2>
+          <p>ColivEase gives you a match score with possible roommates based on area and commute, budget, move-in date, student or worker, gender preference and shared language. Every listing is reviewed by a person, chat warns you about common scam lines, and you can rent a whole home room by room.</p>
+          <a class="btn big" href="/app.html">Start for free →</a>
+        </div>
+        <div class="cta-demo" data-cv-demo="match" data-lang="en" aria-hidden="true"></div>
       </aside>
       <section class="sources"><h2>Sources</h2><ol><li><a href="https://www.studentlife.utoronto.ca/task/rental-costs-in-toronto-gta/" rel="noopener" target="_blank">UofT Student Life: Rental costs in Toronto/GTA (CMHC, City of Toronto and Housing Finder averages)</a></li><li><a href="https://public.trreb.ca/wp-content/files/market-stats/rental-reports/rental_report_Q2-2026.pdf" rel="noopener" target="_blank">TRREB: Rental market report, Q2 2026</a></li><li><a href="https://rentals.ca/national-rent-report" rel="noopener" target="_blank">Rentals.ca and Urbanation: National Rent Report</a></li><li><a href="https://www.ctvnews.ca/toronto/article/average-rent-in-toronto-is-at-its-lowest-since-early-2022-a-new-report-finds/" rel="noopener" target="_blank">CTV News: Average rent in Toronto at its lowest since early 2022 (Rentals.ca/Urbanation data)</a></li><li><a href="https://www.cmhc-schl.gc.ca/professionals/housing-markets-data-and-research/market-reports/rental-market-reports-major-centres" rel="noopener" target="_blank">CMHC: Rental market reports</a></li><li><a href="https://www.cmhc-schl.gc.ca/nhs/guidepage-strategy/glossary" rel="noopener" target="_blank">CMHC: National Housing Strategy glossary (affordability)</a></li><li><a href="https://www.ontario.ca/page/renting-ontario-your-rights" rel="noopener" target="_blank">Government of Ontario: Renting in Ontario, your rights</a></li><li><a href="https://www.ontario.ca/page/residential-rent-increases" rel="noopener" target="_blank">Government of Ontario: Residential rent increases</a></li><li><a href="https://www.ohrc.on.ca/en/learning/human-rights-and-newcomers/housing-human-right" rel="noopener" target="_blank">Ontario Human Rights Commission: Housing as a human right (newcomers)</a></li></ol></section>
     </article>
@@ -327,5 +345,28 @@ body { font-size: 16px; }
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>
+<script>(function () {
+  var links = document.querySelectorAll(".toc a[href^='#']");
+  if (links.length && "IntersectionObserver" in window) {
+    var byId = {};
+    for (var i = 0; i < links.length; i++) byId[decodeURIComponent(links[i].getAttribute("href").slice(1))] = links[i];
+    var current = null;
+    var mark = function (a) { if (a === current) return; if (current) current.removeAttribute("aria-current"); if (a) a.setAttribute("aria-current", "true"); current = a; };
+    var seen = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) mark(byId[entries[k].target.id]);
+    }, { rootMargin: "-80px 0px -70% 0px" });
+    for (var id in byId) { var h = document.getElementById(id); if (h) seen.observe(h); }
+  }
+  var slots = document.querySelectorAll("[data-cv-demo]");
+  if (!slots.length || !("IntersectionObserver" in window)) return;
+  var load = function () {
+    var css = document.createElement("link"); css.rel = "stylesheet"; css.href = "/demos/demos.css"; document.head.appendChild(css);
+    var js = document.createElement("script"); js.src = "/demos/demos.js"; js.async = true; document.head.appendChild(js);
+  };
+  var near = new IntersectionObserver(function (entries) {
+    for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) { near.disconnect(); load(); return; }
+  }, { rootMargin: "900px 0px" });
+  for (var n = 0; n < slots.length; n++) near.observe(slots[n]);
+})();</script>
 </body>
 </html>

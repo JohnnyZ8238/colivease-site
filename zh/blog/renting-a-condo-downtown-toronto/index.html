@@ -62,6 +62,9 @@ a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--blue-deep); }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -125,6 +128,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 .faq { margin-top: 2.6em; }
 .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin: 0 0 10px; }
 .faq summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -132,7 +137,9 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -157,6 +164,12 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+.grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
 @media (max-width: 980px) {
 .post-grid { grid-template-columns: 1fr; gap: 0; }
 .toc { display: none; }
@@ -171,14 +184,16 @@ body { font-size: 16px; }
 .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
 .btn { padding: 9px 14px; font-size: 14px; }
 .cover { border-radius: 18px; }
-.cta { padding: 24px; }
+.cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+.cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
 .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"BlogPosting","@id":"https://www.colivease.ca/zh/blog/renting-a-condo-downtown-toronto/#article","headline":"多伦多市中心公寓出租：Condo租房注意事项","description":"在多伦多市中心公寓出租房源里挑Condo？讲清楚公寓规定对租客的约束、搬家怎么预约电梯和交押金、门禁卡押金和物业费由谁负责、能不能短租，签约前必看。","image":[{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/og/renting-a-condo-downtown-toronto.zh.jpg","width":1200,"height":630},{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/covers/keys.webp","width":960,"height":717}],"datePublished":"2026-11-21","dateModified":"2026-11-21","inLanguage":"zh-Hans","articleSection":"租房入门","keywords":"多伦多市中心公寓出租, Condo租房注意事项, 搬家预约电梯, 多伦多Condo租房, 公寓门禁卡押金, 公寓物业费谁付","wordCount":2140,"author":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/"},"publisher":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.colivease.ca/zh/blog/renting-a-condo-downtown-toronto/"},"isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/zh/blog/#blog","name":"ColivEase 博客：多伦多找室友与租房指南"},"translationOfWork":{"@id":"https://www.colivease.ca/blog/renting-a-condo-downtown-toronto/#article"},"citation":["https://www.ontario.ca/laws/statute/98c19","https://www.condoauthorityontario.ca/before-you-buy-or-rent-a-condo/leasing-a-condo/","https://www.condoauthorityontario.ca/wp-content/uploads/2023/07/CAO-Condo-Tenants-Guide_2024_04_11-1.pdf","https://www.condoauthorityontario.ca/condominium-living/declaration-by-laws-and-rules/rules/","https://www.toronto.ca/community-people/housing-shelter/rental-housing-rights-information/short-term-rentals/short-term-rental-operators-hosts/","https://www.ontario.ca/laws/statute/06r17"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"博客","item":"https://www.colivease.ca/zh/blog/"},{"@type":"ListItem","position":3,"name":"租房入门","item":"https://www.colivease.ca/zh/blog/category/renting-101/"},{"@type":"ListItem","position":4,"name":"多伦多市中心公寓出租：Condo租房注意事项","item":"https://www.colivease.ca/zh/blog/renting-a-condo-downtown-toronto/"}]},{"@type":"FAQPage","@id":"https://www.colivease.ca/zh/blog/renting-a-condo-downtown-toronto/#faq","mainEntity":[{"@type":"Question","name":"Condo的楼宇规定对租客有约束力吗？","acceptedAnswer":{"@type":"Answer","text":"有。根据安省《共管公寓法》(Condominium Act)，住在楼里的所有人，包括租客，都必须遵守公寓的章程、细则和规定；业主也有义务采取合理措施确保租客遵守。违反规定，可能同时惹上物业和房东两方面的麻烦。"}},{"@type":"Question","name":"搬进多伦多公寓怎么预约电梯？","acceptedAnswer":{"@type":"Answer","text":"租约一签好，就联系物业办公室或前台要搬家表格。大部分楼要求提前预约时间段、电梯挂保护垫，很多还要交一笔可退的押金；有的楼还要求搬家公司提供保险证明。月底周末的时段最抢手，越早约越好。"}},{"@type":"Question","name":"租Condo的话，物业费由谁付？","acceptedAnswer":{"@type":"Answer","text":"由业主付。物业费 (condo fees / common expenses) 是业主欠公寓法团的费用，通常已经算进房租里，不会另外向租客收。水电费哪些要自己付，租约里应该写清楚。"}},{"@type":"Question","name":"租来的公寓可以挂到Airbnb上短租吗？","acceptedAnswer":{"@type":"Answer","text":"一般不行，至少要过好几关。多伦多规定短租只能在你的主要住所 (principal residence) 进行，并且要在市政府登记；公寓规定必须允许短租；你的租约也可能禁止。很多公寓干脆完全禁止短租。"}},{"@type":"Question","name":"租约不能禁止养宠物，公寓能禁止吗？","acceptedAnswer":{"@type":"Answer","text":"有可能。在安省，租约里的\"禁止养宠物\"条款一般无效，但公寓章程 (declaration) 仍然可以限制甚至禁止养宠物，法院也执行过这类规定。有宠物或打算养的话，签约前先要一份章程里关于宠物的条款。"}}]}]}</script>
 </head>
 <body>
 <header class="top">
+  <span class="read" aria-hidden="true"></span>
   <div class="wrap top-in">
     <a class="logo" href="/" aria-label="ColivEase"><img src="/blog/assets/logo.png" alt="ColivEase" width="96" height="66"></a>
     <nav aria-label="博客">
@@ -265,9 +280,12 @@ body { font-size: 16px; }
 
       <section class="faq" aria-labelledby="faq"><h2 id="faq">常见问题</h2><details><summary>Condo的楼宇规定对租客有约束力吗？</summary><p>有。根据安省《共管公寓法》(Condominium Act)，住在楼里的所有人，包括租客，都必须遵守公寓的章程、细则和规定；业主也有义务采取合理措施确保租客遵守。违反规定，可能同时惹上物业和房东两方面的麻烦。</p></details><details><summary>搬进多伦多公寓怎么预约电梯？</summary><p>租约一签好，就联系物业办公室或前台要搬家表格。大部分楼要求提前预约时间段、电梯挂保护垫，很多还要交一笔可退的押金；有的楼还要求搬家公司提供保险证明。月底周末的时段最抢手，越早约越好。</p></details><details><summary>租Condo的话，物业费由谁付？</summary><p>由业主付。物业费 (condo fees / common expenses) 是业主欠公寓法团的费用，通常已经算进房租里，不会另外向租客收。水电费哪些要自己付，租约里应该写清楚。</p></details><details><summary>租来的公寓可以挂到Airbnb上短租吗？</summary><p>一般不行，至少要过好几关。多伦多规定短租只能在你的主要住所 (principal residence) 进行，并且要在市政府登记；公寓规定必须允许短租；你的租约也可能禁止。很多公寓干脆完全禁止短租。</p></details><details><summary>租约不能禁止养宠物，公寓能禁止吗？</summary><p>有可能。在安省，租约里的&quot;禁止养宠物&quot;条款一般无效，但公寓章程 (declaration) 仍然可以限制甚至禁止养宠物，法院也执行过这类规定。有宠物或打算养的话，签约前先要一份章程里关于宠物的条款。</p></details></section>
       <aside class="cta">
-        <h2>先找对的人，再找对的房。</h2>
-        <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
-        <a class="btn big" href="/app.html">免费开始 →</a>
+        <div class="cta-copy">
+          <h2>先找对的人，再找对的房。</h2>
+          <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
+          <a class="btn big" href="/app.html">免费开始 →</a>
+        </div>
+        <div class="cta-demo" data-cv-demo="match" data-lang="zh" aria-hidden="true"></div>
       </aside>
       <section class="sources"><h2>参考资料</h2><ol><li><a href="https://www.ontario.ca/laws/statute/98c19" rel="noopener" target="_blank">Condominium Act, 1998（安省法律 e-Laws）</a></li><li><a href="https://www.condoauthorityontario.ca/before-you-buy-or-rent-a-condo/leasing-a-condo/" rel="noopener" target="_blank">Leasing a condo（安省共管公寓管理局 CAO）</a></li><li><a href="https://www.condoauthorityontario.ca/wp-content/uploads/2023/07/CAO-Condo-Tenants-Guide_2024_04_11-1.pdf" rel="noopener" target="_blank">Condo Tenants' Guide（CAO 租客指南）</a></li><li><a href="https://www.condoauthorityontario.ca/condominium-living/declaration-by-laws-and-rules/rules/" rel="noopener" target="_blank">Declaration, by-laws and rules（CAO）</a></li><li><a href="https://www.toronto.ca/community-people/housing-shelter/rental-housing-rights-information/short-term-rentals/short-term-rental-operators-hosts/" rel="noopener" target="_blank">City of Toronto：Short-term rental operators and hosts（短租规定）</a></li><li><a href="https://www.ontario.ca/laws/statute/06r17" rel="noopener" target="_blank">Residential Tenancies Act, 2006（安省法律 e-Laws）</a></li></ol></section>
     </article>
@@ -314,5 +332,28 @@ body { font-size: 16px; }
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>
+<script>(function () {
+  var links = document.querySelectorAll(".toc a[href^='#']");
+  if (links.length && "IntersectionObserver" in window) {
+    var byId = {};
+    for (var i = 0; i < links.length; i++) byId[decodeURIComponent(links[i].getAttribute("href").slice(1))] = links[i];
+    var current = null;
+    var mark = function (a) { if (a === current) return; if (current) current.removeAttribute("aria-current"); if (a) a.setAttribute("aria-current", "true"); current = a; };
+    var seen = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) mark(byId[entries[k].target.id]);
+    }, { rootMargin: "-80px 0px -70% 0px" });
+    for (var id in byId) { var h = document.getElementById(id); if (h) seen.observe(h); }
+  }
+  var slots = document.querySelectorAll("[data-cv-demo]");
+  if (!slots.length || !("IntersectionObserver" in window)) return;
+  var load = function () {
+    var css = document.createElement("link"); css.rel = "stylesheet"; css.href = "/demos/demos.css"; document.head.appendChild(css);
+    var js = document.createElement("script"); js.src = "/demos/demos.js"; js.async = true; document.head.appendChild(js);
+  };
+  var near = new IntersectionObserver(function (entries) {
+    for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) { near.disconnect(); load(); return; }
+  }, { rootMargin: "900px 0px" });
+  for (var n = 0; n < slots.length; n++) near.observe(slots[n]);
+})();</script>
 </body>
 </html>

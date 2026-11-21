@@ -62,6 +62,9 @@ a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--blue-deep); }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -125,6 +128,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 .faq { margin-top: 2.6em; }
 .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin: 0 0 10px; }
 .faq summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -132,7 +137,9 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -157,6 +164,12 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+.grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
 @media (max-width: 980px) {
 .post-grid { grid-template-columns: 1fr; gap: 0; }
 .toc { display: none; }
@@ -171,14 +184,16 @@ body { font-size: 16px; }
 .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
 .btn { padding: 9px 14px; font-size: 14px; }
 .cover { border-radius: 18px; }
-.cta { padding: 24px; }
+.cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+.cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
 .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"BlogPosting","@id":"https://www.colivease.ca/zh/blog/cost-of-renting-a-room-in-toronto/#article","headline":"多伦多租房多少钱？2026 房间与公寓价格指南","description":"多伦多租房多少钱？2026 年单间、studio、一室公寓的大致租金区间，房租包含哪些费用、入住前要准备多少钱，以及合租、组队整租等实用省钱办法。","image":[{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/og/cost-of-renting-a-room-in-toronto.zh.jpg","width":1200,"height":630},{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/covers/kitchen.webp","width":1000,"height":747}],"datePublished":"2026-10-31","dateModified":"2026-11-03","inLanguage":"zh-Hans","articleSection":"租房入门","keywords":"多伦多租房多少钱, 多伦多房租, 多伦多单间租金, 多伦多一室公寓租金, 多伦多合租, 多伦多租房预算","wordCount":2645,"author":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/"},"publisher":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.colivease.ca/zh/blog/cost-of-renting-a-room-in-toronto/"},"isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/zh/blog/#blog","name":"ColivEase 博客：多伦多找室友与租房指南"},"translationOfWork":{"@id":"https://www.colivease.ca/blog/cost-of-renting-a-room-in-toronto/#article"},"citation":["https://www.studentlife.utoronto.ca/task/rental-costs-in-toronto-gta/","https://public.trreb.ca/wp-content/files/market-stats/rental-reports/rental_report_Q2-2026.pdf","https://rentals.ca/national-rent-report","https://www.ctvnews.ca/toronto/article/average-rent-in-toronto-is-at-its-lowest-since-early-2022-a-new-report-finds/","https://www.cmhc-schl.gc.ca/professionals/housing-markets-data-and-research/market-reports/rental-market-reports-major-centres","https://www.cmhc-schl.gc.ca/nhs/guidepage-strategy/glossary","https://www.ontario.ca/page/renting-ontario-your-rights","https://www.ontario.ca/page/residential-rent-increases","https://www.ohrc.on.ca/en/learning/human-rights-and-newcomers/housing-human-right"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"博客","item":"https://www.colivease.ca/zh/blog/"},{"@type":"ListItem","position":3,"name":"租房入门","item":"https://www.colivease.ca/zh/blog/category/renting-101/"},{"@type":"ListItem","position":4,"name":"多伦多租房多少钱？2026 房间与公寓价格指南","item":"https://www.colivease.ca/zh/blog/cost-of-renting-a-room-in-toronto/"}]},{"@type":"FAQPage","@id":"https://www.colivease.ca/zh/blog/cost-of-renting-a-room-in-toronto/#faq","mainEntity":[{"@type":"Question","name":"2026 年多伦多租一个房间大概多少钱？","acceptedAnswer":{"@type":"Answer","text":"根据多大学生生活办公室汇总的多伦多市政府数据和校外租房平台房源，多伦多一个房间的平均月租大约在 1,150 到 1,220 加元。市中心、靠近学校、带独立卫生间或带家具的房间通常更贵，离市中心远一些的会便宜一些。"}},{"@type":"Question","name":"租单间和租一室公寓差多少？","acceptedAnswer":{"@type":"Answer","text":"差距不小。新出租的一室公寓，按不同数据来源，平均大约在 1,900 到 2,300 加元之间，而单间平均在 1,200 加元左右。和一个室友合租两室公寓，人均价格通常介于两者之间。"}},{"@type":"Question","name":"多伦多房租一般包水电网吗？","acceptedAnswer":{"@type":"Answer","text":"要看房源类型。独立屋里的合租房间常常包暖气、电、水和网络；公寓楼可能包部分水电，但电费或网费另算。一定要在租约里写清楚房租包含哪些费用。"}},{"@type":"Question","name":"在安省租房，入住前要准备多少钱？","acceptedAnswer":{"@type":"Answer","text":"通常是第一个月房租，加上最多一个月房租的押金（用来抵最后一个月房租），房东还可以收可退还的钥匙押金。安省不允许收损坏押金，另外要预留搬家和买家具的钱。"}},{"@type":"Question","name":"收入多少才能在多伦多租房？","acceptedAnswer":{"@type":"Answer","text":"CMHC 把住房支出低于税前收入 30% 视为可负担，可以作为预算参考。房东可以了解你的收入，但安省人权委员会指出，不能只用死板的房租收入比来筛人，收入要和租房记录、推荐信等信息一起考虑。"}}]}]}</script>
 </head>
 <body>
 <header class="top">
+  <span class="read" aria-hidden="true"></span>
   <div class="wrap top-in">
     <a class="logo" href="/" aria-label="ColivEase"><img src="/blog/assets/logo.png" alt="ColivEase" width="96" height="66"></a>
     <nav aria-label="博客">
@@ -287,9 +302,12 @@ body { font-size: 16px; }
 
       <section class="faq" aria-labelledby="faq"><h2 id="faq">常见问题</h2><details><summary>2026 年多伦多租一个房间大概多少钱？</summary><p>根据多大学生生活办公室汇总的多伦多市政府数据和校外租房平台房源，多伦多一个房间的平均月租大约在 1,150 到 1,220 加元。市中心、靠近学校、带独立卫生间或带家具的房间通常更贵，离市中心远一些的会便宜一些。</p></details><details><summary>租单间和租一室公寓差多少？</summary><p>差距不小。新出租的一室公寓，按不同数据来源，平均大约在 1,900 到 2,300 加元之间，而单间平均在 1,200 加元左右。和一个室友合租两室公寓，人均价格通常介于两者之间。</p></details><details><summary>多伦多房租一般包水电网吗？</summary><p>要看房源类型。独立屋里的合租房间常常包暖气、电、水和网络；公寓楼可能包部分水电，但电费或网费另算。一定要在租约里写清楚房租包含哪些费用。</p></details><details><summary>在安省租房，入住前要准备多少钱？</summary><p>通常是第一个月房租，加上最多一个月房租的押金（用来抵最后一个月房租），房东还可以收可退还的钥匙押金。安省不允许收损坏押金，另外要预留搬家和买家具的钱。</p></details><details><summary>收入多少才能在多伦多租房？</summary><p>CMHC 把住房支出低于税前收入 30% 视为可负担，可以作为预算参考。房东可以了解你的收入，但安省人权委员会指出，不能只用死板的房租收入比来筛人，收入要和租房记录、推荐信等信息一起考虑。</p></details></section>
       <aside class="cta">
-        <h2>先找对的人，再找对的房。</h2>
-        <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
-        <a class="btn big" href="/app.html">免费开始 →</a>
+        <div class="cta-copy">
+          <h2>先找对的人，再找对的房。</h2>
+          <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
+          <a class="btn big" href="/app.html">免费开始 →</a>
+        </div>
+        <div class="cta-demo" data-cv-demo="match" data-lang="zh" aria-hidden="true"></div>
       </aside>
       <section class="sources"><h2>参考资料</h2><ol><li><a href="https://www.studentlife.utoronto.ca/task/rental-costs-in-toronto-gta/" rel="noopener" target="_blank">UofT Student Life：Rental costs in Toronto/GTA（CMHC、多伦多市政府及多大房源平均租金）</a></li><li><a href="https://public.trreb.ca/wp-content/files/market-stats/rental-reports/rental_report_Q2-2026.pdf" rel="noopener" target="_blank">TRREB：2026 年第二季度租赁市场报告</a></li><li><a href="https://rentals.ca/national-rent-report" rel="noopener" target="_blank">Rentals.ca 与 Urbanation：National Rent Report（全国租金报告）</a></li><li><a href="https://www.ctvnews.ca/toronto/article/average-rent-in-toronto-is-at-its-lowest-since-early-2022-a-new-report-finds/" rel="noopener" target="_blank">CTV News：多伦多平均租金降至 2022 年初以来最低（Rentals.ca/Urbanation 数据）</a></li><li><a href="https://www.cmhc-schl.gc.ca/professionals/housing-markets-data-and-research/market-reports/rental-market-reports-major-centres" rel="noopener" target="_blank">CMHC：Rental Market Reports（租赁市场报告）</a></li><li><a href="https://www.cmhc-schl.gc.ca/nhs/guidepage-strategy/glossary" rel="noopener" target="_blank">CMHC：National Housing Strategy 术语表（可负担住房定义）</a></li><li><a href="https://www.ontario.ca/page/renting-ontario-your-rights" rel="noopener" target="_blank">安省政府：Renting in Ontario: Your rights</a></li><li><a href="https://www.ontario.ca/page/residential-rent-increases" rel="noopener" target="_blank">安省政府：Residential rent increases（涨租指导线）</a></li><li><a href="https://www.ohrc.on.ca/en/learning/human-rights-and-newcomers/housing-human-right" rel="noopener" target="_blank">安省人权委员会：Housing as a human right（新移民住房权利）</a></li></ol></section>
     </article>
@@ -336,5 +354,28 @@ body { font-size: 16px; }
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>
+<script>(function () {
+  var links = document.querySelectorAll(".toc a[href^='#']");
+  if (links.length && "IntersectionObserver" in window) {
+    var byId = {};
+    for (var i = 0; i < links.length; i++) byId[decodeURIComponent(links[i].getAttribute("href").slice(1))] = links[i];
+    var current = null;
+    var mark = function (a) { if (a === current) return; if (current) current.removeAttribute("aria-current"); if (a) a.setAttribute("aria-current", "true"); current = a; };
+    var seen = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) mark(byId[entries[k].target.id]);
+    }, { rootMargin: "-80px 0px -70% 0px" });
+    for (var id in byId) { var h = document.getElementById(id); if (h) seen.observe(h); }
+  }
+  var slots = document.querySelectorAll("[data-cv-demo]");
+  if (!slots.length || !("IntersectionObserver" in window)) return;
+  var load = function () {
+    var css = document.createElement("link"); css.rel = "stylesheet"; css.href = "/demos/demos.css"; document.head.appendChild(css);
+    var js = document.createElement("script"); js.src = "/demos/demos.js"; js.async = true; document.head.appendChild(js);
+  };
+  var near = new IntersectionObserver(function (entries) {
+    for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) { near.disconnect(); load(); return; }
+  }, { rootMargin: "900px 0px" });
+  for (var n = 0; n < slots.length; n++) near.observe(slots[n]);
+})();</script>
 </body>
 </html>

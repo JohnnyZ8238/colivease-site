@@ -62,6 +62,9 @@ a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--blue-deep); }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .top { position: sticky; top: 0; z-index: 10; background: rgba(245, 247, 251, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.top .read { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--blue), #6E9BFF); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+@keyframes read { to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) { .top .read { animation: read linear both; animation-timeline: scroll(root); } }
 .top-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo img { width: 78px; height: auto; }
 .top nav { display: flex; align-items: center; gap: 6px; }
@@ -125,6 +128,8 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .toc li { margin: 0 0 8px; line-height: 1.45; }
 .toc a { color: var(--ink-2); text-decoration: none; }
 .toc a:hover { color: var(--blue); }
+.toc a { display: block; transition: color .25s, transform .35s cubic-bezier(.2, .8, .2, 1); }
+.toc a[aria-current] { color: var(--blue); font-weight: 600; transform: translateX(4px); }
 .faq { margin-top: 2.6em; }
 .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin: 0 0 10px; }
 .faq summary { cursor: pointer; font-weight: 600; padding: 12px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -132,7 +137,9 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .faq summary::after { content: "+"; color: var(--blue); font: 600 22px/1 var(--display); transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 14px; color: var(--ink-2); }
-.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); }
+.cta { margin: 2.6em 0; padding: 30px; border-radius: 24px; color: #fff; background: radial-gradient(120% 140% at 0% 0%, #2865FF 0%, #1A4FE0 45%, #0B2255 100%); box-shadow: 0 30px 60px -36px rgba(11, 34, 85, .8); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 8px 24px; align-items: center; overflow: hidden; }
+.cta-demo { align-self: end; width: 320px; height: 360px; margin: -6px -10px -30px 0; }
+.cta-demo[data-cv-ready] { height: auto; }
 .cta h2 { margin: 0 0 8px; font: 700 26px/1.25 var(--display); color: #fff; }
 .cta p { margin: 0 0 18px; color: rgba(255, 255, 255, .88); }
 .cta .btn { background: #fff; color: var(--ink) !important; box-shadow: none; }
@@ -157,6 +164,12 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .foot .topics { grid-column: 1 / -1; gap: 6px 18px; }
 .foot .topics a { font-size: 13.5px; color: var(--muted); }
 .foot .copy { grid-column: 1 / -1; font-size: 13px; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+.grid .card, .deeper li, .cta, .faq details { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+}
+.card img { transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.card:hover img { transform: scale(1.04); }
 @media (max-width: 980px) {
 .post-grid { grid-template-columns: 1fr; gap: 0; }
 .toc { display: none; }
@@ -171,14 +184,16 @@ body { font-size: 16px; }
 .top nav a:not(.btn) { padding: 8px; font-size: 14px; }
 .btn { padding: 9px 14px; font-size: 14px; }
 .cover { border-radius: 18px; }
-.cta { padding: 24px; }
+.cta { padding: 24px; grid-template-columns: minmax(0, 1fr); }
+.cta-demo { justify-self: center; margin: 4px 0 -24px; width: min(320px, 100%); }
 .foot-in { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; animation: none !important; } .top .read { display: none; } }</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"NewsArticle","@id":"https://www.colivease.ca/zh/blog/negotiate-rent-toronto/#article","headline":"多伦多租房砍价指南：免租月还能谈吗（2026年11月）","description":"多伦多租房砍价现在还来得及吗？2026年11月最新市场数据、房东送一个月免租怎么算、怎么跟房东谈房租，以及押金和预付房租的法律底线，签约前必看。","image":[{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/og/negotiate-rent-toronto.zh.jpg","width":1200,"height":630},{"@type":"ImageObject","url":"https://www.colivease.ca/blog/assets/covers/keys.webp","width":960,"height":717}],"datePublished":"2026-11-21","dateModified":"2026-11-21","inLanguage":"zh-Hans","articleSection":"租房新闻","keywords":"多伦多租房砍价, 房东送一个月免租, 怎么跟房东谈房租, 多伦多租房优惠, 多伦多公寓免租月, 安省预付房租","wordCount":2237,"author":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/"},"publisher":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.colivease.ca/zh/blog/negotiate-rent-toronto/"},"isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/zh/blog/#blog","name":"ColivEase 博客：多伦多找室友与租房指南"},"translationOfWork":{"@id":"https://www.colivease.ca/blog/negotiate-rent-toronto/#article"},"citation":["https://www.cp24.com/local/toronto/2026/04/27/gtha-rental-vacancy-surges-rents-drop-year-over-year/","https://betterdwelling.com/over-1-in-8-greater-toronto-rental-units-sit-vacant-as-completions-hit-a-record/","https://www.urbanation.ca/latest-trends","https://www.bnnbloomberg.ca/business/real-estate/2026/11/05/average-asking-rents-fall-32-in-october-but-prices-rising-in-toronto-vancouver/","https://www.ontario.ca/page/renting-ontario-your-rights","https://www.ontario.ca/page/guide-ontarios-standard-lease","https://www.ontario.ca/page/residential-rent-increases","https://www.cleo.on.ca/en/publications/paying-rent/all","https://tribunalsontario.ca/ltb/"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"博客","item":"https://www.colivease.ca/zh/blog/"},{"@type":"ListItem","position":3,"name":"租房新闻","item":"https://www.colivease.ca/zh/blog/category/news/"},{"@type":"ListItem","position":4,"name":"多伦多租房砍价指南：免租月还能谈吗（2026年11月）","item":"https://www.colivease.ca/zh/blog/negotiate-rent-toronto/"}]},{"@type":"FAQPage","@id":"https://www.colivease.ca/zh/blog/negotiate-rent-toronto/#faq","mainEntity":[{"@type":"Question","name":"续约的时候还能砍价吗？","acceptedAnswer":{"@type":"Answer","text":"可以开口。如果房子受租金管制，房东每年涨租本来就不能超过省政府公布的上限（2026年为2.1%），能谈的主要是维修和附加条件。如果是2018年11月15日之后首次入住的房子，涨租没有上限，续约前拿同楼盘的挂牌价跟房东商量，很有必要。"}},{"@type":"Question","name":"在 house 里合租一个房间，也能砍价吗？","acceptedAnswer":{"@type":"Answer","text":"能，而且个人房东往往比大楼管理公司更灵活。除了直接压价，可以谈包水电网、送一个车位，或者把入住日期调到对你最方便的时间。所有条件都要先写进书面协议再付钱。"}},{"@type":"Question","name":"刚来加拿大没有信用记录，砍价会不会被拒？","acceptedAnswer":{"@type":"Answer","text":"关键是先让房东放心，再谈价格。准备好推荐人、收入或资金证明、工作或在读证明，必要时找担保人。你可以自愿提出预付房租，但房东不能强制要求，而且一定要在核实房东身份、签好租约之后再考虑。"}},{"@type":"Question","name":"房东口头答应送免租月，但不肯写进合同怎么办？","acceptedAnswer":{"@type":"Answer","text":"这是危险信号。口头承诺很难举证，真正的优惠应该写进租约，最好写在安省标准租约的租金折扣（rent discount）部分。如果房东事后不认账，可以咨询房东租客委员会 (LTB) 或社区法律诊所。"}},{"@type":"Question","name":"砍价时开口要多少合适？","acceptedAnswer":{"@type":"Answer","text":"不要套用固定比例，要用数据说话。先查同一栋楼或附近同户型的挂牌价，看看这套房挂了多久、有没有降过价。如果已经空置好几周，提出小幅还价或者要一个月免租，都是合理的。"}}]}]}</script>
 </head>
 <body>
 <header class="top">
+  <span class="read" aria-hidden="true"></span>
   <div class="wrap top-in">
     <a class="logo" href="/" aria-label="ColivEase"><img src="/blog/assets/logo.png" alt="ColivEase" width="96" height="66"></a>
     <nav aria-label="博客">
@@ -259,9 +274,12 @@ body { font-size: 16px; }
 
       <section class="faq" aria-labelledby="faq"><h2 id="faq">常见问题</h2><details><summary>续约的时候还能砍价吗？</summary><p>可以开口。如果房子受租金管制，房东每年涨租本来就不能超过省政府公布的上限（2026年为2.1%），能谈的主要是维修和附加条件。如果是2018年11月15日之后首次入住的房子，涨租没有上限，续约前拿同楼盘的挂牌价跟房东商量，很有必要。</p></details><details><summary>在 house 里合租一个房间，也能砍价吗？</summary><p>能，而且个人房东往往比大楼管理公司更灵活。除了直接压价，可以谈包水电网、送一个车位，或者把入住日期调到对你最方便的时间。所有条件都要先写进书面协议再付钱。</p></details><details><summary>刚来加拿大没有信用记录，砍价会不会被拒？</summary><p>关键是先让房东放心，再谈价格。准备好推荐人、收入或资金证明、工作或在读证明，必要时找担保人。你可以自愿提出预付房租，但房东不能强制要求，而且一定要在核实房东身份、签好租约之后再考虑。</p></details><details><summary>房东口头答应送免租月，但不肯写进合同怎么办？</summary><p>这是危险信号。口头承诺很难举证，真正的优惠应该写进租约，最好写在安省标准租约的租金折扣（rent discount）部分。如果房东事后不认账，可以咨询房东租客委员会 (LTB) 或社区法律诊所。</p></details><details><summary>砍价时开口要多少合适？</summary><p>不要套用固定比例，要用数据说话。先查同一栋楼或附近同户型的挂牌价，看看这套房挂了多久、有没有降过价。如果已经空置好几周，提出小幅还价或者要一个月免租，都是合理的。</p></details></section>
       <aside class="cta">
-        <h2>先找对的人，再找对的房。</h2>
-        <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
-        <a class="btn big" href="/app.html">免费开始 →</a>
+        <div class="cta-copy">
+          <h2>先找对的人，再找对的房。</h2>
+          <p>ColivEase 按想住的区域和通勤、预算、入住时间、学生或上班族、性别偏好和共同语言，计算你和每位室友的匹配度。每套房源都经过人工审核，聊天中出现常见诈骗话术时会提醒你，还能按房间组队租下整套房。</p>
+          <a class="btn big" href="/app.html">免费开始 →</a>
+        </div>
+        <div class="cta-demo" data-cv-demo="match" data-lang="zh" aria-hidden="true"></div>
       </aside>
       <section class="sources"><h2>参考资料</h2><ol><li><a href="https://www.cp24.com/local/toronto/2026/04/27/gtha-rental-vacancy-surges-rents-drop-year-over-year/" rel="noopener" target="_blank">CP24：GTHA 租金持续下跌、空置率上升（Urbanation 2026年第一季度数据，2026年4月27日）</a></li><li><a href="https://betterdwelling.com/over-1-in-8-greater-toronto-rental-units-sit-vacant-as-completions-hit-a-record/" rel="noopener" target="_blank">Better Dwelling：Urbanation 2026年第三季度租赁市场数据</a></li><li><a href="https://www.urbanation.ca/latest-trends" rel="noopener" target="_blank">Urbanation：Latest trends（最新市场动态）</a></li><li><a href="https://www.bnnbloomberg.ca/business/real-estate/2026/11/05/average-asking-rents-fall-32-in-october-but-prices-rising-in-toronto-vancouver/" rel="noopener" target="_blank">BNN Bloomberg：10月全国平均挂牌租金同比下降3.2%，多伦多回升（2026年11月5日）</a></li><li><a href="https://www.ontario.ca/page/renting-ontario-your-rights" rel="noopener" target="_blank">安省政府：Renting in Ontario, your rights（租客权益）</a></li><li><a href="https://www.ontario.ca/page/guide-ontarios-standard-lease" rel="noopener" target="_blank">安省政府：Guide to Ontario's standard lease（标准租约指南）</a></li><li><a href="https://www.ontario.ca/page/residential-rent-increases" rel="noopener" target="_blank">安省政府：Residential rent increases（涨租规定）</a></li><li><a href="https://www.cleo.on.ca/en/publications/paying-rent/all" rel="noopener" target="_blank">CLEO：Paying rent（交租须知）</a></li><li><a href="https://tribunalsontario.ca/ltb/" rel="noopener" target="_blank">房东租客委员会 Landlord and Tenant Board</a></li></ol></section>
     </article>
@@ -308,5 +326,28 @@ body { font-size: 16px; }
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>
+<script>(function () {
+  var links = document.querySelectorAll(".toc a[href^='#']");
+  if (links.length && "IntersectionObserver" in window) {
+    var byId = {};
+    for (var i = 0; i < links.length; i++) byId[decodeURIComponent(links[i].getAttribute("href").slice(1))] = links[i];
+    var current = null;
+    var mark = function (a) { if (a === current) return; if (current) current.removeAttribute("aria-current"); if (a) a.setAttribute("aria-current", "true"); current = a; };
+    var seen = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) mark(byId[entries[k].target.id]);
+    }, { rootMargin: "-80px 0px -70% 0px" });
+    for (var id in byId) { var h = document.getElementById(id); if (h) seen.observe(h); }
+  }
+  var slots = document.querySelectorAll("[data-cv-demo]");
+  if (!slots.length || !("IntersectionObserver" in window)) return;
+  var load = function () {
+    var css = document.createElement("link"); css.rel = "stylesheet"; css.href = "/demos/demos.css"; document.head.appendChild(css);
+    var js = document.createElement("script"); js.src = "/demos/demos.js"; js.async = true; document.head.appendChild(js);
+  };
+  var near = new IntersectionObserver(function (entries) {
+    for (var k = 0; k < entries.length; k++) if (entries[k].isIntersecting) { near.disconnect(); load(); return; }
+  }, { rootMargin: "900px 0px" });
+  for (var n = 0; n < slots.length; n++) near.observe(slots[n]);
+})();</script>
 </body>
 </html>
