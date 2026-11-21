@@ -502,6 +502,11 @@ main { position: relative; }
 .bph { display: none; }
 .sleft { display: grid; gap: 28px; align-content: start; }
 .sph { width: min(360px, 100%); transform: rotate(-1.5deg); justify-self: center; }
+/* The verified badge, earned in a short demo (landing/demos VerifyDemo): three checks tick, the badge lands on the
+   profile. It keeps its shape until its script (loaded near the screen) mounts it. */
+.sdemo { width: 100%; max-width: 480px; aspect-ratio: 480 / 486; justify-self: center; }
+.sdemo[data-cv-ready] { aspect-ratio: auto; }
+@media (max-width: 480px) { .sdemo { aspect-ratio: 358 / 432; } }
 .fside { display: grid; justify-items: end; gap: 26px; }
 .fph { width: min(300px, 100%); transform: rotate(2deg); margin-right: 40px; }
 
@@ -1309,7 +1314,7 @@ footer .legal { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; 
           </ul>
           <p class="vprice"><b>$9.99</b><span>once, valid for 3 years</span></p>
         </article>
-          <figure class="ph sph"><img src="photos/reading.webp" srcset="photos/reading.webp 1x, photos/reading@2x.webp 2x" alt="A young man reading on a sofa surrounded by plants" width="381" height="310" loading="lazy" decoding="async"></figure>
+          <div class="sdemo" data-cv-demo="verify" data-lang="en" aria-hidden="true"></div>
         </div>
         <ul class="rules">
           <li><span class="ri"><svg class="i" aria-hidden="true"><use href="#i-map-pin"/></svg></span><h3>The address stays hidden</h3><p>Maps show an area of about 350 m. The exact address appears only after a host accepts your application.</p></li>
@@ -1673,7 +1678,7 @@ footer .legal { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; 
   $$(".hero, #ride, .after .block").forEach((el) => live.observe(el));
 
   // Scroll entrance: content below the screen rises in as it arrives, staggered within each batch.
-  const RV = [".after .block h2", ".after .block .sub", ".land-demo", ".verify", ".sph", ".rules li", ".ticket", ".fare-wrap", ".tiers .tier", ".price-note", ".qs details", ".final > div:first-child", ".fph", ".park", "footer .row > *"];
+  const RV = [".after .block h2", ".after .block .sub", ".land-demo", ".verify", ".sdemo", ".rules li", ".ticket", ".fare-wrap", ".tiers .tier", ".price-note", ".qs details", ".final > div:first-child", ".fph", ".park", "footer .row > *"];
   const below = $$(RV.join(",")).filter((el) => el.getBoundingClientRect().top > innerHeight);
   below.forEach((el) => el.classList.add("rv", ...(el.matches(".sph, .fph") ? ["pop"] : [])));
   const rvo = new IntersectionObserver((es) => {
