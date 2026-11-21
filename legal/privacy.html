@@ -48,7 +48,7 @@
     <li>提供服务：展示资料和房源、计算匹配度、按社群语言推荐内容、发送聊天消息和通知。</li>
     <li>安全：审核房源、处理举报、防范诈骗和滥用。</li>
     <li>付费服务和身份验证。</li>
-    <li>AI 功能：你上传的照片会发送给 Google Gemini 生成卡通头像；你提交检查的租约会发送给 Google Gemini 做分析。我们不会把这些内容用于其他目的。</li>
+    <li>AI 功能：你上传的照片会发送给火山引擎（字节跳动旗下云服务，服务器位于中国境内）的 Seedream 模型生成卡通头像；你提交检查的租约会发送给 Google Gemini 做分析。我们的服务器不保存用于生成头像的照片，也不会把这些内容用于其他目的。</li>
     <li>改进服务和遵守法律义务。</li>
   </ul>
 
@@ -56,7 +56,7 @@
   <ul>
     <li><strong>其他用户</strong>：你的公开资料。未登录的访客只能看到名字首字、年龄段、语言和模糊头像。真实照片只有在你设为公开、或者主动分享给某个人时才会显示，你可以随时撤回。</li>
     <li><strong>平台员工</strong>：为了处理举报、调查诈骗和保障用户安全，<strong>经授权的员工可以查看相关的聊天记录</strong>和账号信息。员工的每次查看都会被记录在审计日志中，员工只拥有工作所需的权限。</li>
-    <li><strong>服务提供商</strong>：Supabase（数据托管，加拿大中部区域）、Google（登录、Gemini AI）、Apple、Meta（登录）、Stripe 和 RevenueCat（付款、证件验证）、Amazon Web Services（邮件）、Twilio（短信验证）、Expo（手机推送）。他们只能按我们的指示处理数据。部分服务商可能在加拿大境外处理数据。</li>
+    <li><strong>服务提供商</strong>：Supabase（数据托管，加拿大中部区域）、Google（登录、Gemini AI 租约检查）、火山引擎（Seedream AI 头像，中国境内）、Apple、Meta（登录）、Stripe 和 RevenueCat（付款、证件验证）、Amazon Web Services（邮件）、Twilio（短信验证）、Expo（手机推送）。他们只能按我们的指示处理数据。部分服务商可能在加拿大境外处理数据。</li>
     <li><strong>法律要求</strong>：法律要求时，或为保护人身安全时。</li>
   </ul>
   <p>我们<strong>不出售</strong>你的个人信息。</p>
@@ -103,7 +103,7 @@
     <li>To run the service: show profiles and listings, compute match scores, suggest content by community language, deliver chats and notifications.</li>
     <li>For safety: review listings, handle reports, and prevent scams and abuse.</li>
     <li>For paid features and identity verification.</li>
-    <li>For AI features: photos you upload go to Google Gemini to make a comic avatar, and leases you submit go to Google Gemini for analysis. We don't use this content for anything else.</li>
+    <li>For AI features: photos you upload go to Volcengine (ByteDance's cloud service, with servers in China) and its Seedream model to make your illustrated avatar, and leases you submit go to Google Gemini for analysis. Our server doesn't keep the photos used for avatars, and we don't use this content for anything else.</li>
     <li>To improve the service and meet legal obligations.</li>
   </ul>
 
@@ -111,7 +111,7 @@
   <ul>
     <li><strong>Other users</strong>: your public profile. Visitors who aren't signed in see only your first initial, age range, languages and a blurred avatar. Real photos show only if you make them public or share them with a specific person, and you can take that back at any time.</li>
     <li><strong>Our staff</strong>: to handle reports, investigate scams and keep people safe, <strong>authorized staff can read the chats involved</strong> and account details. Every access is recorded in an audit log, and staff have only the permissions their job needs.</li>
-    <li><strong>Service providers</strong>: Supabase (hosting, Canada Central region), Google (sign-in, Gemini AI), Apple and Meta (sign-in), Stripe and RevenueCat (payments, ID checks), Amazon Web Services (email), Twilio (SMS verification) and Expo (phone push). They may process data only on our instructions. Some may process data outside Canada.</li>
+    <li><strong>Service providers</strong>: Supabase (hosting, Canada Central region), Google (sign-in, Gemini AI lease checks), Volcengine (Seedream AI avatars, in China), Apple and Meta (sign-in), Stripe and RevenueCat (payments, ID checks), Amazon Web Services (email), Twilio (SMS verification) and Expo (phone push). They may process data only on our instructions. Some may process data outside Canada.</li>
     <li><strong>When the law requires it</strong>, or to protect someone's safety.</li>
   </ul>
   <p>We <strong>don't sell</strong> your personal information.</p>
