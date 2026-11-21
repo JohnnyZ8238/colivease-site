@@ -29,15 +29,42 @@
 - [Renting in Toronto 101: Costs, Applications and Scams](https://www.colivease.ca/blog/category/renting-101/): How renting in Toronto works: what a room costs, what to put in a rental application, and how to spot and avoid rental scams before you pay anything.
 - [Ontario Tenant Rights Guides for Toronto Renters](https://www.colivease.ca/blog/category/tenant-rights/): Plain-language guides to Ontario tenant rights: the standard lease, deposits, rent increases, subletting, ending a tenancy with an N9 and living with a landlord.
 - [Best Toronto Neighbourhoods to Rent In: Area Guides](https://www.colivease.ca/blog/category/neighbourhoods/): Where to live in Toronto: neighbourhood guides for students and young professionals, with commute times, typical rents and what each area is really like.
+- [Toronto & GTA Rental News for Renters](https://www.colivease.ca/blog/category/news/): What's changing for renters in Toronto and the GTA: rent trends, new tenant rules like Bill 60, renoviction bylaws, rental licensing and the student cap.
 - [Renting in Toronto for Newcomers and International Students](https://www.colivease.ca/blog/category/newcomers-and-students/): Renting in Toronto as a newcomer or international student: no credit history, guarantors, off-campus housing, scams to avoid and a move-in checklist.
 - [多伦多找室友与合租指南](https://www.colivease.ca/zh/blog/category/roommates/): 多伦多找室友全攻略：去哪里找、如何核实对方、见面该问什么、安省室友协议怎么写，以及合租房租和水电费怎么公平分摊。
 - [多伦多租房入门：费用、申请与防骗](https://www.colivease.ca/zh/blog/category/renting-101/): 多伦多租房入门指南：租一个房间大概要多少钱、租房申请要准备哪些材料，以及如何在付钱之前识别和避开租房骗局。
 - [安省租客权益指南](https://www.colivease.ca/zh/blog/category/tenant-rights/): 用大白话讲清安省租客权益：标准租约、押金规定、涨租上限、转租与转让、用 N9 退租，以及和房东同住时要注意的法律空白。
 - [多伦多租房社区指南](https://www.colivease.ca/zh/blog/category/neighbourhoods/): 多伦多住哪里好？写给留学生和上班族的社区指南：通勤时间、大致租金，以及每个社区真实的生活氛围和需要注意的地方。
+- [大多伦多租房新闻](https://www.colivease.ca/zh/blog/category/news/): 大多伦多租客需要知道的新变化：房租走势、Bill 60 租客新规、翻新驱逐条例、出租屋执照，以及留学生配额对租房的影响。
 - [新移民与留学生多伦多租房指南](https://www.colivease.ca/zh/blog/category/newcomers-and-students/): 写给新移民和留学生的多伦多租房指南：没有信用记录怎么租、担保人、校外租房、需要避开的骗局，以及搬家入住清单。
 
 ## Guides (English)
 
+- [Best Websites to Find a Room in Toronto: Honest Guide](https://www.colivease.ca/blog/best-rental-websites-toronto/): The best websites to find a room in Toronto, compared honestly: listing sites, Kijiji vs Facebook Marketplace, student boards, roommate apps and scam risk.
+- [Bill 60 Ontario Tenants: What Changed in 2026](https://www.colivease.ca/blog/bill-60-ontario-tenants/): Bill 60 Ontario tenants guide, as of November 2026: the 7-day N4 notice, the 15-day LTB review deadline, the half-arrears rule and the new N12 rules.
+- [Brampton Rental Licence: What Tenants Should Check](https://www.colivease.ca/blog/brampton-rental-licensing/): Brampton rental licence rules as of November 2026: now citywide. How to check if your rental is licensed, basement apartment rules, fines and Caledon's program.
+- [Female Roommates Toronto: Women-Only Rooms and Safety](https://www.colivease.ca/blog/female-roommates-toronto/): Looking for female roommates in Toronto? When a women-only room is legal under Ontario's Human Rights Code, plus safety tips for meeting roommates and viewings.
+- [How Much Rent Can I Afford in Toronto? (2026)](https://www.colivease.ca/blog/how-much-rent-can-i-afford-toronto/): How much rent can I afford in Toronto? Use the 30% rule as a starting point, budget for the extras, see how roommates change the math, and know your rights.
+- [How to Negotiate Rent in Toronto (November 2026 Update)](https://www.colivease.ca/blog/negotiate-rent-toronto/): How to negotiate rent in Toronto in late 2026: where free months and condo concessions remain, what to ask for, and legal limits on deposits and prepaid rent.
+- [Renoviction Bylaw Toronto: What the Licence Means for You](https://www.colivease.ca/blog/renoviction-bylaw-toronto/): Renoviction bylaw Toronto rules as of November 2026: when a landlord needs a City licence for N13 renovations, what tenants get, and Mississauga's new rules.
+- [Rent Guarantor in Ontario: Rules, Risks and Alternatives](https://www.colivease.ca/blog/rent-guarantor-ontario/): Need a rent guarantor in Ontario? What a guarantor is liable for, when landlords can ask for one, co-signer vs guarantor, and what to do if you don't have one.
+- [Ontario Trillium Benefit for Renters: Claim Your Rent](https://www.colivease.ca/blog/rent-tax-credit-ontario/): Ontario Trillium Benefit rent guide: who qualifies, how to claim rent on taxes with form ON-BEN, which rent receipts to keep, and tips for roommates.
+- [Renting a Condo in Downtown Toronto: Tenant Guide](https://www.colivease.ca/blog/renting-a-condo-downtown-toronto/): Renting a condo in downtown Toronto? Learn how condo rules bind tenants, how to book the elevator to move in, and what to ask about fobs, fees and amenities.
+- [Renting a Room as a Couple in Toronto: A Practical Guide](https://www.colivease.ca/blog/renting-as-a-couple-toronto/): Renting a room as a couple in Toronto? How to search together, who can say no to two people, when a partner can move in and how to get added to a lease.
+- [Renting in Durham Region: Pickering, Ajax, Whitby, Oshawa](https://www.colivease.ca/blog/renting-in-durham-region/): Rentals in Pickering, Ajax, Whitby and Oshawa: how each town compares, Oshawa rooms near Ontario Tech and Durham College, GO commute tips and rental licensing.
+- [Etobicoke Rentals: Neighbourhoods, Transit and Rooms](https://www.colivease.ca/blog/renting-in-etobicoke/): Etobicoke rentals guide: Mimico and Humber Bay condos, rooms near Humber College, Line 2, Line 6 and GO commute options, plus what each neighbourhood is like.
+- [Rent in Markham: 2026 Guide to Areas, Transit and Rooms](https://www.colivease.ca/blog/renting-in-markham/): Thinking of where to rent in Markham? Compare Unionville, Downtown Markham and Thornhill, find rooms, plan the commute downtown and check basement registration.
+- [Rooms for Rent in Mississauga: 2026 Renter's Guide](https://www.colivease.ca/blog/renting-in-mississauga/): Rooms for rent in Mississauga: compare neighbourhoods, 2026 rent prices, MiWay and GO transit, renting near UTM, plus basement and renoviction rules to know.
+- [North York Apartments for Rent: 2026 Area Guide](https://www.colivease.ca/blog/renting-in-north-york/): Searching North York apartments for rent? Compare Yonge and Finch, North York Centre, Bayview Village and York University areas, plus TTC tips and rules.
+- [Oakville Rentals: A Guide to Oakville and Burlington](https://www.colivease.ca/blog/renting-in-oakville-burlington/): Oakville rentals and Burlington rentals compared: main areas, rooms near Sheridan College, the GO train commute to Toronto and what to check before you sign.
+- [Richmond Hill Rentals: 2026 Guide for Renters](https://www.colivease.ca/blog/renting-in-richmond-hill/): Browsing Richmond Hill rentals? Compare areas from Richmond Hill Centre to Oak Ridges, check a basement apartment safely and see where the subway stands.
+- [Scarborough Rooms for Rent: 2026 Renter's Guide](https://www.colivease.ca/blog/renting-in-scarborough/): Looking at Scarborough rooms for rent? Compare areas near UTSC and Centennial College, how transit works since Line 3 closed, and what to check before you sign.
+- [Vaughan Rentals: VMC Condos, Areas and Commutes](https://www.colivease.ca/blog/renting-in-vaughan/): Searching Vaughan rentals? Compare VMC condos, Woodbridge, Maple and Thornhill, see how Line 1, Viva and GO connect, and what to check before signing a lease.
+- [Roommate Moving Out Ontario: Lease, Rent and Deposit](https://www.colivease.ca/blog/roommate-moving-out-early/): Roommate moving out in Ontario? What happens to a shared lease, who pays rent when a roommate leaves, how to replace them and what to do with the deposit.
+- [Roommate Red Flags: Warning Signs Before You Move In](https://www.colivease.ca/blog/roommate-red-flags/): Roommate red flags to spot before you move in: scam warning signs, behaviour that predicts trouble, and lease set-ups that leave you exposed in Ontario.
+- [4 Month Sublet Toronto: A Student Guide to Term Housing](https://www.colivease.ca/blog/short-term-sublet-toronto/): Need a 4 month sublet in Toronto? A student guide to summer and co-op term sublets: when to look, subletting your own room, landlord consent and paperwork.
+- [International Student Cap and Toronto Rent: 2026 Update](https://www.colivease.ca/blog/student-cap-toronto-rent/): How the international student cap affected Toronto rent as of November 2026: softer prices near many campuses, why rent near U of T held up, and student tips.
+- [Toronto Rent Prices 2026: Is Rent Still Going Down?](https://www.colivease.ca/blog/toronto-rent-trends-2026/): Toronto rent prices 2026, as of November: what Rentals.ca, liv.rent, TRREB and CMHC show, what a 1-bedroom costs, and the best time of year to sign a lease.
 - [Co-Living vs Renting Alone in Toronto: Which Is Better?](https://www.colivease.ca/blog/co-living-vs-renting-alone-toronto/): Co-living or a shared rental vs renting alone in Toronto: costs from CMHC data, privacy, flexibility, who is on the lease, who each suits and making it work.
 - [Dealing With a Bad Roommate in Toronto: What to Do](https://www.colivease.ca/blog/dealing-with-a-bad-roommate/): How to deal with a bad roommate in Toronto: raising noise, mess, unpaid rent and guests, mediation, your legal position by lease type, and when to call police.
 - [Landlord Entry Rules Ontario: 24-Hour Notice Explained](https://www.colivease.ca/blog/landlord-entry-rules-ontario/): Landlord entry rules in Ontario: when 24 hours' written notice is needed, the 8 a.m. to 8 p.m. window, emergencies, showings and what to do if rules are broken.
@@ -76,6 +103,31 @@
 
 ## 指南（中文）
 
+- [多伦多租房网站推荐：哪个平台靠谱？](https://www.colivease.ca/zh/blog/best-rental-websites-toronto/): 多伦多租房网站推荐：Rentals.ca、Kijiji、Facebook、学校平台、室友app，以及51、约克论坛、小红书哪个靠谱？优缺点和防骗要点一次讲清。
+- [安省Bill 60 租客新规：2026年改了什么](https://www.colivease.ca/zh/blog/bill-60-ontario-tenants/): 安省Bill 60 租客新规详解（截至2026年11月）：欠租N4通知缩短为7天、LTB复审期限改为15天、欠租听证先付一半、N12自住驱逐新规，租客该怎么应对。
+- [宾顿出租屋执照：租客入住前要查什么](https://www.colivease.ca/zh/blog/brampton-rental-licensing/): 宾顿出租屋执照2026年起全市强制（截至2026年11月）：怎么查房东有没有执照、宾顿地下室租房合法吗、学生合租几人算合规、无照罚款多少，以及卡利登新规。
+- [多伦多找女室友：只租女生合法吗？安全指南](https://www.colivease.ca/zh/blog/female-roommates-toronto/): 多伦多找女室友，"只租女生"合法吗？按安省人权法第21条讲清哪些情况可以限女生、怎样写帖子，以及刚来多伦多的女生见室友、看房、付款和入住时的安全清单。
+- [多伦多收入多少能租房？房租预算一次算清](https://www.colivease.ca/zh/blog/how-much-rent-can-i-afford-toronto/): 多伦多收入多少能租房？用30%法则算出房租上限，把水电网、保险、交通一起列进预算，看合租怎么省钱，并讲清房东要求收入是房租3倍是否合法，新移民和留学生必看。
+- [多伦多租房砍价指南：免租月还能谈吗（2026年11月）](https://www.colivease.ca/zh/blog/negotiate-rent-toronto/): 多伦多租房砍价现在还来得及吗？2026年11月最新市场数据、房东送一个月免租怎么算、怎么跟房东谈房租，以及押金和预付房租的法律底线，签约前必看。
+- [多伦多翻新驱逐 N13：市政执照新规详解](https://www.colivease.ca/zh/blog/renoviction-bylaw-toronto/): 多伦多翻新驱逐 N13 新规（截至2026年11月）：房东装修要先申请市政执照，租客可拿临时住房或差价补贴；密西沙加2026年9月起也实施类似规定。
+- [租房担保人：安省规定、风险和替代方案](https://www.colivease.ca/zh/blog/rent-guarantor-ontario/): 在安省租房被要求找租房担保人？本文讲清担保人要承担什么、担保人需要什么条件、留学生租房担保常见问题，以及没有担保人怎么租房、担保协议要看哪些条款。
+- [安省房租退税：OTB怎么申请、收据怎么留](https://www.colivease.ca/zh/blog/rent-tax-credit-ontario/): 安省房租退税其实是安省三项福利(OTB)。报税时填ON-BEN表申报房租即可。本文讲清谁能申请、合租怎么报、租房收据报税要留哪些，留学生和新移民必看。
+- [多伦多市中心公寓出租：Condo租房注意事项](https://www.colivease.ca/zh/blog/renting-a-condo-downtown-toronto/): 在多伦多市中心公寓出租房源里挑Condo？讲清楚公寓规定对租客的约束、搬家怎么预约电梯和交押金、门禁卡押金和物业费由谁负责、能不能短租，签约前必看。
+- [情侣合租多伦多：找房、加租约一文看懂](https://www.colivease.ca/zh/blog/renting-as-a-couple-toronto/): 情侣合租多伦多怎么找房？哪些房东可以拒绝两个人住，男朋友搬进来房东同意吗，怎样把另一半加进租约，申请材料怎么准备，分手了租约怎么办，一篇讲清楚。
+- [杜伦区租房：皮克林、惠特比、奥沙瓦怎么选](https://www.colivease.ca/zh/blog/renting-in-durham-region/): 杜伦区租房指南：皮克林、阿贾克斯、惠特比、奥沙瓦的房租和GO通勤对比，安大略理工大学和杜伦学院附近租房、奥沙瓦学生屋执照怎么查，一篇全部看懂。
+- [怡陶碧谷租房：社区、交通和汉博学院周边](https://www.colivease.ca/zh/blog/renting-in-etobicoke/): 怡陶碧谷租房指南：Humber湾公寓、Mimico老社区、汉博学院附近租房，2号线、6号线Finch West和GO通勤怎么选，各社区特点一次看懂。
+- [万锦租房指南：华人合租、通勤与社区（2026）](https://www.colivease.ca/zh/blog/renting-in-markham/): 万锦租房住哪里好？Unionville、万锦市中心、Milliken 各社区对比，华人合租找房渠道和防骗要点，万锦到多伦多市中心怎么通勤，地下室登记一次讲清楚。
+- [密西沙加租房指南：合租、交通与UTM周边（2026）](https://www.colivease.ca/zh/blog/renting-in-mississauga/): 密西沙加租房怎么选？2026年租金行情、各社区特点、MiWay和GO交通、UTM附近租房，以及地下室登记和翻新驱逐新规，新移民和留学生看这一篇就够。
+- [北约克租房指南：Finch地铁站、约大与华人合租（2026）](https://www.colivease.ca/zh/blog/renting-in-north-york/): 北约克租房住哪里？Finch地铁站附近、North York Centre、约克大学和 Seneca 周边各社区对比，北约克华人合租渠道与防骗要点，以及多伦多市的租房规定。
+- [奥克维尔租房指南：伯灵顿对比与GO通勤](https://www.colivease.ca/zh/blog/renting-in-oakville-burlington/): 奥克维尔租房怎么选？对比奥克维尔和伯灵顿租房的主要社区、谢尔丹学院附近合租、坐GO火车通勤多伦多的实际情况，以及几个人组队租整栋house和签约前的必查清单。
+- [列治文山租房指南：地下室、交通与社区（2026）](https://www.colivease.ca/zh/blog/renting-in-richmond-hill/): 列治文山租房怎么选？各社区特点、地下室出租安全检查清单、Viva 和 GO 通勤方式，以及 Yonge 地铁北延线施工进展，华人新移民和留学生找房前必读。
+- [士嘉堡租房指南：UTSC附近怎么选（2026）](https://www.colivease.ca/zh/blog/renting-in-scarborough/): 士嘉堡租房怎么选？UTSC、Centennial附近哪些社区适合学生合租，3号线停运后公交和快速公交怎么坐，地下室和合租屋看房签约要注意什么，一篇讲清。
+- [旺市租房指南：VMC公寓与各社区怎么选](https://www.colivease.ca/zh/blog/renting-in-vaughan/): 旺市租房怎么选？旺市VMC公寓、Woodbridge、Maple、Thornhill各适合谁，1号线、Viva和GO怎么通勤，去约克大学多远，签约前要查什么，一篇讲清。
+- [室友提前搬走怎么办？安省租约、房租与押金](https://www.colivease.ca/zh/blog/roommate-moving-out-early/): 室友提前搬走怎么办？先看租约上有谁的名字。本文讲清安省合租时室友走了房租谁付、怎样合法换室友（转让）、押金怎么处理，以及找新室友时如何防骗。
+- [室友雷区：什么样的室友不能要？](https://www.colivease.ca/zh/blog/roommate-red-flags/): 多伦多找室友的室友雷区有哪些？从诈骗信号、相处中的危险迹象到租约安排的坑，帮你判断什么样的室友不能要，合租前先排雷，少走弯路，签约交钱前一定要看。
+- [多伦多短租：留学生4个月短租与暑假转租指南](https://www.colivease.ca/zh/blog/short-term-sublet-toronto/): 多伦多短租怎么找？留学生4个月短租、暑假转租和co-op实习住房全攻略：什么时候找、怎样把自己的房间转租出去、房东同意和协议怎么写、如何防骗。
+- [留学生配额与多伦多房租：学签收紧后好租了吗](https://www.colivease.ca/zh/blog/student-cap-toronto-rent/): 留学生配额对多伦多房租影响多大？截至2026年11月，很多校区周边租金回落，但多大附近依然坚挺。学签收紧后好不好租、去哪找、怎么谈价，一文看懂。
+- [2026多伦多房租走势：房租还在降吗？](https://www.colivease.ca/zh/blog/toronto-rent-trends-2026/): 2026多伦多房租走势（截至2026年11月）：Rentals.ca、liv.rent、TRREB、CMHC最新数据怎么看，一室一厅多少钱，什么时候租房最便宜，一篇讲清楚。
 - [多伦多留学生住哪里？按学校选社区（2026）](https://www.colivease.ca/zh/blog/best-toronto-neighbourhoods-for-students/): 多伦多留学生住哪里最合适？按多大、TMU、约克、OCAD 和 Humber、Seneca 等学院逐一分析周边社区、TTC 通勤、生活氛围和避坑要点，选房前先看这篇。
 - [多伦多上班族住哪里？热门租房社区对比](https://www.colivease.ca/zh/blog/best-toronto-neighbourhoods-for-young-professionals/): 多伦多上班族住哪里最划算？对比市中心、King West、Liberty Village、Yonge & Eglinton、北约克等社区的通勤、生活方式和租房取舍。
 - [多伦多租房多少钱？2026 房间与公寓价格指南](https://www.colivease.ca/zh/blog/cost-of-renting-a-room-in-toronto/): 多伦多租房多少钱？2026 年单间、studio、一室公寓的大致租金区间，房租包含哪些费用、入住前要准备多少钱，以及合租、组队整租等实用省钱办法。

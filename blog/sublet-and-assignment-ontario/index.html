@@ -139,6 +139,14 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .sources { font-size: 14px; color: var(--muted); }
 .sources h2 { font-size: 18px; margin-top: 1.4em; }
 .sources ol { padding-left: 20px; }
+.deeper { border-top: 1px solid var(--line); padding: 30px 0 10px; }
+.deeper h2 { font: 600 26px/1.3 var(--display); margin: 0 0 14px; }
+.deeper ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.deeper li { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; }
+.deeper li a { font-weight: 600; text-decoration: none; color: var(--ink); }
+.deeper li a:hover { color: var(--blue); }
+.deeper li span { font-size: 14px; line-height: 1.5; color: var(--muted); }
+@media (max-width: 620px) { .deeper ul { grid-template-columns: 1fr; } }
 .related { border-top: 1px solid var(--line); padding-top: 30px; }
 .related h2 { font: 600 26px/1.3 var(--display); margin: 0 0 18px; }
 .foot { background: var(--white); border-top: 1px solid var(--line); margin-top: 40px; }
@@ -271,6 +279,7 @@ body { font-size: 16px; }
     </article>
     <aside class="toc" aria-label="On this page"><p>On this page</p><ol><li><a href="#key-takeaways">Key takeaways</a></li><li><a href="#sublet-vs-assignment-what-39-s-the-difference">Sublet vs assignment: what&amp;#39;s the difference?</a></li><li><a href="#how-subletting-works-in-ontario">How subletting works in Ontario</a></li><li><a href="#how-assignment-works-in-ontario">How assignment works in Ontario</a></li><li><a href="#roommates-subletting-a-room">Roommates subletting a room</a></li><li><a href="#what-happens-if-you-sublet-without-consent">What happens if you sublet without consent?</a></li><li><a href="#ltb-forms-at-a-glance">LTB forms at a glance</a></li><li><a href="#finding-a-subtenant-or-assignee-safely">Finding a subtenant or assignee safely</a></li><li><a href="#ready-to-make-your-move">Ready to make your move?</a></li></ol></aside>
   </div>
+  <section class="deeper"><h2>Go deeper</h2><ul><li><a href="/blog/roommate-moving-out-early/">Roommate Moving Out Ontario: Lease, Rent and Deposit</a><span>Roommate moving out in Ontario? What happens to a shared lease, who pays rent when a roommate leaves, how to replace them and what to do with the deposit.</span></li><li><a href="/blog/short-term-sublet-toronto/">4 Month Sublet Toronto: A Student Guide to Term Housing</a><span>Need a 4 month sublet in Toronto? A student guide to summer and co-op term sublets: when to look, subletting your own room, landlord consent and paperwork.</span></li><li><a href="/blog/moving-out-checklist-ontario/">Moving Out Checklist Ontario: Notice, Cleaning and Deposits</a><span>Moving out in Ontario: N9 notice timing, ending early with an N11, cleaning, a photo walkthrough, utilities, address changes, deposits and roommate handovers.</span></li><li><a href="/blog/roommate-guest-rules/">Roommate Guest Rules: Partners, Overnights and Rent</a><span>Fair roommate guest rules for Toronto: overnight limits, a partner who's basically living there, rent and bills, occupant vs tenant, and template wording.</span></li><li><a href="/blog/short-term-rentals-toronto/">Short-Term Rentals Toronto: Rules for Renters in 2026</a><span>Short-term and furnished rentals in Toronto: the 28-night rule, principal residence and registration, when the RTA protects you, sublets and how to avoid scams.</span></li><li><a href="/blog/ending-a-tenancy-n9/">N9 Form Ontario: How to End Your Tenancy the Right Way</a><span>N9 form Ontario guide: 60 days' notice, ending on the last day of a rental period, fixed-term leases, roommates leaving, assignment and using your deposit.</span></li><li><a href="/blog/roommate-agreement-ontario/">Roommate Agreement Ontario: How to Write One + Template</a><span>How to write a roommate agreement in Ontario: what to include, how it differs from your lease, co-tenants vs roommates, and a free template outline to adapt.</span></li><li><a href="/blog/toronto-rental-scams/">Rental Scams in Toronto: Red Flags and How to Verify</a><span>Spot rental scams in Toronto before you pay. Learn the red flags, how to check an agent on RECO and an owner on OnLand, safe payment rules and where to report.</span></li></ul></section>
   <section class="related"><h2>Keep reading</h2><div class="grid"><article class="card" data-cat="Tenant rights">
   <a href="/blog/ontario-standard-lease/">
     <img src="/blog/assets/covers/keys.webp" srcset="/blog/assets/covers/keys-768.webp 768w, /blog/assets/covers/keys.webp 960w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Friends moving into a new home" width="960" height="717" loading="lazy" decoding="async">
@@ -307,7 +316,7 @@ body { font-size: 16px; }
   <div class="wrap foot-in">
     <div><img src="/blog/assets/logo.png" alt="ColivEase" width="80" height="55" loading="lazy"><p>Toronto's roommate-first rental platform.</p></div>
     <nav aria-label="ColivEase"><a href="/">Home</a><a href="/blog/">Blog</a><a href="/legal/terms.html">Terms</a><a href="/legal/privacy.html">Privacy</a><a href="/legal/">Legal</a><a href="/app.html">Open ColivEase</a></nav>
-    <nav class="topics" aria-label="Topics"><a href="/blog/category/roommates/">Roommates</a><a href="/blog/category/renting-101/">Renting 101</a><a href="/blog/category/tenant-rights/">Tenant rights</a><a href="/blog/category/neighbourhoods/">Neighbourhoods</a><a href="/blog/category/newcomers-and-students/">Newcomers &amp; students</a></nav>
+    <nav class="topics" aria-label="Topics"><a href="/blog/category/roommates/">Roommates</a><a href="/blog/category/renting-101/">Renting 101</a><a href="/blog/category/tenant-rights/">Tenant rights</a><a href="/blog/category/neighbourhoods/">Neighbourhoods</a><a href="/blog/category/news/">Rental news</a><a href="/blog/category/newcomers-and-students/">Newcomers &amp; students</a></nav>
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>

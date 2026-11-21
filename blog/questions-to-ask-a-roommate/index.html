@@ -139,6 +139,14 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .sources { font-size: 14px; color: var(--muted); }
 .sources h2 { font-size: 18px; margin-top: 1.4em; }
 .sources ol { padding-left: 20px; }
+.deeper { border-top: 1px solid var(--line); padding: 30px 0 10px; }
+.deeper h2 { font: 600 26px/1.3 var(--display); margin: 0 0 14px; }
+.deeper ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.deeper li { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; }
+.deeper li a { font-weight: 600; text-decoration: none; color: var(--ink); }
+.deeper li a:hover { color: var(--blue); }
+.deeper li span { font-size: 14px; line-height: 1.5; color: var(--muted); }
+@media (max-width: 620px) { .deeper ul { grid-template-columns: 1fr; } }
 .related { border-top: 1px solid var(--line); padding-top: 30px; }
 .related h2 { font: 600 26px/1.3 var(--display); margin: 0 0 18px; }
 .foot { background: var(--white); border-top: 1px solid var(--line); margin-top: 40px; }
@@ -317,7 +325,18 @@ body { font-size: 16px; }
     </article>
     <aside class="toc" aria-label="On this page"><p>On this page</p><ol><li><a href="#key-takeaways">Key takeaways</a></li><li><a href="#how-to-run-the-conversation">How to run the conversation</a></li><li><a href="#money-and-bills-questions-1-6">Money and bills (questions 1–6)</a></li><li><a href="#cleaning-and-chores-questions-7-10">Cleaning and chores (questions 7–10)</a></li><li><a href="#guests-and-partners-questions-11-14">Guests and partners (questions 11–14)</a></li><li><a href="#sleep-noise-and-routines-questions-15-19">Sleep, noise and routines (questions 15–19)</a></li><li><a href="#pets-and-allergies-questions-20-21">Pets and allergies (questions 20–21)</a></li><li><a href="#food-and-the-kitchen-questions-22-24">Food and the kitchen (questions 22–24)</a></li><li><a href="#working-and-studying-from-home-questions-25-27">Working and studying from home (questions 25–27)</a></li><li><a href="#lifestyle-and-deal-breakers-questions-28-30">Lifestyle and deal-breakers (questions 28–30)</a></li><li><a href="#green-flags-vs-red-flags">Green flags vs. red flags</a></li><li><a href="#how-to-weigh-the-answers">How to weigh the answers</a></li><li><a href="#questions-they-39-ll-probably-ask-you">Questions they&amp;#39;ll probably ask you</a></li><li><a href="#your-quick-checklist">Your quick checklist</a></li><li><a href="#skip-the-guesswork-with-colivease">Skip the guesswork with ColivEase</a></li></ol></aside>
   </div>
+  <section class="deeper"><h2>Go deeper</h2><ul><li><a href="/blog/roommate-red-flags/">Roommate Red Flags: Warning Signs Before You Move In</a><span>Roommate red flags to spot before you move in: scam warning signs, behaviour that predicts trouble, and lease set-ups that leave you exposed in Ontario.</span></li><li><a href="/blog/dealing-with-a-bad-roommate/">Dealing With a Bad Roommate in Toronto: What to Do</a><span>How to deal with a bad roommate in Toronto: raising noise, mess, unpaid rent and guests, mediation, your legal position by lease type, and when to call police.</span></li><li><a href="/blog/tenant-insurance-ontario/">Tenant Insurance Ontario: What It Covers and Who Needs It</a><span>Tenant insurance in Ontario explained: contents, liability and living expenses, common exclusions, when a lease can require it, roommates and how to choose.</span></li><li><a href="/blog/find-a-roommate-in-toronto/">Find a Roommate in Toronto: The 2026 Guide</a><span>How to find a roommate in Toronto in 2026: where to look, how to vet people, red flags to avoid, what to ask when you meet and how to put it in writing.</span></li></ul></section>
   <section class="related"><h2>Keep reading</h2><div class="grid"><article class="card" data-cat="Roommates">
+  <a href="/blog/roommate-moving-out-early/">
+    <img src="/blog/assets/covers/keys.webp" srcset="/blog/assets/covers/keys-768.webp 768w, /blog/assets/covers/keys.webp 960w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Friends moving into a new home" width="960" height="717" loading="lazy" decoding="async">
+    <div class="card-body">
+      <span class="chip">Roommates</span>
+      <h3>Roommate Moving Out Ontario: Lease, Rent and Deposit</h3>
+      <p>Roommate moving out in Ontario? What happens to a shared lease, who pays rent when a roommate leaves, how to replace them and what to do with the deposit.</p>
+      <span class="meta">November 21, 2026 · 7 min read</span>
+    </div>
+  </a>
+</article><article class="card" data-cat="Roommates">
   <a href="/blog/roommate-guest-rules/">
     <img src="/blog/assets/covers/kitchen.webp" srcset="/blog/assets/covers/kitchen-768.webp 768w, /blog/assets/covers/kitchen.webp 1000w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Roommates cooking together" width="1000" height="747" loading="lazy" decoding="async">
     <div class="card-body">
@@ -337,23 +356,13 @@ body { font-size: 16px; }
       <span class="meta">November 3, 2026 · 8 min read</span>
     </div>
   </a>
-</article><article class="card" data-cat="Roommates">
-  <a href="/blog/find-a-roommate-in-toronto/">
-    <img src="/blog/assets/covers/hero.webp" srcset="/blog/assets/covers/hero-768.webp 768w, /blog/assets/covers/hero.webp 1152w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Roommates relaxing in a Toronto living room" width="1152" height="928" loading="lazy" decoding="async">
-    <div class="card-body">
-      <span class="chip">Roommates</span>
-      <h3>Find a Roommate in Toronto: The 2026 Guide</h3>
-      <p>How to find a roommate in Toronto in 2026: where to look, how to vet people, red flags to avoid, what to ask when you meet and how to put it in writing.</p>
-      <span class="meta">November 3, 2026 · 8 min read</span>
-    </div>
-  </a>
 </article></div></section>
 </main>
 <footer class="foot">
   <div class="wrap foot-in">
     <div><img src="/blog/assets/logo.png" alt="ColivEase" width="80" height="55" loading="lazy"><p>Toronto's roommate-first rental platform.</p></div>
     <nav aria-label="ColivEase"><a href="/">Home</a><a href="/blog/">Blog</a><a href="/legal/terms.html">Terms</a><a href="/legal/privacy.html">Privacy</a><a href="/legal/">Legal</a><a href="/app.html">Open ColivEase</a></nav>
-    <nav class="topics" aria-label="Topics"><a href="/blog/category/roommates/">Roommates</a><a href="/blog/category/renting-101/">Renting 101</a><a href="/blog/category/tenant-rights/">Tenant rights</a><a href="/blog/category/neighbourhoods/">Neighbourhoods</a><a href="/blog/category/newcomers-and-students/">Newcomers &amp; students</a></nav>
+    <nav class="topics" aria-label="Topics"><a href="/blog/category/roommates/">Roommates</a><a href="/blog/category/renting-101/">Renting 101</a><a href="/blog/category/tenant-rights/">Tenant rights</a><a href="/blog/category/neighbourhoods/">Neighbourhoods</a><a href="/blog/category/news/">Rental news</a><a href="/blog/category/newcomers-and-students/">Newcomers &amp; students</a></nav>
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>

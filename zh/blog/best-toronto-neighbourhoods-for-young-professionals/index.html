@@ -139,6 +139,14 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .sources { font-size: 14px; color: var(--muted); }
 .sources h2 { font-size: 18px; margin-top: 1.4em; }
 .sources ol { padding-left: 20px; }
+.deeper { border-top: 1px solid var(--line); padding: 30px 0 10px; }
+.deeper h2 { font: 600 26px/1.3 var(--display); margin: 0 0 14px; }
+.deeper ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.deeper li { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; }
+.deeper li a { font-weight: 600; text-decoration: none; color: var(--ink); }
+.deeper li a:hover { color: var(--blue); }
+.deeper li span { font-size: 14px; line-height: 1.5; color: var(--muted); }
+@media (max-width: 620px) { .deeper ul { grid-template-columns: 1fr; } }
 .related { border-top: 1px solid var(--line); padding-top: 30px; }
 .related h2 { font: 600 26px/1.3 var(--display); margin: 0 0 18px; }
 .foot { background: var(--white); border-top: 1px solid var(--line); margin-top: 40px; }
@@ -256,6 +264,7 @@ body { font-size: 16px; }
     </article>
     <aside class="toc" aria-label="本文目录"><p>本文目录</p><ol><li><a href="#s-1">先说结论</a></li><li><a href="#s-2">选社区前先问自己四个问题</a></li><li><a href="#s-3">热门社区一览</a></li><li><a href="#s-4">逐个社区看</a></li><li><a href="#s-14">如果你不在市中心上班</a></li><li><a href="#s-15">涨租、续约和预算</a></li><li><a href="#s-16">新移民上班族租房的几点实用建议</a></li><li><a href="#s-17">上班族合租，越来越常见</a></li></ol></aside>
   </div>
+  <section class="deeper"><h2>深入阅读</h2><ul><li><a href="/zh/blog/renting-in-etobicoke/">怡陶碧谷租房：社区、交通和汉博学院周边</a><span>怡陶碧谷租房指南：Humber湾公寓、Mimico老社区、汉博学院附近租房，2号线、6号线Finch West和GO通勤怎么选，各社区特点一次看懂。</span></li><li><a href="/zh/blog/renting-in-markham/">万锦租房指南：华人合租、通勤与社区（2026）</a><span>万锦租房住哪里好？Unionville、万锦市中心、Milliken 各社区对比，华人合租找房渠道和防骗要点，万锦到多伦多市中心怎么通勤，地下室登记一次讲清楚。</span></li><li><a href="/zh/blog/renting-in-oakville-burlington/">奥克维尔租房指南：伯灵顿对比与GO通勤</a><span>奥克维尔租房怎么选？对比奥克维尔和伯灵顿租房的主要社区、谢尔丹学院附近合租、坐GO火车通勤多伦多的实际情况，以及几个人组队租整栋house和签约前的必查清单。</span></li><li><a href="/zh/blog/renting-in-vaughan/">旺市租房指南：VMC公寓与各社区怎么选</a><span>旺市租房怎么选？旺市VMC公寓、Woodbridge、Maple、Thornhill各适合谁，1号线、Viva和GO怎么通勤，去约克大学多远，签约前要查什么，一篇讲清。</span></li></ul></section>
   <section class="related"><h2>相关阅读</h2><div class="grid"><article class="card" data-cat="社区指南">
   <a href="/zh/blog/best-toronto-neighbourhoods-for-students/">
     <img src="/blog/assets/covers/map.webp" srcset="/blog/assets/covers/map-768.webp 768w, /blog/assets/covers/map.webp 900w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Map of Toronto neighbourhoods" width="900" height="672" loading="lazy" decoding="async">
@@ -266,24 +275,24 @@ body { font-size: 16px; }
       <span class="meta">2026年11月3日 · 10 分钟阅读</span>
     </div>
   </a>
-</article><article class="card" data-cat="新移民与留学生">
-  <a href="/zh/blog/renting-with-no-credit-history-canada/">
-    <img src="/blog/assets/covers/keys.webp" srcset="/blog/assets/covers/keys-768.webp 768w, /blog/assets/covers/keys.webp 960w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Friends moving into a new home" width="960" height="717" loading="lazy" decoding="async">
+</article><article class="card" data-cat="社区指南">
+  <a href="/zh/blog/renting-in-north-york/">
+    <img src="/blog/assets/covers/map.webp" srcset="/blog/assets/covers/map-768.webp 768w, /blog/assets/covers/map.webp 900w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Map of Toronto neighbourhoods" width="900" height="672" loading="lazy" decoding="async">
     <div class="card-body">
-      <span class="chip">新移民与留学生</span>
-      <h3>没有信用记录怎么租房？新移民加拿大租房攻略</h3>
-      <p>刚到加拿大没有信用记录怎么租房？房东能要求哪些材料、用什么代替信用分、担保人怎么找、安省押金和预付房租的规定，以及落地后如何尽快建立自己的信用。</p>
-      <span class="meta">2026年11月3日 · 10 分钟阅读</span>
+      <span class="chip">社区指南</span>
+      <h3>北约克租房指南：Finch地铁站、约大与华人合租（2026）</h3>
+      <p>北约克租房住哪里？Finch地铁站附近、North York Centre、约克大学和 Seneca 周边各社区对比，北约克华人合租渠道与防骗要点，以及多伦多市的租房规定。</p>
+      <span class="meta">2026年11月21日 · 9 分钟阅读</span>
     </div>
   </a>
-</article><article class="card" data-cat="租房入门">
-  <a href="/zh/blog/rental-application-toronto/">
-    <img src="/blog/assets/covers/keys.webp" srcset="/blog/assets/covers/keys-768.webp 768w, /blog/assets/covers/keys.webp 960w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Friends moving into a new home" width="960" height="717" loading="lazy" decoding="async">
+</article><article class="card" data-cat="社区指南">
+  <a href="/zh/blog/renting-in-richmond-hill/">
+    <img src="/blog/assets/covers/map.webp" srcset="/blog/assets/covers/map-768.webp 768w, /blog/assets/covers/map.webp 900w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Map of Toronto neighbourhoods" width="900" height="672" loading="lazy" decoding="async">
     <div class="card-body">
-      <span class="chip">租房入门</span>
-      <h3>多伦多租房申请材料清单：留学生新移民必看</h3>
-      <p>多伦多租房申请材料要准备什么？身份证件、信用报告、雇佣信、工资单、推荐人一次备齐，再弄清房东能问和不能问的问题，没有本地信用记录也能抢到心仪好房。</p>
-      <span class="meta">2026年11月3日 · 9 分钟阅读</span>
+      <span class="chip">社区指南</span>
+      <h3>列治文山租房指南：地下室、交通与社区（2026）</h3>
+      <p>列治文山租房怎么选？各社区特点、地下室出租安全检查清单、Viva 和 GO 通勤方式，以及 Yonge 地铁北延线施工进展，华人新移民和留学生找房前必读。</p>
+      <span class="meta">2026年11月21日 · 9 分钟阅读</span>
     </div>
   </a>
 </article></div></section>
@@ -292,7 +301,7 @@ body { font-size: 16px; }
   <div class="wrap foot-in">
     <div><img src="/blog/assets/logo.png" alt="ColivEase" width="80" height="55" loading="lazy"><p>多伦多「先找人、再找房」的租房平台。</p></div>
     <nav aria-label="ColivEase"><a href="/">首页</a><a href="/zh/blog/">博客</a><a href="/legal/terms.html">用户协议</a><a href="/legal/privacy.html">隐私政策</a><a href="/legal/">法律条款</a><a href="/app.html">打开 ColivEase</a></nav>
-    <nav class="topics" aria-label="专题"><a href="/zh/blog/category/roommates/">室友</a><a href="/zh/blog/category/renting-101/">租房入门</a><a href="/zh/blog/category/tenant-rights/">租客权益</a><a href="/zh/blog/category/neighbourhoods/">社区指南</a><a href="/zh/blog/category/newcomers-and-students/">新移民与留学生</a></nav>
+    <nav class="topics" aria-label="专题"><a href="/zh/blog/category/roommates/">室友</a><a href="/zh/blog/category/renting-101/">租房入门</a><a href="/zh/blog/category/tenant-rights/">租客权益</a><a href="/zh/blog/category/neighbourhoods/">社区指南</a><a href="/zh/blog/category/news/">租房新闻</a><a href="/zh/blog/category/newcomers-and-students/">新移民与留学生</a></nav>
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>

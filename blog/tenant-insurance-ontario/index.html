@@ -136,6 +136,14 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .sources { font-size: 14px; color: var(--muted); }
 .sources h2 { font-size: 18px; margin-top: 1.4em; }
 .sources ol { padding-left: 20px; }
+.deeper { border-top: 1px solid var(--line); padding: 30px 0 10px; }
+.deeper h2 { font: 600 26px/1.3 var(--display); margin: 0 0 14px; }
+.deeper ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.deeper li { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; }
+.deeper li a { font-weight: 600; text-decoration: none; color: var(--ink); }
+.deeper li a:hover { color: var(--blue); }
+.deeper li span { font-size: 14px; line-height: 1.5; color: var(--muted); }
+@media (max-width: 620px) { .deeper ul { grid-template-columns: 1fr; } }
 .related { border-top: 1px solid var(--line); padding-top: 30px; }
 .related h2 { font: 600 26px/1.3 var(--display); margin: 0 0 18px; }
 .foot { background: var(--white); border-top: 1px solid var(--line); margin-top: 40px; }
@@ -287,6 +295,7 @@ body { font-size: 16px; }
     </article>
     <aside class="toc" aria-label="On this page"><p>On this page</p><ol><li><a href="#key-takeaways">Key takeaways</a></li><li><a href="#what-tenant-insurance-covers">What tenant insurance covers</a></li><li><a href="#what-it-usually-doesn-39-t-cover">What it usually doesn&amp;#39;t cover</a></li><li><a href="#can-a-landlord-require-tenant-insurance-in-ontario">Can a landlord require tenant insurance in Ontario?</a></li><li><a href="#tenant-insurance-with-roommates">Tenant insurance with roommates</a></li><li><a href="#how-to-choose-a-policy">How to choose a policy</a></li><li><a href="#if-you-need-to-make-a-claim">If you need to make a claim</a></li><li><a href="#bottom-line">Bottom line</a></li></ol></aside>
   </div>
+  <section class="deeper"><h2>Go deeper</h2><ul><li><a href="/blog/pets-in-rentals-ontario/">Pets in Rentals Ontario: Are No-Pet Clauses Legal?</a><span>Pets in Ontario rentals: why no-pet lease clauses are void under RTA section 14, the condo, allergy, damage and danger exceptions, and tips for roommates.</span></li><li><a href="/blog/short-term-rentals-toronto/">Short-Term Rentals Toronto: Rules for Renters in 2026</a><span>Short-term and furnished rentals in Toronto: the 28-night rule, principal residence and registration, when the RTA protects you, sublets and how to avoid scams.</span></li></ul></section>
   <section class="related"><h2>Keep reading</h2><div class="grid"><article class="card" data-cat="Renting 101">
   <a href="/blog/utilities-for-renters-toronto/">
     <img src="/blog/assets/covers/keys.webp" srcset="/blog/assets/covers/keys-768.webp 768w, /blog/assets/covers/keys.webp 960w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Friends moving into a new home" width="960" height="717" loading="lazy" decoding="async">
@@ -308,13 +317,13 @@ body { font-size: 16px; }
     </div>
   </a>
 </article><article class="card" data-cat="Renting 101">
-  <a href="/blog/short-term-rentals-toronto/">
-    <img src="/blog/assets/covers/map.webp" srcset="/blog/assets/covers/map-768.webp 768w, /blog/assets/covers/map.webp 900w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Map of Toronto neighbourhoods" width="900" height="672" loading="lazy" decoding="async">
+  <a href="/blog/rent-tax-credit-ontario/">
+    <img src="/blog/assets/covers/keys.webp" srcset="/blog/assets/covers/keys-768.webp 768w, /blog/assets/covers/keys.webp 960w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Friends moving into a new home" width="960" height="717" loading="lazy" decoding="async">
     <div class="card-body">
       <span class="chip">Renting 101</span>
-      <h3>Short-Term Rentals Toronto: Rules for Renters in 2026</h3>
-      <p>Short-term and furnished rentals in Toronto: the 28-night rule, principal residence and registration, when the RTA protects you, sublets and how to avoid scams.</p>
-      <span class="meta">November 3, 2026 · 7 min read</span>
+      <h3>Ontario Trillium Benefit for Renters: Claim Your Rent</h3>
+      <p>Ontario Trillium Benefit rent guide: who qualifies, how to claim rent on taxes with form ON-BEN, which rent receipts to keep, and tips for roommates.</p>
+      <span class="meta">November 21, 2026 · 7 min read</span>
     </div>
   </a>
 </article></div></section>
@@ -323,7 +332,7 @@ body { font-size: 16px; }
   <div class="wrap foot-in">
     <div><img src="/blog/assets/logo.png" alt="ColivEase" width="80" height="55" loading="lazy"><p>Toronto's roommate-first rental platform.</p></div>
     <nav aria-label="ColivEase"><a href="/">Home</a><a href="/blog/">Blog</a><a href="/legal/terms.html">Terms</a><a href="/legal/privacy.html">Privacy</a><a href="/legal/">Legal</a><a href="/app.html">Open ColivEase</a></nav>
-    <nav class="topics" aria-label="Topics"><a href="/blog/category/roommates/">Roommates</a><a href="/blog/category/renting-101/">Renting 101</a><a href="/blog/category/tenant-rights/">Tenant rights</a><a href="/blog/category/neighbourhoods/">Neighbourhoods</a><a href="/blog/category/newcomers-and-students/">Newcomers &amp; students</a></nav>
+    <nav class="topics" aria-label="Topics"><a href="/blog/category/roommates/">Roommates</a><a href="/blog/category/renting-101/">Renting 101</a><a href="/blog/category/tenant-rights/">Tenant rights</a><a href="/blog/category/neighbourhoods/">Neighbourhoods</a><a href="/blog/category/news/">Rental news</a><a href="/blog/category/newcomers-and-students/">Newcomers &amp; students</a></nav>
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>

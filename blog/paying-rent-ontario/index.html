@@ -136,6 +136,14 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .sources { font-size: 14px; color: var(--muted); }
 .sources h2 { font-size: 18px; margin-top: 1.4em; }
 .sources ol { padding-left: 20px; }
+.deeper { border-top: 1px solid var(--line); padding: 30px 0 10px; }
+.deeper h2 { font: 600 26px/1.3 var(--display); margin: 0 0 14px; }
+.deeper ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.deeper li { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; }
+.deeper li a { font-weight: 600; text-decoration: none; color: var(--ink); }
+.deeper li a:hover { color: var(--blue); }
+.deeper li span { font-size: 14px; line-height: 1.5; color: var(--muted); }
+@media (max-width: 620px) { .deeper ul { grid-template-columns: 1fr; } }
 .related { border-top: 1px solid var(--line); padding-top: 30px; }
 .related h2 { font: 600 26px/1.3 var(--display); margin: 0 0 18px; }
 .foot { background: var(--white); border-top: 1px solid var(--line); margin-top: 40px; }
@@ -295,6 +303,7 @@ body { font-size: 16px; }
     </article>
     <aside class="toc" aria-label="On this page"><p>On this page</p><ol><li><a href="#key-takeaways">Key takeaways</a></li><li><a href="#when-rent-is-due">When rent is due</a></li><li><a href="#rent-receipts-free-on-request">Rent receipts: free, on request</a></li><li><a href="#post-dated-cheques-and-automatic-payments">Post-dated cheques and automatic payments</a></li><li><a href="#paying-by-e-transfer">Paying by e-transfer</a></li><li><a href="#late-rent-what-landlords-can-and-can-39-t-do">Late rent: what landlords can and can&amp;#39;t do</a></li><li><a href="#your-last-month-39-s-rent-deposit-and-its-interest">Your last month&amp;#39;s rent deposit and its interest</a></li><li><a href="#rent-payment-checklist">Rent payment checklist</a></li><li><a href="#bottom-line">Bottom line</a></li></ol></aside>
   </div>
+  
   <section class="related"><h2>Keep reading</h2><div class="grid"><article class="card" data-cat="Renting 101">
   <a href="/blog/moving-out-checklist-ontario/">
     <img src="/blog/assets/covers/keys.webp" srcset="/blog/assets/covers/keys-768.webp 768w, /blog/assets/covers/keys.webp 960w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Friends moving into a new home" width="960" height="717" loading="lazy" decoding="async">
@@ -316,13 +325,13 @@ body { font-size: 16px; }
     </div>
   </a>
 </article><article class="card" data-cat="Renting 101">
-  <a href="/blog/toronto-rental-scams/">
+  <a href="/blog/rent-tax-credit-ontario/">
     <img src="/blog/assets/covers/keys.webp" srcset="/blog/assets/covers/keys-768.webp 768w, /blog/assets/covers/keys.webp 960w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Friends moving into a new home" width="960" height="717" loading="lazy" decoding="async">
     <div class="card-body">
       <span class="chip">Renting 101</span>
-      <h3>Rental Scams in Toronto: Red Flags and How to Verify</h3>
-      <p>Spot rental scams in Toronto before you pay. Learn the red flags, how to check an agent on RECO and an owner on OnLand, safe payment rules and where to report.</p>
-      <span class="meta">November 3, 2026 · 8 min read</span>
+      <h3>Ontario Trillium Benefit for Renters: Claim Your Rent</h3>
+      <p>Ontario Trillium Benefit rent guide: who qualifies, how to claim rent on taxes with form ON-BEN, which rent receipts to keep, and tips for roommates.</p>
+      <span class="meta">November 21, 2026 · 7 min read</span>
     </div>
   </a>
 </article></div></section>
@@ -331,7 +340,7 @@ body { font-size: 16px; }
   <div class="wrap foot-in">
     <div><img src="/blog/assets/logo.png" alt="ColivEase" width="80" height="55" loading="lazy"><p>Toronto's roommate-first rental platform.</p></div>
     <nav aria-label="ColivEase"><a href="/">Home</a><a href="/blog/">Blog</a><a href="/legal/terms.html">Terms</a><a href="/legal/privacy.html">Privacy</a><a href="/legal/">Legal</a><a href="/app.html">Open ColivEase</a></nav>
-    <nav class="topics" aria-label="Topics"><a href="/blog/category/roommates/">Roommates</a><a href="/blog/category/renting-101/">Renting 101</a><a href="/blog/category/tenant-rights/">Tenant rights</a><a href="/blog/category/neighbourhoods/">Neighbourhoods</a><a href="/blog/category/newcomers-and-students/">Newcomers &amp; students</a></nav>
+    <nav class="topics" aria-label="Topics"><a href="/blog/category/roommates/">Roommates</a><a href="/blog/category/renting-101/">Renting 101</a><a href="/blog/category/tenant-rights/">Tenant rights</a><a href="/blog/category/neighbourhoods/">Neighbourhoods</a><a href="/blog/category/news/">Rental news</a><a href="/blog/category/newcomers-and-students/">Newcomers &amp; students</a></nav>
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>

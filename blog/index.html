@@ -136,6 +136,14 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .sources { font-size: 14px; color: var(--muted); }
 .sources h2 { font-size: 18px; margin-top: 1.4em; }
 .sources ol { padding-left: 20px; }
+.deeper { border-top: 1px solid var(--line); padding: 30px 0 10px; }
+.deeper h2 { font: 600 26px/1.3 var(--display); margin: 0 0 14px; }
+.deeper ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.deeper li { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; }
+.deeper li a { font-weight: 600; text-decoration: none; color: var(--ink); }
+.deeper li a:hover { color: var(--blue); }
+.deeper li span { font-size: 14px; line-height: 1.5; color: var(--muted); }
+@media (max-width: 620px) { .deeper ul { grid-template-columns: 1fr; } }
 .related { border-top: 1px solid var(--line); padding-top: 30px; }
 .related h2 { font: 600 26px/1.3 var(--display); margin: 0 0 18px; }
 .foot { background: var(--white); border-top: 1px solid var(--line); margin-top: 40px; }
@@ -164,7 +172,7 @@ body { font-size: 16px; }
 .foot-in { grid-template-columns: 1fr; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"Blog","@id":"https://www.colivease.ca/blog/#blog","name":"ColivEase Blog: Roommates & Renting in Toronto","description":"Guides for renters in Toronto: finding roommates, avoiding rental scams, Ontario tenant rights, neighbourhoods, costs and tips for newcomers and students.","url":"https://www.colivease.ca/blog/","inLanguage":"en-CA","publisher":{"@id":"https://www.colivease.ca/#org"}},{"@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"url":"https://www.colivease.ca/blog/co-living-vs-renting-alone-toronto/","name":"Co-Living vs Renting Alone in Toronto: Which Is Better?"},{"@type":"ListItem","position":2,"url":"https://www.colivease.ca/blog/dealing-with-a-bad-roommate/","name":"Dealing With a Bad Roommate in Toronto: What to Do"},{"@type":"ListItem","position":3,"url":"https://www.colivease.ca/blog/landlord-entry-rules-ontario/","name":"Landlord Entry Rules Ontario: 24-Hour Notice Explained"},{"@type":"ListItem","position":4,"url":"https://www.colivease.ca/blog/landlord-repairs-ontario/","name":"Landlord Repairs Ontario: What They Must Fix and What to Do"},{"@type":"ListItem","position":5,"url":"https://www.colivease.ca/blog/ltb-tenant-applications/","name":"LTB Tenant Applications: How to File a T2, T6, T1 or T5"},{"@type":"ListItem","position":6,"url":"https://www.colivease.ca/blog/moving-out-checklist-ontario/","name":"Moving Out Checklist Ontario: Notice, Cleaning and Deposits"},{"@type":"ListItem","position":7,"url":"https://www.colivease.ca/blog/n12-n13-eviction-ontario/","name":"N12 and N13 Evictions in Ontario: 2026 Rules for Tenants"},{"@type":"ListItem","position":8,"url":"https://www.colivease.ca/blog/paying-rent-ontario/","name":"Paying Rent in Ontario: Receipts, Cheques and Late Rent"},{"@type":"ListItem","position":9,"url":"https://www.colivease.ca/blog/pets-in-rentals-ontario/","name":"Pets in Rentals Ontario: Are No-Pet Clauses Legal?"},{"@type":"ListItem","position":10,"url":"https://www.colivease.ca/blog/rental-viewing-checklist-toronto/","name":"Rental Viewing Checklist Toronto: What to Check and Ask"},{"@type":"ListItem","position":11,"url":"https://www.colivease.ca/blog/roommate-guest-rules/","name":"Roommate Guest Rules: Partners, Overnights and Rent"},{"@type":"ListItem","position":12,"url":"https://www.colivease.ca/blog/short-term-rentals-toronto/","name":"Short-Term Rentals Toronto: Rules for Renters in 2026"},{"@type":"ListItem","position":13,"url":"https://www.colivease.ca/blog/tenant-insurance-ontario/","name":"Tenant Insurance Ontario: What It Covers and Who Needs It"},{"@type":"ListItem","position":14,"url":"https://www.colivease.ca/blog/ttc-commute-guide-renters/","name":"TTC Commute Guide: Choosing Where to Rent in Toronto"},{"@type":"ListItem","position":15,"url":"https://www.colivease.ca/blog/utilities-for-renters-toronto/","name":"Utilities for Renters in Toronto: Who Pays What"},{"@type":"ListItem","position":16,"url":"https://www.colivease.ca/blog/best-toronto-neighbourhoods-for-students/","name":"Best Toronto Neighbourhoods for Students (2026 Guide)"},{"@type":"ListItem","position":17,"url":"https://www.colivease.ca/blog/best-toronto-neighbourhoods-for-young-professionals/","name":"Best Neighbourhoods to Rent in Toronto for Professionals"},{"@type":"ListItem","position":18,"url":"https://www.colivease.ca/blog/cost-of-renting-a-room-in-toronto/","name":"Cost of Renting a Room in Toronto (2026 Budget Guide)"},{"@type":"ListItem","position":19,"url":"https://www.colivease.ca/blog/ending-a-tenancy-n9/","name":"N9 Form Ontario: How to End Your Tenancy the Right Way"},{"@type":"ListItem","position":20,"url":"https://www.colivease.ca/blog/find-a-roommate-in-toronto/","name":"Find a Roommate in Toronto: The 2026 Guide"},{"@type":"ListItem","position":21,"url":"https://www.colivease.ca/blog/international-student-renting-toronto/","name":"International Student Housing in Toronto: 2026 Checklist"},{"@type":"ListItem","position":22,"url":"https://www.colivease.ca/blog/legal-basement-apartments-toronto/","name":"Legal Basement Apartment Toronto: What to Check First"},{"@type":"ListItem","position":23,"url":"https://www.colivease.ca/blog/living-with-your-landlord-ontario/","name":"Living With Your Landlord in Ontario: Know the RTA Gap"},{"@type":"ListItem","position":24,"url":"https://www.colivease.ca/blog/moving-to-toronto-renter-checklist/","name":"Moving to Toronto Checklist: Your Rental Move-In Guide"},{"@type":"ListItem","position":25,"url":"https://www.colivease.ca/blog/ontario-rent-increase-guideline-2026/","name":"Ontario Rent Increase 2026: The 2.1% Guideline Explained"},{"@type":"ListItem","position":26,"url":"https://www.colivease.ca/blog/ontario-standard-lease/","name":"Ontario Standard Lease Explained, Section by Section"},{"@type":"ListItem","position":27,"url":"https://www.colivease.ca/blog/ontario-tenant-rights/","name":"Ontario Tenant Rights: What Every Renter Should Know (2026)"},{"@type":"ListItem","position":28,"url":"https://www.colivease.ca/blog/questions-to-ask-a-roommate/","name":"30 Questions to Ask a Roommate Before Moving In"},{"@type":"ListItem","position":29,"url":"https://www.colivease.ca/blog/rent-deposit-rules-ontario/","name":"Last Month's Rent Deposit Ontario: What's Legal in 2026"},{"@type":"ListItem","position":30,"url":"https://www.colivease.ca/blog/rental-application-toronto/","name":"Rental Application Toronto: Documents and Tips to Win"},{"@type":"ListItem","position":31,"url":"https://www.colivease.ca/blog/renting-with-no-credit-history-canada/","name":"How to Rent With No Credit History in Canada (2026)"},{"@type":"ListItem","position":32,"url":"https://www.colivease.ca/blog/roommate-agreement-ontario/","name":"Roommate Agreement Ontario: How to Write One + Template"},{"@type":"ListItem","position":33,"url":"https://www.colivease.ca/blog/split-rent-fairly/","name":"How to Split Rent With Roommates Fairly (With Example)"},{"@type":"ListItem","position":34,"url":"https://www.colivease.ca/blog/sublet-and-assignment-ontario/","name":"Sublet Ontario Rules: Subletting vs Assigning a Lease"},{"@type":"ListItem","position":35,"url":"https://www.colivease.ca/blog/toronto-rental-scams/","name":"Rental Scams in Toronto: Red Flags and How to Verify"}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://www.colivease.ca/blog/"}]}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"Blog","@id":"https://www.colivease.ca/blog/#blog","name":"ColivEase Blog: Roommates & Renting in Toronto","description":"Guides for renters in Toronto: finding roommates, avoiding rental scams, Ontario tenant rights, neighbourhoods, costs and tips for newcomers and students.","url":"https://www.colivease.ca/blog/","inLanguage":"en-CA","publisher":{"@id":"https://www.colivease.ca/#org"}},{"@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"url":"https://www.colivease.ca/blog/best-rental-websites-toronto/","name":"Best Websites to Find a Room in Toronto: Honest Guide"},{"@type":"ListItem","position":2,"url":"https://www.colivease.ca/blog/bill-60-ontario-tenants/","name":"Bill 60 Ontario Tenants: What Changed in 2026"},{"@type":"ListItem","position":3,"url":"https://www.colivease.ca/blog/brampton-rental-licensing/","name":"Brampton Rental Licence: What Tenants Should Check"},{"@type":"ListItem","position":4,"url":"https://www.colivease.ca/blog/female-roommates-toronto/","name":"Female Roommates Toronto: Women-Only Rooms and Safety"},{"@type":"ListItem","position":5,"url":"https://www.colivease.ca/blog/how-much-rent-can-i-afford-toronto/","name":"How Much Rent Can I Afford in Toronto? (2026)"},{"@type":"ListItem","position":6,"url":"https://www.colivease.ca/blog/negotiate-rent-toronto/","name":"How to Negotiate Rent in Toronto (November 2026 Update)"},{"@type":"ListItem","position":7,"url":"https://www.colivease.ca/blog/renoviction-bylaw-toronto/","name":"Renoviction Bylaw Toronto: What the Licence Means for You"},{"@type":"ListItem","position":8,"url":"https://www.colivease.ca/blog/rent-guarantor-ontario/","name":"Rent Guarantor in Ontario: Rules, Risks and Alternatives"},{"@type":"ListItem","position":9,"url":"https://www.colivease.ca/blog/rent-tax-credit-ontario/","name":"Ontario Trillium Benefit for Renters: Claim Your Rent"},{"@type":"ListItem","position":10,"url":"https://www.colivease.ca/blog/renting-a-condo-downtown-toronto/","name":"Renting a Condo in Downtown Toronto: Tenant Guide"},{"@type":"ListItem","position":11,"url":"https://www.colivease.ca/blog/renting-as-a-couple-toronto/","name":"Renting a Room as a Couple in Toronto: A Practical Guide"},{"@type":"ListItem","position":12,"url":"https://www.colivease.ca/blog/renting-in-durham-region/","name":"Renting in Durham Region: Pickering, Ajax, Whitby, Oshawa"},{"@type":"ListItem","position":13,"url":"https://www.colivease.ca/blog/renting-in-etobicoke/","name":"Etobicoke Rentals: Neighbourhoods, Transit and Rooms"},{"@type":"ListItem","position":14,"url":"https://www.colivease.ca/blog/renting-in-markham/","name":"Rent in Markham: 2026 Guide to Areas, Transit and Rooms"},{"@type":"ListItem","position":15,"url":"https://www.colivease.ca/blog/renting-in-mississauga/","name":"Rooms for Rent in Mississauga: 2026 Renter's Guide"},{"@type":"ListItem","position":16,"url":"https://www.colivease.ca/blog/renting-in-north-york/","name":"North York Apartments for Rent: 2026 Area Guide"},{"@type":"ListItem","position":17,"url":"https://www.colivease.ca/blog/renting-in-oakville-burlington/","name":"Oakville Rentals: A Guide to Oakville and Burlington"},{"@type":"ListItem","position":18,"url":"https://www.colivease.ca/blog/renting-in-richmond-hill/","name":"Richmond Hill Rentals: 2026 Guide for Renters"},{"@type":"ListItem","position":19,"url":"https://www.colivease.ca/blog/renting-in-scarborough/","name":"Scarborough Rooms for Rent: 2026 Renter's Guide"},{"@type":"ListItem","position":20,"url":"https://www.colivease.ca/blog/renting-in-vaughan/","name":"Vaughan Rentals: VMC Condos, Areas and Commutes"},{"@type":"ListItem","position":21,"url":"https://www.colivease.ca/blog/roommate-moving-out-early/","name":"Roommate Moving Out Ontario: Lease, Rent and Deposit"},{"@type":"ListItem","position":22,"url":"https://www.colivease.ca/blog/roommate-red-flags/","name":"Roommate Red Flags: Warning Signs Before You Move In"},{"@type":"ListItem","position":23,"url":"https://www.colivease.ca/blog/short-term-sublet-toronto/","name":"4 Month Sublet Toronto: A Student Guide to Term Housing"},{"@type":"ListItem","position":24,"url":"https://www.colivease.ca/blog/student-cap-toronto-rent/","name":"International Student Cap and Toronto Rent: 2026 Update"},{"@type":"ListItem","position":25,"url":"https://www.colivease.ca/blog/toronto-rent-trends-2026/","name":"Toronto Rent Prices 2026: Is Rent Still Going Down?"},{"@type":"ListItem","position":26,"url":"https://www.colivease.ca/blog/co-living-vs-renting-alone-toronto/","name":"Co-Living vs Renting Alone in Toronto: Which Is Better?"},{"@type":"ListItem","position":27,"url":"https://www.colivease.ca/blog/dealing-with-a-bad-roommate/","name":"Dealing With a Bad Roommate in Toronto: What to Do"},{"@type":"ListItem","position":28,"url":"https://www.colivease.ca/blog/landlord-entry-rules-ontario/","name":"Landlord Entry Rules Ontario: 24-Hour Notice Explained"},{"@type":"ListItem","position":29,"url":"https://www.colivease.ca/blog/landlord-repairs-ontario/","name":"Landlord Repairs Ontario: What They Must Fix and What to Do"},{"@type":"ListItem","position":30,"url":"https://www.colivease.ca/blog/ltb-tenant-applications/","name":"LTB Tenant Applications: How to File a T2, T6, T1 or T5"},{"@type":"ListItem","position":31,"url":"https://www.colivease.ca/blog/moving-out-checklist-ontario/","name":"Moving Out Checklist Ontario: Notice, Cleaning and Deposits"},{"@type":"ListItem","position":32,"url":"https://www.colivease.ca/blog/n12-n13-eviction-ontario/","name":"N12 and N13 Evictions in Ontario: 2026 Rules for Tenants"},{"@type":"ListItem","position":33,"url":"https://www.colivease.ca/blog/paying-rent-ontario/","name":"Paying Rent in Ontario: Receipts, Cheques and Late Rent"},{"@type":"ListItem","position":34,"url":"https://www.colivease.ca/blog/pets-in-rentals-ontario/","name":"Pets in Rentals Ontario: Are No-Pet Clauses Legal?"},{"@type":"ListItem","position":35,"url":"https://www.colivease.ca/blog/rental-viewing-checklist-toronto/","name":"Rental Viewing Checklist Toronto: What to Check and Ask"},{"@type":"ListItem","position":36,"url":"https://www.colivease.ca/blog/roommate-guest-rules/","name":"Roommate Guest Rules: Partners, Overnights and Rent"},{"@type":"ListItem","position":37,"url":"https://www.colivease.ca/blog/short-term-rentals-toronto/","name":"Short-Term Rentals Toronto: Rules for Renters in 2026"},{"@type":"ListItem","position":38,"url":"https://www.colivease.ca/blog/tenant-insurance-ontario/","name":"Tenant Insurance Ontario: What It Covers and Who Needs It"},{"@type":"ListItem","position":39,"url":"https://www.colivease.ca/blog/ttc-commute-guide-renters/","name":"TTC Commute Guide: Choosing Where to Rent in Toronto"},{"@type":"ListItem","position":40,"url":"https://www.colivease.ca/blog/utilities-for-renters-toronto/","name":"Utilities for Renters in Toronto: Who Pays What"},{"@type":"ListItem","position":41,"url":"https://www.colivease.ca/blog/best-toronto-neighbourhoods-for-students/","name":"Best Toronto Neighbourhoods for Students (2026 Guide)"},{"@type":"ListItem","position":42,"url":"https://www.colivease.ca/blog/best-toronto-neighbourhoods-for-young-professionals/","name":"Best Neighbourhoods to Rent in Toronto for Professionals"},{"@type":"ListItem","position":43,"url":"https://www.colivease.ca/blog/cost-of-renting-a-room-in-toronto/","name":"Cost of Renting a Room in Toronto (2026 Budget Guide)"},{"@type":"ListItem","position":44,"url":"https://www.colivease.ca/blog/ending-a-tenancy-n9/","name":"N9 Form Ontario: How to End Your Tenancy the Right Way"},{"@type":"ListItem","position":45,"url":"https://www.colivease.ca/blog/find-a-roommate-in-toronto/","name":"Find a Roommate in Toronto: The 2026 Guide"},{"@type":"ListItem","position":46,"url":"https://www.colivease.ca/blog/international-student-renting-toronto/","name":"International Student Housing in Toronto: 2026 Checklist"},{"@type":"ListItem","position":47,"url":"https://www.colivease.ca/blog/legal-basement-apartments-toronto/","name":"Legal Basement Apartment Toronto: What to Check First"},{"@type":"ListItem","position":48,"url":"https://www.colivease.ca/blog/living-with-your-landlord-ontario/","name":"Living With Your Landlord in Ontario: Know the RTA Gap"},{"@type":"ListItem","position":49,"url":"https://www.colivease.ca/blog/moving-to-toronto-renter-checklist/","name":"Moving to Toronto Checklist: Your Rental Move-In Guide"},{"@type":"ListItem","position":50,"url":"https://www.colivease.ca/blog/ontario-rent-increase-guideline-2026/","name":"Ontario Rent Increase 2026: The 2.1% Guideline Explained"},{"@type":"ListItem","position":51,"url":"https://www.colivease.ca/blog/ontario-standard-lease/","name":"Ontario Standard Lease Explained, Section by Section"},{"@type":"ListItem","position":52,"url":"https://www.colivease.ca/blog/ontario-tenant-rights/","name":"Ontario Tenant Rights: What Every Renter Should Know (2026)"},{"@type":"ListItem","position":53,"url":"https://www.colivease.ca/blog/questions-to-ask-a-roommate/","name":"30 Questions to Ask a Roommate Before Moving In"},{"@type":"ListItem","position":54,"url":"https://www.colivease.ca/blog/rent-deposit-rules-ontario/","name":"Last Month's Rent Deposit Ontario: What's Legal in 2026"},{"@type":"ListItem","position":55,"url":"https://www.colivease.ca/blog/rental-application-toronto/","name":"Rental Application Toronto: Documents and Tips to Win"},{"@type":"ListItem","position":56,"url":"https://www.colivease.ca/blog/renting-with-no-credit-history-canada/","name":"How to Rent With No Credit History in Canada (2026)"},{"@type":"ListItem","position":57,"url":"https://www.colivease.ca/blog/roommate-agreement-ontario/","name":"Roommate Agreement Ontario: How to Write One + Template"},{"@type":"ListItem","position":58,"url":"https://www.colivease.ca/blog/split-rent-fairly/","name":"How to Split Rent With Roommates Fairly (With Example)"},{"@type":"ListItem","position":59,"url":"https://www.colivease.ca/blog/sublet-and-assignment-ontario/","name":"Sublet Ontario Rules: Subletting vs Assigning a Lease"},{"@type":"ListItem","position":60,"url":"https://www.colivease.ca/blog/toronto-rental-scams/","name":"Rental Scams in Toronto: Red Flags and How to Verify"}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://www.colivease.ca/blog/"}]}]}</script>
 </head>
 <body>
 <header class="top">
@@ -187,21 +195,272 @@ body { font-size: 16px; }
       <a class="chip" href="/blog/category/renting-101/">Renting 101</a>
       <a class="chip" href="/blog/category/tenant-rights/">Tenant rights</a>
       <a class="chip" href="/blog/category/neighbourhoods/">Neighbourhoods</a>
+      <a class="chip" href="/blog/category/news/">Rental news</a>
       <a class="chip" href="/blog/category/newcomers-and-students/">Newcomers &amp; students</a>
     </nav>
   </header>
-  <article class="card big" data-cat="Roommates">
-  <a href="/blog/co-living-vs-renting-alone-toronto/">
+  <article class="card big" data-cat="Renting 101">
+  <a href="/blog/best-rental-websites-toronto/">
     <img src="/blog/assets/covers/hero.webp" srcset="/blog/assets/covers/hero-768.webp 768w, /blog/assets/covers/hero.webp 1152w" sizes="(max-width: 980px) calc(100vw - 40px), 620px" alt="Roommates relaxing in a Toronto living room" width="1152" height="928" loading="eager" fetchpriority="high" decoding="async">
     <div class="card-body">
+      <span class="chip">Renting 101</span>
+      <h2>Best Websites to Find a Room in Toronto: Honest Guide</h2>
+      <p>The best websites to find a room in Toronto, compared honestly: listing sites, Kijiji vs Facebook Marketplace, student boards, roommate apps and scam risk.</p>
+      <span class="meta">November 21, 2026 · 8 min read</span>
+    </div>
+  </a>
+</article>
+  <div class="grid" id="posts"><article class="card" data-cat="Rental news">
+  <a href="/blog/bill-60-ontario-tenants/">
+    <img src="/blog/assets/covers/keys.webp" srcset="/blog/assets/covers/keys-768.webp 768w, /blog/assets/covers/keys.webp 960w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Friends moving into a new home" width="960" height="717" loading="lazy" decoding="async">
+    <div class="card-body">
+      <span class="chip">Rental news</span>
+      <h3>Bill 60 Ontario Tenants: What Changed in 2026</h3>
+      <p>Bill 60 Ontario tenants guide, as of November 2026: the 7-day N4 notice, the 15-day LTB review deadline, the half-arrears rule and the new N12 rules.</p>
+      <span class="meta">November 21, 2026 · 7 min read</span>
+    </div>
+  </a>
+</article><article class="card" data-cat="Rental news">
+  <a href="/blog/brampton-rental-licensing/">
+    <img src="/blog/assets/covers/map.webp" srcset="/blog/assets/covers/map-768.webp 768w, /blog/assets/covers/map.webp 900w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Map of Toronto neighbourhoods" width="900" height="672" loading="lazy" decoding="async">
+    <div class="card-body">
+      <span class="chip">Rental news</span>
+      <h3>Brampton Rental Licence: What Tenants Should Check</h3>
+      <p>Brampton rental licence rules as of November 2026: now citywide. How to check if your rental is licensed, basement apartment rules, fines and Caledon's program.</p>
+      <span class="meta">November 21, 2026 · 7 min read</span>
+    </div>
+  </a>
+</article><article class="card" data-cat="Roommates">
+  <a href="/blog/female-roommates-toronto/">
+    <img src="/blog/assets/covers/kitchen.webp" srcset="/blog/assets/covers/kitchen-768.webp 768w, /blog/assets/covers/kitchen.webp 1000w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Roommates cooking together" width="1000" height="747" loading="lazy" decoding="async">
+    <div class="card-body">
       <span class="chip">Roommates</span>
-      <h2>Co-Living vs Renting Alone in Toronto: Which Is Better?</h2>
+      <h3>Female Roommates Toronto: Women-Only Rooms and Safety</h3>
+      <p>Looking for female roommates in Toronto? When a women-only room is legal under Ontario's Human Rights Code, plus safety tips for meeting roommates and viewings.</p>
+      <span class="meta">November 21, 2026 · 7 min read</span>
+    </div>
+  </a>
+</article><article class="card" data-cat="Renting 101">
+  <a href="/blog/how-much-rent-can-i-afford-toronto/">
+    <img src="/blog/assets/covers/kitchen.webp" srcset="/blog/assets/covers/kitchen-768.webp 768w, /blog/assets/covers/kitchen.webp 1000w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Roommates cooking together" width="1000" height="747" loading="lazy" decoding="async">
+    <div class="card-body">
+      <span class="chip">Renting 101</span>
+      <h3>How Much Rent Can I Afford in Toronto? (2026)</h3>
+      <p>How much rent can I afford in Toronto? Use the 30% rule as a starting point, budget for the extras, see how roommates change the math, and know your rights.</p>
+      <span class="meta">November 21, 2026 · 7 min read</span>
+    </div>
+  </a>
+</article><article class="card" data-cat="Rental news">
+  <a href="/blog/negotiate-rent-toronto/">
+    <img src="/blog/assets/covers/keys.webp" srcset="/blog/assets/covers/keys-768.webp 768w, /blog/assets/covers/keys.webp 960w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Friends moving into a new home" width="960" height="717" loading="lazy" decoding="async">
+    <div class="card-body">
+      <span class="chip">Rental news</span>
+      <h3>How to Negotiate Rent in Toronto (November 2026 Update)</h3>
+      <p>How to negotiate rent in Toronto in late 2026: where free months and condo concessions remain, what to ask for, and legal limits on deposits and prepaid rent.</p>
+      <span class="meta">November 21, 2026 · 7 min read</span>
+    </div>
+  </a>
+</article><article class="card" data-cat="Rental news">
+  <a href="/blog/renoviction-bylaw-toronto/">
+    <img src="/blog/assets/covers/keys.webp" srcset="/blog/assets/covers/keys-768.webp 768w, /blog/assets/covers/keys.webp 960w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Friends moving into a new home" width="960" height="717" loading="lazy" decoding="async">
+    <div class="card-body">
+      <span class="chip">Rental news</span>
+      <h3>Renoviction Bylaw Toronto: What the Licence Means for You</h3>
+      <p>Renoviction bylaw Toronto rules as of November 2026: when a landlord needs a City licence for N13 renovations, what tenants get, and Mississauga's new rules.</p>
+      <span class="meta">November 21, 2026 · 7 min read</span>
+    </div>
+  </a>
+</article><article class="card" data-cat="Newcomers &amp; students">
+  <a href="/blog/rent-guarantor-ontario/">
+    <img src="/blog/assets/covers/keys.webp" srcset="/blog/assets/covers/keys-768.webp 768w, /blog/assets/covers/keys.webp 960w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Friends moving into a new home" width="960" height="717" loading="lazy" decoding="async">
+    <div class="card-body">
+      <span class="chip">Newcomers &amp; students</span>
+      <h3>Rent Guarantor in Ontario: Rules, Risks and Alternatives</h3>
+      <p>Need a rent guarantor in Ontario? What a guarantor is liable for, when landlords can ask for one, co-signer vs guarantor, and what to do if you don't have one.</p>
+      <span class="meta">November 21, 2026 · 7 min read</span>
+    </div>
+  </a>
+</article><article class="card" data-cat="Renting 101">
+  <a href="/blog/rent-tax-credit-ontario/">
+    <img src="/blog/assets/covers/keys.webp" srcset="/blog/assets/covers/keys-768.webp 768w, /blog/assets/covers/keys.webp 960w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Friends moving into a new home" width="960" height="717" loading="lazy" decoding="async">
+    <div class="card-body">
+      <span class="chip">Renting 101</span>
+      <h3>Ontario Trillium Benefit for Renters: Claim Your Rent</h3>
+      <p>Ontario Trillium Benefit rent guide: who qualifies, how to claim rent on taxes with form ON-BEN, which rent receipts to keep, and tips for roommates.</p>
+      <span class="meta">November 21, 2026 · 7 min read</span>
+    </div>
+  </a>
+</article><article class="card" data-cat="Renting 101">
+  <a href="/blog/renting-a-condo-downtown-toronto/">
+    <img src="/blog/assets/covers/keys.webp" srcset="/blog/assets/covers/keys-768.webp 768w, /blog/assets/covers/keys.webp 960w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Friends moving into a new home" width="960" height="717" loading="lazy" decoding="async">
+    <div class="card-body">
+      <span class="chip">Renting 101</span>
+      <h3>Renting a Condo in Downtown Toronto: Tenant Guide</h3>
+      <p>Renting a condo in downtown Toronto? Learn how condo rules bind tenants, how to book the elevator to move in, and what to ask about fobs, fees and amenities.</p>
+      <span class="meta">November 21, 2026 · 7 min read</span>
+    </div>
+  </a>
+</article><article class="card" data-cat="Roommates">
+  <a href="/blog/renting-as-a-couple-toronto/">
+    <img src="/blog/assets/covers/hero.webp" srcset="/blog/assets/covers/hero-768.webp 768w, /blog/assets/covers/hero.webp 1152w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Roommates relaxing in a Toronto living room" width="1152" height="928" loading="lazy" decoding="async">
+    <div class="card-body">
+      <span class="chip">Roommates</span>
+      <h3>Renting a Room as a Couple in Toronto: A Practical Guide</h3>
+      <p>Renting a room as a couple in Toronto? How to search together, who can say no to two people, when a partner can move in and how to get added to a lease.</p>
+      <span class="meta">November 21, 2026 · 7 min read</span>
+    </div>
+  </a>
+</article><article class="card" data-cat="Neighbourhoods">
+  <a href="/blog/renting-in-durham-region/">
+    <img src="/blog/assets/covers/map.webp" srcset="/blog/assets/covers/map-768.webp 768w, /blog/assets/covers/map.webp 900w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Map of Toronto neighbourhoods" width="900" height="672" loading="lazy" decoding="async">
+    <div class="card-body">
+      <span class="chip">Neighbourhoods</span>
+      <h3>Renting in Durham Region: Pickering, Ajax, Whitby, Oshawa</h3>
+      <p>Rentals in Pickering, Ajax, Whitby and Oshawa: how each town compares, Oshawa rooms near Ontario Tech and Durham College, GO commute tips and rental licensing.</p>
+      <span class="meta">November 21, 2026 · 7 min read</span>
+    </div>
+  </a>
+</article><article class="card" data-cat="Neighbourhoods">
+  <a href="/blog/renting-in-etobicoke/">
+    <img src="/blog/assets/covers/map.webp" srcset="/blog/assets/covers/map-768.webp 768w, /blog/assets/covers/map.webp 900w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Map of Toronto neighbourhoods" width="900" height="672" loading="lazy" decoding="async">
+    <div class="card-body">
+      <span class="chip">Neighbourhoods</span>
+      <h3>Etobicoke Rentals: Neighbourhoods, Transit and Rooms</h3>
+      <p>Etobicoke rentals guide: Mimico and Humber Bay condos, rooms near Humber College, Line 2, Line 6 and GO commute options, plus what each neighbourhood is like.</p>
+      <span class="meta">November 21, 2026 · 7 min read</span>
+    </div>
+  </a>
+</article><article class="card" data-cat="Neighbourhoods">
+  <a href="/blog/renting-in-markham/">
+    <img src="/blog/assets/covers/map.webp" srcset="/blog/assets/covers/map-768.webp 768w, /blog/assets/covers/map.webp 900w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Map of Toronto neighbourhoods" width="900" height="672" loading="lazy" decoding="async">
+    <div class="card-body">
+      <span class="chip">Neighbourhoods</span>
+      <h3>Rent in Markham: 2026 Guide to Areas, Transit and Rooms</h3>
+      <p>Thinking of where to rent in Markham? Compare Unionville, Downtown Markham and Thornhill, find rooms, plan the commute downtown and check basement registration.</p>
+      <span class="meta">November 21, 2026 · 7 min read</span>
+    </div>
+  </a>
+</article><article class="card" data-cat="Neighbourhoods">
+  <a href="/blog/renting-in-mississauga/">
+    <img src="/blog/assets/covers/map.webp" srcset="/blog/assets/covers/map-768.webp 768w, /blog/assets/covers/map.webp 900w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Map of Toronto neighbourhoods" width="900" height="672" loading="lazy" decoding="async">
+    <div class="card-body">
+      <span class="chip">Neighbourhoods</span>
+      <h3>Rooms for Rent in Mississauga: 2026 Renter's Guide</h3>
+      <p>Rooms for rent in Mississauga: compare neighbourhoods, 2026 rent prices, MiWay and GO transit, renting near UTM, plus basement and renoviction rules to know.</p>
+      <span class="meta">November 21, 2026 · 7 min read</span>
+    </div>
+  </a>
+</article><article class="card" data-cat="Neighbourhoods">
+  <a href="/blog/renting-in-north-york/">
+    <img src="/blog/assets/covers/map.webp" srcset="/blog/assets/covers/map-768.webp 768w, /blog/assets/covers/map.webp 900w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Map of Toronto neighbourhoods" width="900" height="672" loading="lazy" decoding="async">
+    <div class="card-body">
+      <span class="chip">Neighbourhoods</span>
+      <h3>North York Apartments for Rent: 2026 Area Guide</h3>
+      <p>Searching North York apartments for rent? Compare Yonge and Finch, North York Centre, Bayview Village and York University areas, plus TTC tips and rules.</p>
+      <span class="meta">November 21, 2026 · 7 min read</span>
+    </div>
+  </a>
+</article><article class="card" data-cat="Neighbourhoods">
+  <a href="/blog/renting-in-oakville-burlington/">
+    <img src="/blog/assets/covers/map.webp" srcset="/blog/assets/covers/map-768.webp 768w, /blog/assets/covers/map.webp 900w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Map of Toronto neighbourhoods" width="900" height="672" loading="lazy" decoding="async">
+    <div class="card-body">
+      <span class="chip">Neighbourhoods</span>
+      <h3>Oakville Rentals: A Guide to Oakville and Burlington</h3>
+      <p>Oakville rentals and Burlington rentals compared: main areas, rooms near Sheridan College, the GO train commute to Toronto and what to check before you sign.</p>
+      <span class="meta">November 21, 2026 · 7 min read</span>
+    </div>
+  </a>
+</article><article class="card" data-cat="Neighbourhoods">
+  <a href="/blog/renting-in-richmond-hill/">
+    <img src="/blog/assets/covers/map.webp" srcset="/blog/assets/covers/map-768.webp 768w, /blog/assets/covers/map.webp 900w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Map of Toronto neighbourhoods" width="900" height="672" loading="lazy" decoding="async">
+    <div class="card-body">
+      <span class="chip">Neighbourhoods</span>
+      <h3>Richmond Hill Rentals: 2026 Guide for Renters</h3>
+      <p>Browsing Richmond Hill rentals? Compare areas from Richmond Hill Centre to Oak Ridges, check a basement apartment safely and see where the subway stands.</p>
+      <span class="meta">November 21, 2026 · 7 min read</span>
+    </div>
+  </a>
+</article><article class="card" data-cat="Neighbourhoods">
+  <a href="/blog/renting-in-scarborough/">
+    <img src="/blog/assets/covers/map.webp" srcset="/blog/assets/covers/map-768.webp 768w, /blog/assets/covers/map.webp 900w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Map of Toronto neighbourhoods" width="900" height="672" loading="lazy" decoding="async">
+    <div class="card-body">
+      <span class="chip">Neighbourhoods</span>
+      <h3>Scarborough Rooms for Rent: 2026 Renter's Guide</h3>
+      <p>Looking at Scarborough rooms for rent? Compare areas near UTSC and Centennial College, how transit works since Line 3 closed, and what to check before you sign.</p>
+      <span class="meta">November 21, 2026 · 7 min read</span>
+    </div>
+  </a>
+</article><article class="card" data-cat="Neighbourhoods">
+  <a href="/blog/renting-in-vaughan/">
+    <img src="/blog/assets/covers/map.webp" srcset="/blog/assets/covers/map-768.webp 768w, /blog/assets/covers/map.webp 900w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Map of Toronto neighbourhoods" width="900" height="672" loading="lazy" decoding="async">
+    <div class="card-body">
+      <span class="chip">Neighbourhoods</span>
+      <h3>Vaughan Rentals: VMC Condos, Areas and Commutes</h3>
+      <p>Searching Vaughan rentals? Compare VMC condos, Woodbridge, Maple and Thornhill, see how Line 1, Viva and GO connect, and what to check before signing a lease.</p>
+      <span class="meta">November 21, 2026 · 7 min read</span>
+    </div>
+  </a>
+</article><article class="card" data-cat="Roommates">
+  <a href="/blog/roommate-moving-out-early/">
+    <img src="/blog/assets/covers/keys.webp" srcset="/blog/assets/covers/keys-768.webp 768w, /blog/assets/covers/keys.webp 960w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Friends moving into a new home" width="960" height="717" loading="lazy" decoding="async">
+    <div class="card-body">
+      <span class="chip">Roommates</span>
+      <h3>Roommate Moving Out Ontario: Lease, Rent and Deposit</h3>
+      <p>Roommate moving out in Ontario? What happens to a shared lease, who pays rent when a roommate leaves, how to replace them and what to do with the deposit.</p>
+      <span class="meta">November 21, 2026 · 7 min read</span>
+    </div>
+  </a>
+</article><article class="card" data-cat="Roommates">
+  <a href="/blog/roommate-red-flags/">
+    <img src="/blog/assets/covers/hero.webp" srcset="/blog/assets/covers/hero-768.webp 768w, /blog/assets/covers/hero.webp 1152w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Roommates relaxing in a Toronto living room" width="1152" height="928" loading="lazy" decoding="async">
+    <div class="card-body">
+      <span class="chip">Roommates</span>
+      <h3>Roommate Red Flags: Warning Signs Before You Move In</h3>
+      <p>Roommate red flags to spot before you move in: scam warning signs, behaviour that predicts trouble, and lease set-ups that leave you exposed in Ontario.</p>
+      <span class="meta">November 21, 2026 · 7 min read</span>
+    </div>
+  </a>
+</article><article class="card" data-cat="Renting 101">
+  <a href="/blog/short-term-sublet-toronto/">
+    <img src="/blog/assets/covers/keys.webp" srcset="/blog/assets/covers/keys-768.webp 768w, /blog/assets/covers/keys.webp 960w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Friends moving into a new home" width="960" height="717" loading="lazy" decoding="async">
+    <div class="card-body">
+      <span class="chip">Renting 101</span>
+      <h3>4 Month Sublet Toronto: A Student Guide to Term Housing</h3>
+      <p>Need a 4 month sublet in Toronto? A student guide to summer and co-op term sublets: when to look, subletting your own room, landlord consent and paperwork.</p>
+      <span class="meta">November 21, 2026 · 7 min read</span>
+    </div>
+  </a>
+</article><article class="card" data-cat="Rental news">
+  <a href="/blog/student-cap-toronto-rent/">
+    <img src="/blog/assets/covers/hero.webp" srcset="/blog/assets/covers/hero-768.webp 768w, /blog/assets/covers/hero.webp 1152w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Roommates relaxing in a Toronto living room" width="1152" height="928" loading="lazy" decoding="async">
+    <div class="card-body">
+      <span class="chip">Rental news</span>
+      <h3>International Student Cap and Toronto Rent: 2026 Update</h3>
+      <p>How the international student cap affected Toronto rent as of November 2026: softer prices near many campuses, why rent near U of T held up, and student tips.</p>
+      <span class="meta">November 21, 2026 · 7 min read</span>
+    </div>
+  </a>
+</article><article class="card" data-cat="Rental news">
+  <a href="/blog/toronto-rent-trends-2026/">
+    <img src="/blog/assets/covers/map.webp" srcset="/blog/assets/covers/map-768.webp 768w, /blog/assets/covers/map.webp 900w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Map of Toronto neighbourhoods" width="900" height="672" loading="lazy" decoding="async">
+    <div class="card-body">
+      <span class="chip">Rental news</span>
+      <h3>Toronto Rent Prices 2026: Is Rent Still Going Down?</h3>
+      <p>Toronto rent prices 2026, as of November: what Rentals.ca, liv.rent, TRREB and CMHC show, what a 1-bedroom costs, and the best time of year to sign a lease.</p>
+      <span class="meta">November 21, 2026 · 7 min read</span>
+    </div>
+  </a>
+</article><article class="card" data-cat="Roommates">
+  <a href="/blog/co-living-vs-renting-alone-toronto/">
+    <img src="/blog/assets/covers/hero.webp" srcset="/blog/assets/covers/hero-768.webp 768w, /blog/assets/covers/hero.webp 1152w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Roommates relaxing in a Toronto living room" width="1152" height="928" loading="lazy" decoding="async">
+    <div class="card-body">
+      <span class="chip">Roommates</span>
+      <h3>Co-Living vs Renting Alone in Toronto: Which Is Better?</h3>
       <p>Co-living or a shared rental vs renting alone in Toronto: costs from CMHC data, privacy, flexibility, who is on the lease, who each suits and making it work.</p>
       <span class="meta">November 3, 2026 · 8 min read</span>
     </div>
   </a>
-</article>
-  <div class="grid" id="posts"><article class="card" data-cat="Roommates">
+</article><article class="card" data-cat="Roommates">
   <a href="/blog/dealing-with-a-bad-roommate/">
     <img src="/blog/assets/covers/hero.webp" srcset="/blog/assets/covers/hero-768.webp 768w, /blog/assets/covers/hero.webp 1152w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Roommates relaxing in a Toronto living room" width="1152" height="928" loading="lazy" decoding="async">
     <div class="card-body">
@@ -547,7 +806,7 @@ body { font-size: 16px; }
   <div class="wrap foot-in">
     <div><img src="/blog/assets/logo.png" alt="ColivEase" width="80" height="55" loading="lazy"><p>Toronto's roommate-first rental platform.</p></div>
     <nav aria-label="ColivEase"><a href="/">Home</a><a href="/blog/">Blog</a><a href="/legal/terms.html">Terms</a><a href="/legal/privacy.html">Privacy</a><a href="/legal/">Legal</a><a href="/app.html">Open ColivEase</a></nav>
-    <nav class="topics" aria-label="Topics"><a href="/blog/category/roommates/">Roommates</a><a href="/blog/category/renting-101/">Renting 101</a><a href="/blog/category/tenant-rights/">Tenant rights</a><a href="/blog/category/neighbourhoods/">Neighbourhoods</a><a href="/blog/category/newcomers-and-students/">Newcomers &amp; students</a></nav>
+    <nav class="topics" aria-label="Topics"><a href="/blog/category/roommates/">Roommates</a><a href="/blog/category/renting-101/">Renting 101</a><a href="/blog/category/tenant-rights/">Tenant rights</a><a href="/blog/category/neighbourhoods/">Neighbourhoods</a><a href="/blog/category/news/">Rental news</a><a href="/blog/category/newcomers-and-students/">Newcomers &amp; students</a></nav>
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>

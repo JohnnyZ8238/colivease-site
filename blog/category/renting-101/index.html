@@ -136,6 +136,14 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .sources { font-size: 14px; color: var(--muted); }
 .sources h2 { font-size: 18px; margin-top: 1.4em; }
 .sources ol { padding-left: 20px; }
+.deeper { border-top: 1px solid var(--line); padding: 30px 0 10px; }
+.deeper h2 { font: 600 26px/1.3 var(--display); margin: 0 0 14px; }
+.deeper ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.deeper li { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; }
+.deeper li a { font-weight: 600; text-decoration: none; color: var(--ink); }
+.deeper li a:hover { color: var(--blue); }
+.deeper li span { font-size: 14px; line-height: 1.5; color: var(--muted); }
+@media (max-width: 620px) { .deeper ul { grid-template-columns: 1fr; } }
 .related { border-top: 1px solid var(--line); padding-top: 30px; }
 .related h2 { font: 600 26px/1.3 var(--display); margin: 0 0 18px; }
 .foot { background: var(--white); border-top: 1px solid var(--line); margin-top: 40px; }
@@ -164,7 +172,7 @@ body { font-size: 16px; }
 .foot-in { grid-template-columns: 1fr; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }</style>
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"CollectionPage","@id":"https://www.colivease.ca/blog/category/renting-101/#page","name":"Renting in Toronto 101: Costs, Applications and Scams","description":"How renting in Toronto works: what a room costs, what to put in a rental application, and how to spot and avoid rental scams before you pay anything.","url":"https://www.colivease.ca/blog/category/renting-101/","inLanguage":"en-CA","isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/blog/#blog","name":"ColivEase Blog: Roommates & Renting in Toronto"},"publisher":{"@id":"https://www.colivease.ca/#org"},"mainEntity":{"@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"url":"https://www.colivease.ca/blog/moving-out-checklist-ontario/","name":"Moving Out Checklist Ontario: Notice, Cleaning and Deposits"},{"@type":"ListItem","position":2,"url":"https://www.colivease.ca/blog/paying-rent-ontario/","name":"Paying Rent in Ontario: Receipts, Cheques and Late Rent"},{"@type":"ListItem","position":3,"url":"https://www.colivease.ca/blog/rental-viewing-checklist-toronto/","name":"Rental Viewing Checklist Toronto: What to Check and Ask"},{"@type":"ListItem","position":4,"url":"https://www.colivease.ca/blog/short-term-rentals-toronto/","name":"Short-Term Rentals Toronto: Rules for Renters in 2026"},{"@type":"ListItem","position":5,"url":"https://www.colivease.ca/blog/tenant-insurance-ontario/","name":"Tenant Insurance Ontario: What It Covers and Who Needs It"},{"@type":"ListItem","position":6,"url":"https://www.colivease.ca/blog/utilities-for-renters-toronto/","name":"Utilities for Renters in Toronto: Who Pays What"},{"@type":"ListItem","position":7,"url":"https://www.colivease.ca/blog/cost-of-renting-a-room-in-toronto/","name":"Cost of Renting a Room in Toronto (2026 Budget Guide)"},{"@type":"ListItem","position":8,"url":"https://www.colivease.ca/blog/rental-application-toronto/","name":"Rental Application Toronto: Documents and Tips to Win"},{"@type":"ListItem","position":9,"url":"https://www.colivease.ca/blog/toronto-rental-scams/","name":"Rental Scams in Toronto: Red Flags and How to Verify"}]}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://www.colivease.ca/blog/"},{"@type":"ListItem","position":3,"name":"Renting 101","item":"https://www.colivease.ca/blog/category/renting-101/"}]}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/","logo":{"@type":"ImageObject","url":"https://www.colivease.ca/icon-512.png","width":512,"height":512},"email":"support@colivease.ca"},{"@type":"CollectionPage","@id":"https://www.colivease.ca/blog/category/renting-101/#page","name":"Renting in Toronto 101: Costs, Applications and Scams","description":"How renting in Toronto works: what a room costs, what to put in a rental application, and how to spot and avoid rental scams before you pay anything.","url":"https://www.colivease.ca/blog/category/renting-101/","inLanguage":"en-CA","isPartOf":{"@type":"Blog","@id":"https://www.colivease.ca/blog/#blog","name":"ColivEase Blog: Roommates & Renting in Toronto"},"publisher":{"@id":"https://www.colivease.ca/#org"},"mainEntity":{"@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"url":"https://www.colivease.ca/blog/best-rental-websites-toronto/","name":"Best Websites to Find a Room in Toronto: Honest Guide"},{"@type":"ListItem","position":2,"url":"https://www.colivease.ca/blog/how-much-rent-can-i-afford-toronto/","name":"How Much Rent Can I Afford in Toronto? (2026)"},{"@type":"ListItem","position":3,"url":"https://www.colivease.ca/blog/rent-tax-credit-ontario/","name":"Ontario Trillium Benefit for Renters: Claim Your Rent"},{"@type":"ListItem","position":4,"url":"https://www.colivease.ca/blog/renting-a-condo-downtown-toronto/","name":"Renting a Condo in Downtown Toronto: Tenant Guide"},{"@type":"ListItem","position":5,"url":"https://www.colivease.ca/blog/short-term-sublet-toronto/","name":"4 Month Sublet Toronto: A Student Guide to Term Housing"},{"@type":"ListItem","position":6,"url":"https://www.colivease.ca/blog/moving-out-checklist-ontario/","name":"Moving Out Checklist Ontario: Notice, Cleaning and Deposits"},{"@type":"ListItem","position":7,"url":"https://www.colivease.ca/blog/paying-rent-ontario/","name":"Paying Rent in Ontario: Receipts, Cheques and Late Rent"},{"@type":"ListItem","position":8,"url":"https://www.colivease.ca/blog/rental-viewing-checklist-toronto/","name":"Rental Viewing Checklist Toronto: What to Check and Ask"},{"@type":"ListItem","position":9,"url":"https://www.colivease.ca/blog/short-term-rentals-toronto/","name":"Short-Term Rentals Toronto: Rules for Renters in 2026"},{"@type":"ListItem","position":10,"url":"https://www.colivease.ca/blog/tenant-insurance-ontario/","name":"Tenant Insurance Ontario: What It Covers and Who Needs It"},{"@type":"ListItem","position":11,"url":"https://www.colivease.ca/blog/utilities-for-renters-toronto/","name":"Utilities for Renters in Toronto: Who Pays What"},{"@type":"ListItem","position":12,"url":"https://www.colivease.ca/blog/cost-of-renting-a-room-in-toronto/","name":"Cost of Renting a Room in Toronto (2026 Budget Guide)"},{"@type":"ListItem","position":13,"url":"https://www.colivease.ca/blog/rental-application-toronto/","name":"Rental Application Toronto: Documents and Tips to Win"},{"@type":"ListItem","position":14,"url":"https://www.colivease.ca/blog/toronto-rental-scams/","name":"Rental Scams in Toronto: Red Flags and How to Verify"}]}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.colivease.ca/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://www.colivease.ca/blog/"},{"@type":"ListItem","position":3,"name":"Renting 101","item":"https://www.colivease.ca/blog/category/renting-101/"}]}]}</script>
 </head>
 <body>
 <header class="top">
@@ -188,10 +196,61 @@ body { font-size: 16px; }
       <a class="chip on" href="/blog/category/renting-101/" aria-current="page">Renting 101</a>
       <a class="chip" href="/blog/category/tenant-rights/">Tenant rights</a>
       <a class="chip" href="/blog/category/neighbourhoods/">Neighbourhoods</a>
+      <a class="chip" href="/blog/category/news/">Rental news</a>
       <a class="chip" href="/blog/category/newcomers-and-students/">Newcomers &amp; students</a>
     </nav>
   </header>
   <div class="grid" id="posts"><article class="card" data-cat="Renting 101">
+  <a href="/blog/best-rental-websites-toronto/">
+    <img src="/blog/assets/covers/hero.webp" srcset="/blog/assets/covers/hero-768.webp 768w, /blog/assets/covers/hero.webp 1152w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Roommates relaxing in a Toronto living room" width="1152" height="928" loading="lazy" decoding="async">
+    <div class="card-body">
+      <span class="chip">Renting 101</span>
+      <h3>Best Websites to Find a Room in Toronto: Honest Guide</h3>
+      <p>The best websites to find a room in Toronto, compared honestly: listing sites, Kijiji vs Facebook Marketplace, student boards, roommate apps and scam risk.</p>
+      <span class="meta">November 21, 2026 · 8 min read</span>
+    </div>
+  </a>
+</article><article class="card" data-cat="Renting 101">
+  <a href="/blog/how-much-rent-can-i-afford-toronto/">
+    <img src="/blog/assets/covers/kitchen.webp" srcset="/blog/assets/covers/kitchen-768.webp 768w, /blog/assets/covers/kitchen.webp 1000w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Roommates cooking together" width="1000" height="747" loading="lazy" decoding="async">
+    <div class="card-body">
+      <span class="chip">Renting 101</span>
+      <h3>How Much Rent Can I Afford in Toronto? (2026)</h3>
+      <p>How much rent can I afford in Toronto? Use the 30% rule as a starting point, budget for the extras, see how roommates change the math, and know your rights.</p>
+      <span class="meta">November 21, 2026 · 7 min read</span>
+    </div>
+  </a>
+</article><article class="card" data-cat="Renting 101">
+  <a href="/blog/rent-tax-credit-ontario/">
+    <img src="/blog/assets/covers/keys.webp" srcset="/blog/assets/covers/keys-768.webp 768w, /blog/assets/covers/keys.webp 960w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Friends moving into a new home" width="960" height="717" loading="lazy" decoding="async">
+    <div class="card-body">
+      <span class="chip">Renting 101</span>
+      <h3>Ontario Trillium Benefit for Renters: Claim Your Rent</h3>
+      <p>Ontario Trillium Benefit rent guide: who qualifies, how to claim rent on taxes with form ON-BEN, which rent receipts to keep, and tips for roommates.</p>
+      <span class="meta">November 21, 2026 · 7 min read</span>
+    </div>
+  </a>
+</article><article class="card" data-cat="Renting 101">
+  <a href="/blog/renting-a-condo-downtown-toronto/">
+    <img src="/blog/assets/covers/keys.webp" srcset="/blog/assets/covers/keys-768.webp 768w, /blog/assets/covers/keys.webp 960w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Friends moving into a new home" width="960" height="717" loading="lazy" decoding="async">
+    <div class="card-body">
+      <span class="chip">Renting 101</span>
+      <h3>Renting a Condo in Downtown Toronto: Tenant Guide</h3>
+      <p>Renting a condo in downtown Toronto? Learn how condo rules bind tenants, how to book the elevator to move in, and what to ask about fobs, fees and amenities.</p>
+      <span class="meta">November 21, 2026 · 7 min read</span>
+    </div>
+  </a>
+</article><article class="card" data-cat="Renting 101">
+  <a href="/blog/short-term-sublet-toronto/">
+    <img src="/blog/assets/covers/keys.webp" srcset="/blog/assets/covers/keys-768.webp 768w, /blog/assets/covers/keys.webp 960w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Friends moving into a new home" width="960" height="717" loading="lazy" decoding="async">
+    <div class="card-body">
+      <span class="chip">Renting 101</span>
+      <h3>4 Month Sublet Toronto: A Student Guide to Term Housing</h3>
+      <p>Need a 4 month sublet in Toronto? A student guide to summer and co-op term sublets: when to look, subletting your own room, landlord consent and paperwork.</p>
+      <span class="meta">November 21, 2026 · 7 min read</span>
+    </div>
+  </a>
+</article><article class="card" data-cat="Renting 101">
   <a href="/blog/moving-out-checklist-ontario/">
     <img src="/blog/assets/covers/keys.webp" srcset="/blog/assets/covers/keys-768.webp 768w, /blog/assets/covers/keys.webp 960w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Friends moving into a new home" width="960" height="717" loading="lazy" decoding="async">
     <div class="card-body">
@@ -287,7 +346,7 @@ body { font-size: 16px; }
   <div class="wrap foot-in">
     <div><img src="/blog/assets/logo.png" alt="ColivEase" width="80" height="55" loading="lazy"><p>Toronto's roommate-first rental platform.</p></div>
     <nav aria-label="ColivEase"><a href="/">Home</a><a href="/blog/">Blog</a><a href="/legal/terms.html">Terms</a><a href="/legal/privacy.html">Privacy</a><a href="/legal/">Legal</a><a href="/app.html">Open ColivEase</a></nav>
-    <nav class="topics" aria-label="Topics"><a href="/blog/category/roommates/">Roommates</a><a href="/blog/category/renting-101/">Renting 101</a><a href="/blog/category/tenant-rights/">Tenant rights</a><a href="/blog/category/neighbourhoods/">Neighbourhoods</a><a href="/blog/category/newcomers-and-students/">Newcomers &amp; students</a></nav>
+    <nav class="topics" aria-label="Topics"><a href="/blog/category/roommates/">Roommates</a><a href="/blog/category/renting-101/">Renting 101</a><a href="/blog/category/tenant-rights/">Tenant rights</a><a href="/blog/category/neighbourhoods/">Neighbourhoods</a><a href="/blog/category/news/">Rental news</a><a href="/blog/category/newcomers-and-students/">Newcomers &amp; students</a></nav>
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>

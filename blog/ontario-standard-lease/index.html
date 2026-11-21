@@ -139,6 +139,14 @@ button.chip.on, .chips a.chip.on, .chips a.chip.on:hover { background: var(--ink
 .sources { font-size: 14px; color: var(--muted); }
 .sources h2 { font-size: 18px; margin-top: 1.4em; }
 .sources ol { padding-left: 20px; }
+.deeper { border-top: 1px solid var(--line); padding: 30px 0 10px; }
+.deeper h2 { font: 600 26px/1.3 var(--display); margin: 0 0 14px; }
+.deeper ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.deeper li { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; }
+.deeper li a { font-weight: 600; text-decoration: none; color: var(--ink); }
+.deeper li a:hover { color: var(--blue); }
+.deeper li span { font-size: 14px; line-height: 1.5; color: var(--muted); }
+@media (max-width: 620px) { .deeper ul { grid-template-columns: 1fr; } }
 .related { border-top: 1px solid var(--line); padding-top: 30px; }
 .related h2 { font: 600 26px/1.3 var(--display); margin: 0 0 18px; }
 .foot { background: var(--white); border-top: 1px solid var(--line); margin-top: 40px; }
@@ -287,6 +295,7 @@ body { font-size: 16px; }
     </article>
     <aside class="toc" aria-label="On this page"><p>On this page</p><ol><li><a href="#key-takeaways">Key takeaways</a></li><li><a href="#who-has-to-use-the-standard-lease">Who has to use the Standard Lease?</a></li><li><a href="#the-standard-lease-section-by-section">The Standard Lease, section by section</a></li><li><a href="#what-if-your-landlord-won-39-t-use-the-standard-lease">What if your landlord won&amp;#39;t use the Standard Lease?</a></li><li><a href="#before-you-sign-checklist">Before-you-sign checklist</a></li><li><a href="#let-ai-read-the-fine-print-with-you">Let AI read the fine print with you</a></li><li><a href="#ready-to-find-your-next-place">Ready to find your next place?</a></li></ol></aside>
   </div>
+  <section class="deeper"><h2>Go deeper</h2><ul><li><a href="/blog/rental-viewing-checklist-toronto/">Rental Viewing Checklist Toronto: What to Check and Ask</a><span>Rental viewing checklist for Toronto: test water, heat and alarms, check for pests and noise, ask the right questions, spot scams and compare places afterwards.</span></li><li><a href="/blog/tenant-insurance-ontario/">Tenant Insurance Ontario: What It Covers and Who Needs It</a><span>Tenant insurance in Ontario explained: contents, liability and living expenses, common exclusions, when a lease can require it, roommates and how to choose.</span></li><li><a href="/blog/utilities-for-renters-toronto/">Utilities for Renters in Toronto: Who Pays What</a><span>Utilities for Toronto renters: hydro, gas, water and internet, how to read what your lease includes, setting up accounts, splitting bills and ways to save.</span></li><li><a href="/blog/international-student-renting-toronto/">International Student Housing in Toronto: 2026 Checklist</a><span>International student housing in Toronto, step by step: when to start, residence vs off-campus, documents, remote viewings, the lease, deposits and scams.</span></li><li><a href="/blog/legal-basement-apartments-toronto/">Legal Basement Apartment Toronto: What to Check First</a><span>Renting a legal basement apartment in Toronto? Check exit windows, smoke and CO alarms, ceiling height and heat, and know the rights you keep if it isn't legal.</span></li><li><a href="/blog/moving-to-toronto-renter-checklist/">Moving to Toronto Checklist: Your Rental Move-In Guide</a><span>Moving to Toronto checklist for renters: tenant insurance, Toronto Hydro and Enbridge, internet, move-in photos, elevator booking, address changes and PRESTO.</span></li><li><a href="/blog/ontario-tenant-rights/">Ontario Tenant Rights: What Every Renter Should Know (2026)</a><span>Ontario tenant rights in plain English: what landlords can ask, legal deposits, rent increases, repairs, 24-hour entry notice and how evictions really work.</span></li><li><a href="/blog/renting-with-no-credit-history-canada/">How to Rent With No Credit History in Canada (2026)</a><span>How to rent with no credit history in Canada: what landlords can ask, documents that replace a credit score, guarantors, Ontario deposit rules and more.</span></li><li><a href="/blog/toronto-rental-scams/">Rental Scams in Toronto: Red Flags and How to Verify</a><span>Spot rental scams in Toronto before you pay. Learn the red flags, how to check an agent on RECO and an owner on OnLand, safe payment rules and where to report.</span></li></ul></section>
   <section class="related"><h2>Keep reading</h2><div class="grid"><article class="card" data-cat="Tenant rights">
   <a href="/blog/sublet-and-assignment-ontario/">
     <img src="/blog/assets/covers/hero.webp" srcset="/blog/assets/covers/hero-768.webp 768w, /blog/assets/covers/hero.webp 1152w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 980px) calc(50vw - 31px), 372px" alt="Roommates relaxing in a Toronto living room" width="1152" height="928" loading="lazy" decoding="async">
@@ -323,7 +332,7 @@ body { font-size: 16px; }
   <div class="wrap foot-in">
     <div><img src="/blog/assets/logo.png" alt="ColivEase" width="80" height="55" loading="lazy"><p>Toronto's roommate-first rental platform.</p></div>
     <nav aria-label="ColivEase"><a href="/">Home</a><a href="/blog/">Blog</a><a href="/legal/terms.html">Terms</a><a href="/legal/privacy.html">Privacy</a><a href="/legal/">Legal</a><a href="/app.html">Open ColivEase</a></nav>
-    <nav class="topics" aria-label="Topics"><a href="/blog/category/roommates/">Roommates</a><a href="/blog/category/renting-101/">Renting 101</a><a href="/blog/category/tenant-rights/">Tenant rights</a><a href="/blog/category/neighbourhoods/">Neighbourhoods</a><a href="/blog/category/newcomers-and-students/">Newcomers &amp; students</a></nav>
+    <nav class="topics" aria-label="Topics"><a href="/blog/category/roommates/">Roommates</a><a href="/blog/category/renting-101/">Renting 101</a><a href="/blog/category/tenant-rights/">Tenant rights</a><a href="/blog/category/neighbourhoods/">Neighbourhoods</a><a href="/blog/category/news/">Rental news</a><a href="/blog/category/newcomers-and-students/">Newcomers &amp; students</a></nav>
     <p class="copy">© 2026 ColivEase · Toronto, Ontario</p>
   </div>
 </footer>
