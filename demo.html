@@ -1,19 +1,27 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<script>(function(){if(window.top===window.self)return;var allowed="https://admin8238.colivease.ca",local=/^(localhost|127\.0\.0\.1)$/.test(location.hostname);function ok(o){return o===allowed||(local&&/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(o));}var a=location.ancestorOrigins,good=false;if(a&&a.length){good=true;for(var i=0;i<a.length;i++)if(!ok(a[i]))good=false;}else{try{good=ok(new URL(document.referrer).origin);}catch(e){good=false;}}if(good)return;document.documentElement.style.display="none";try{window.top.location=window.self.location.href;}catch(e){}})();</script>
 <title>ColivEase 演示版 · Demo</title>
 <meta name="description" content="Open ColivEase in your browser: browse homes across the GTA, see match scores with possible roommates, chat, team up and apply together. Free to use.">
 <meta name="robots" content="noindex,nofollow">
 <meta name="theme-color" content="#F5F7FB">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ColivEase app: roommates and rooms for rent in Toronto">
+<meta name="twitter:description" content="Open ColivEase in your browser: browse homes across the GTA, see match scores with possible roommates, chat, team up and apply together. Free to use.">
+<meta name="twitter:image" content="https://www.colivease.ca/og-image.jpg">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 <link rel="preload" as="script" href="expo/static/js/web/index-04288d0f97d58aca0b3cbb31c741ec6d.js">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","@id":"https://www.colivease.ca/app.html#app","name":"ColivEase","url":"https://www.colivease.ca/app.html","description":"Open ColivEase in your browser: browse homes across the GTA, see match scores with possible roommates, chat, team up and apply together. Free to use.","applicationCategory":"LifestyleApplication","operatingSystem":"Web","browserRequirements":"Requires JavaScript","isAccessibleForFree":true,"areaServed":{"@type":"AdministrativeArea","name":"Greater Toronto Area"},"publisher":{"@type":"Organization","@id":"https://www.colivease.ca/#org","name":"ColivEase","url":"https://www.colivease.ca/"}}</script>
 <style>
   /* The app draws its own light UI edge to edge; this page only hosts it. */
   :root { --bg: #F5F7FB; color-scheme: light; }
-  html, body { height: 100%; margin: 0; }
-  body { overflow: hidden; background: var(--bg); }
+  /* On phones the page holds still like the app: the body is pinned to the screen (iOS ignores overflow: hidden and
+     lets the whole page bounce), nothing drags it or pulls to refresh, and only the app's own lists and screens
+     scroll. maximum-scale above keeps iOS from zooming in when a text field is tapped. */
+  html, body { height: 100%; margin: 0; overscroll-behavior: none; }
+  body { overflow: hidden; position: fixed; inset: 0; width: 100%; background: var(--bg); touch-action: manipulation; -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color: transparent; }
   #root { display: flex; height: 100%; flex: 1; }
   /* Background + progress bar of the loading page, drawn before any JavaScript runs (no logo: the 3D logo is the
      only one shown); the React loader takes over in place. */
@@ -29,7 +37,7 @@
   @keyframes cv-boot-bar { from { transform: translateX(-110%) } to { transform: translateX(260%) } }
   @media (prefers-reduced-motion: reduce) { #cv-boot .bar { animation: none } }
 </style>
-<noscript><style>#cv-boot { display: none } body { overflow: auto }</style></noscript>
+<noscript><style>#cv-boot { display: none } body { overflow: auto; position: static }</style></noscript>
 <script>window.__COLIVEASE_DEMO__=true</script></head><body>
 <noscript><p style="font:16px/1.5 system-ui,sans-serif;max-width:36em;margin:48px auto;padding:0 16px;color:#0B2255">ColivEase helps you find a roommate in Toronto and the GTA, then a room or a whole place together. The app needs JavaScript. 需要开启 JavaScript 才能运行 ColivEase。 <a href="/">Go to the ColivEase home page</a></p></noscript>
 <div id="cv-boot" aria-hidden="true"><div class="stage"></div>
