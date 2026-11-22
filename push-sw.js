@@ -10,6 +10,8 @@ self.addEventListener("push", (event) => {
   } catch (e) {
     data = { title: "ColivEase", body: event.data ? event.data.text() : "" };
   }
+  // Open app tabs fetch their inbox now.
+  self.clients.matchAll({ type: "window" }).then((list) => list.forEach((c) => c.postMessage({ type: "cv-push" })));
   event.waitUntil(
     self.registration.showNotification(data.title || "ColivEase", {
       body: data.body || "",
