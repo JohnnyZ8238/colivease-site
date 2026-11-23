@@ -1,4 +1,4 @@
-// ColivEase browser notifications (served at the site root as /push-sw.js; registered by src/lib/push.js).
+// ColivEase browser notifications (served at the site root as /push-sw.js; registered by src/lib/platform/push.js).
 // The server sends { title, body, kind, refId, url } encrypted with Web Push (supabase/functions/api/notify.ts).
 self.addEventListener("install", () => self.skipWaiting());
 self.addEventListener("activate", (event) => event.waitUntil(self.clients.claim()));
