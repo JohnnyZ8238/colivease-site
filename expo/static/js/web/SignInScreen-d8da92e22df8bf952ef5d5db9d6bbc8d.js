@@ -1,0 +1,1 @@
+__d(function(g,r,i,a,m,e,d){"use strict";Object.defineProperty(e,'__esModule',{value:!0}),Object.defineProperty(e,"SignInScreen",{enumerable:!0,get:function(){return o}});var n=r(d[0]),t=r(d[1]);function o({route:o,navigation:c}){return(0,t.jsx)(n.EntryPage,{initialKind:o?.params?.kind,onBack:c.canGoBack()?()=>c.goBack():void 0})}},975,[845,169]);
